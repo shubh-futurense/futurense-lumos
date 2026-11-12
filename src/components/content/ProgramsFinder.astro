@@ -1,0 +1,257 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+import Icon from "@/components/media/Icon.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Carousel from "@/components/interactive/Carousel.astro";
+import chevronLeft from "@/assets/icons/chevron-left.svg";
+import chevronRight from "@/assets/icons/chevron-right.svg";
+import { programs, degreeTabs, collegeTabs } from "@/data/uni.ts";
+---
+
+<Section align="center" gap="0" id="programs">
+  <Heading tag="h2" variant="h1" maxWidth={30}>Find The Right Program For You</Heading>
+
+  <div class="programs-finder_wrap" data-programs>
+    <div class="programs-finder_modes" role="group" aria-label="Browse programs">
+      <button class="programs-finder_mode is-active" type="button" data-mode="degree">By Degree</button>
+      <button class="programs-finder_mode" type="button" data-mode="college">By College</button>
+    </div>
+
+    <div class="programs-finder_bar">
+      <button class="programs-finder_step" type="button" data-step="-1" aria-label="Previous category">
+        <Icon src={chevronLeft} />
+      </button>
+      <div class="programs-finder_filters">
+        <div class="programs-finder_list" data-filter-bar="degree">
+          {degreeTabs.map((t, i) => (
+            <button class:list={["programs-finder_filter", i === 0 && "is-active"]} type="button" data-filter={t.id}>{t.label}</button>
+          ))}
+        </div>
+        <div class="programs-finder_list" data-filter-bar="college" hidden>
+          {collegeTabs.map((c, i) => (
+            <button class:list={["programs-finder_filter", i === 0 && "is-active"]} type="button" data-filter={c}>{c}</button>
+          ))}
+        </div>
+      </div>
+      <button class="programs-finder_step" type="button" data-step="1" aria-label="Next category">
+        <Icon src={chevronRight} />
+      </button>
+    </div>
+
+    <Carousel controls="dots">
+      {programs.map((p) => (
+        <article class="programs-finder_card" data-degree={p.degree} data-college={p.college}>
+          <div class="programs-finder_card_inner">
+            <SiteImg class="programs-finder_image" src={p.image} alt={p.title} />
+            <div class="programs-finder_body">
+              <p class="programs-finder_college">{p.college}</p>
+              <h3 class="programs-finder_title">{p.title}</h3>
+              <p>{p.duration}</p>
+              <p class="programs-finder_date">{p.start}</p>
+              <div class="programs-finder_buttons">
+                <Button element="link" href={p.href} size="small">View Details</Button>
+                <Button element="link" href={p.href} size="small" emphasis="secondary">Download Brochure</Button>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </Carousel>
+  </div>
+</Section>
+
+<script>
+  import type Swiper from "swiper";
+  import { gsap } from "gsap";
+
+  const root = document.querySelector<HTMLElement>("[data-programs]");
+  if (root) {
+    const carousel = root.querySelector<HTMLElement>("[data-carousel]")!;
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]")!;
+    const cards = [...track.querySelectorAll<HTMLElement>(".programs-finder_card")];
+    const modes = [...root.querySelectorAll<HTMLButtonElement>("[data-mode]")];
+    const bars = [...root.querySelectorAll<HTMLElement>("[data-filter-bar]")];
+    let mode: "degree" | "college" = "degree";
+    let swiper: Swiper | null = (carousel.querySelector(".swiper") as any)?.swiper ?? null;
+
+    const activeBar = () => bars.find((bar) => bar.dataset.filterBar === mode)!;
+    const activeFilter = () => activeBar().querySelector<HTMLButtonElement>(".is-active")!;
+
+    // Keep only the cards for the chosen filter, then refresh Swiper.
+    const swapCards = (filter: string) => {
+      track.replaceChildren(...cards.filter((card) => card.dataset[mode] === filter));
+      if (!swiper) return;
+      swiper.update();
+      swiper.slideTo(0, 0);
+      swiper.pagination?.render();
+      swiper.pagination?.update();
+    };
+
+    // Fade out, swap, fade in: 0.2s each, like the live site.
+    const select = (button: HTMLButtonElement, animate = true) => {
+      const bar = button.closest<HTMLElement>("[data-filter-bar]")!;
+      bar.querySelectorAll("button").forEach((b) => b.classList.toggle("is-active", b === button));
+      if (!animate) return swapCards(button.dataset.filter!);
+      gsap
+        .timeline({ defaults: { duration: 0.2, ease: "power1.out" } })
+        .to(carousel, { opacity: 0 })
+        .add(() => swapCards(button.dataset.filter!))
+        .to(carousel, { opacity: 1 });
+    };
+
+    carousel.addEventListener("carousel:ready", (event) => {
+      swiper = (event as CustomEvent<Swiper>).detail;
+      select(activeFilter(), false);
+    });
+
+    modes.forEach((button) =>
+      button.addEventListener("click", () => {
+        mode = button.dataset.mode as typeof mode;
+        modes.forEach((b) => b.classList.toggle("is-active", b === button));
+        bars.forEach((bar) => (bar.hidden = bar.dataset.filterBar !== mode));
+        select(activeFilter());
+      }),
+    );
+
+    bars.forEach((bar) =>
+      bar.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((button) =>
+        button.addEventListener("click", () => select(button)),
+      ),
+    );
+
+    root.querySelectorAll<HTMLButtonElement>("[data-step]").forEach((arrow) =>
+      arrow.addEventListener("click", () => {
+        const buttons = [...activeBar().querySelectorAll<HTMLButtonElement>("[data-filter]")];
+        const current = buttons.indexOf(activeFilter());
+        select(buttons[(current + Number(arrow.dataset.step) + buttons.length) % buttons.length]);
+      }),
+    );
+
+    select(activeFilter(), false);
+  }
+</script>
+
+<style is:global>
+  @layer components {
+    .programs-finder_wrap {
+      width: 100%;
+      min-width: 0;
+      text-align: start;
+    }
+
+    .programs-finder_modes {
+      display: flex;
+      width: max-content;
+      margin: 3rem auto 2rem;
+      padding: 0.25rem;
+      border: var(--border-width) solid var(--border);
+      border-radius: var(--radius-round);
+      background-color: var(--background-2);
+    }
+    .programs-finder_mode {
+      padding: 0.5rem 1.75rem;
+      border-radius: var(--radius-round);
+      line-height: 1.5;
+      &.is-active {
+        background-color: var(--purple-500);
+        color: var(--light-100);
+      }
+    }
+
+    .programs-finder_bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 -3.25rem 2rem;
+      @media (width < 64rem) {
+        margin-inline: 0;
+      }
+    }
+    .programs-finder_step {
+      width: 3rem;
+      height: 3rem;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      color: var(--purple-500);
+    }
+    .programs-finder_filters {
+      flex: 1;
+      min-width: 0;
+    }
+    .programs-finder_list {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      &[hidden] {
+        display: none;
+      }
+    }
+    .programs-finder_filter {
+      flex: 1;
+      min-width: max-content;
+      padding: 0.5rem;
+      border-bottom: 0.125rem solid rgb(0 0 0 / 0.1);
+      text-align: center;
+      &.is-active {
+        border-bottom-color: var(--text);
+      }
+    }
+
+    .programs-finder_card {
+      width: calc((100% - 3rem) / 3);
+      display: flex;
+      padding: var(--border-width);
+      border-radius: var(--radius-main);
+      background: var(--gradient-border);
+      @media (width < 64rem) {
+        width: calc((100% - 1.5rem) / 2);
+      }
+      @media (width < 48rem) {
+        width: 85%;
+      }
+    }
+    .programs-finder_card_inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius-main);
+      background-color: var(--background);
+    }
+    .programs-finder_image {
+      aspect-ratio: 3 / 2;
+    }
+    .programs-finder_body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      color: var(--text-2);
+    }
+    .programs-finder_college {
+      margin-bottom: 0.25rem;
+      color: var(--purple-400);
+      text-transform: uppercase;
+    }
+    .programs-finder_title {
+      margin-bottom: 0.25rem;
+      font-size: var(--h4);
+      font-weight: var(--primary-semibold);
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .programs-finder_date {
+      color: var(--green-500);
+    }
+    .programs-finder_buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 1.25rem;
+    }
+  }
+</style>

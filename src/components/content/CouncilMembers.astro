@@ -1,0 +1,235 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Icon from "@/components/media/Icon.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Carousel from "@/components/interactive/Carousel.astro";
+import play from "@/assets/icons/play-solid.svg";
+import linkedinSquare from "@/assets/icons/linkedin-square.svg";
+import { flcMembers, flcQuotes, flcVideo, flcLogo } from "@/data/uni.ts";
+import { LIVE } from "@/data/site.ts";
+---
+
+<Section gap="0">
+  <div class="council-members_wrap">
+    <div class="council-members_head">
+      <SiteImg class="council-members_logo" src={flcLogo} alt="Futurense Leadership Council" transparent />
+      <Heading tag="h2" class="heading-accent margin-top-2">
+        The Council that Powers The Next wave of <em>Talent</em>
+      </Heading>
+    </div>
+
+    <Carousel bleed>
+      {flcMembers.map((m) => (
+        <article class="council-members_card">
+          <a href={`${LIVE}/futurense-leadership-council`} class="council-members_media">
+            <SiteImg class="council-members_photo" src={m.photo} alt={m.name} />
+            <span class="council-members_play"><span class="council-members_play_icon"><Icon src={play} variant="full-width" /></span></span>
+          </a>
+          <div class="council-members_card_head">
+            <div>
+              <h3 class="text-style-h4 council-members_name">{m.name}</h3>
+              <p class="text-style-small council-members_role">{m.title}</p>
+            </div>
+            {m.logo && <SiteImg class="council-members_company" src={m.logo} transparent />}
+          </div>
+          <p class="council-members_bio">{m.bio}</p>
+        </article>
+      ))}
+    </Carousel>
+
+    <div class="council-members_quotes_title">
+      <Heading tag="h2" class="heading-accent">
+        Hear It From <strong>Our FLC Leaders</strong>
+      </Heading>
+    </div>
+
+    <Carousel bleed>
+      {flcQuotes.map((q) => (
+        <article class="council-members_quote">
+          <div class="council-members_quote_head">
+            <SiteImg class="council-members_avatar" src={q.photo} alt={q.name} />
+            <div>
+              <h3 class="text-style-h4">{q.name}</h3>
+              <p class="council-members_quote_role">{q.title}</p>
+            </div>
+            <div class="council-members_quote_side">
+              {q.logo && <SiteImg class="council-members_quote_logo" src={q.logo} transparent />}
+              <span class="council-members_linkedin"><Icon src={linkedinSquare} /></span>
+            </div>
+          </div>
+          <p class="council-members_quote_text">{q.quote}</p>
+        </article>
+      ))}
+    </Carousel>
+
+    <a class="council-members_video" href={`https://www.youtube.com/watch?v=${flcVideo.youtubeId}`} target="_blank" rel="noopener">
+      <SiteImg class="council-members_poster" src={flcVideo.poster} alt="Futurense Leadership Council video" />
+      <span class="council-members_play large"><span class="council-members_play_icon"><Icon src={play} variant="full-width" /></span></span>
+    </a>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .council-members_wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+    .council-members_head {
+      max-width: 38rem;
+      margin-inline: auto;
+      text-align: center;
+    }
+    .council-members_logo {
+      width: auto;
+      height: 3rem;
+      margin: 0 auto 0.5rem;
+    }
+    .council-members_head {
+      --heading-accent: var(--text);
+    }
+    .council-members_quotes_title {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .council-members_play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-items: center;
+      padding-left: 0.15rem;
+      border-radius: 50%;
+      background-color: rgb(255 255 255 / 0.3);
+      color: var(--light-100);
+      &.large {
+        width: 4rem;
+        height: 4rem;
+        background: linear-gradient(var(--purple-300), #7543e3);
+      }
+    }
+    .council-members_play_icon {
+      width: 0.85rem;
+      .council-members_play.large & {
+        width: 1.1rem;
+      }
+    }
+
+    .council-members_card {
+      width: 26rem;
+      padding: 1.5rem;
+      border-radius: var(--radius-small);
+      background: linear-gradient(rgb(201 87 253 / 0.08), rgb(227 205 255 / 0.25)), var(--light-100);
+      @media (width < 64rem) {
+        width: 22rem;
+      }
+      @media (width < 30rem) {
+        width: 85%;
+      }
+    }
+    .council-members_media {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: var(--radius-small);
+    }
+    .council-members_photo {
+      aspect-ratio: 3 / 2;
+    }
+    .council-members_card_head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-height: 5.8rem;
+      margin-top: 1.25rem;
+    }
+    .council-members_name {
+      font-weight: var(--primary-bold);
+    }
+    .council-members_role {
+      color: var(--purple-400);
+    }
+    .council-members_company {
+      width: auto;
+      max-width: 3rem;
+      height: 1.5rem;
+      flex-shrink: 0;
+    }
+    .council-members_bio {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .council-members_quote {
+      width: 39rem;
+      min-height: 16.4rem;
+      padding: 1.5rem;
+      border-radius: var(--radius-medium);
+      background: linear-gradient(#cfb9ff, var(--light-100));
+      @media (width < 64rem) {
+        width: 85%;
+      }
+    }
+    .council-members_quote_head {
+      display: grid;
+      grid-template-columns: 5rem 1fr auto;
+      align-items: center;
+      gap: 1rem;
+    }
+    .council-members_avatar {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+    }
+    .council-members_quote_role {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .council-members_quote_side {
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+    .council-members_quote_logo {
+      width: auto;
+      max-width: 5.5rem;
+      height: 1.5rem;
+    }
+    .council-members_linkedin {
+      color: #0a66c2;
+    }
+    .council-members_quote_text {
+      display: -webkit-box;
+      margin-top: 1.5rem;
+      overflow: hidden;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+    }
+
+    .council-members_poster {
+      aspect-ratio: 16 / 9;
+    }
+    .council-members_video {
+      position: relative;
+      display: block;
+      margin-top: 2rem;
+      overflow: hidden;
+      border-radius: var(--radius-main);
+      background-color: var(--dark-900);
+    }
+  }
+</style>

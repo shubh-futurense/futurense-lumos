@@ -1,0 +1,114 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+import { whyPoints, whyBackground } from "@/data/uni.ts";
+import { img } from "@/data/site.ts";
+---
+
+<Section paddingTop="small" paddingBottom="small">
+  <div
+    class="benefits-why_wrap theme-dark margin-trim"
+    style={`--_bg: url('${img(whyBackground)}');`}
+  >
+    <Heading tag="h2" variant="h3" class="alignment-center">
+      Futurense Programs Are<br />Tailor-Made To Help You
+    </Heading>
+    <div class="benefits-why_rows">
+      {whyPoints.map((row) => (
+        <div class="benefits-why_row">
+          {row.map((point) => (
+            <span class="benefits-why_pill" data-reveal>
+              <span class="benefits-why_pill_mid">
+                <span class="benefits-why_pill_text">{point}</span>
+              </span>
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+    <Button element="link" href="#programs">Explore Programs</Button>
+    <div class="benefits-why_glow" />
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .benefits-why_wrap {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4rem;
+      padding: 4rem;
+      border-radius: 2rem;
+      isolation: isolate;
+      background: var(--_bg) center / cover, linear-gradient(180deg, var(--dark-700), #0b0716);
+      @media (width < 48rem) {
+        gap: 2.5rem;
+        padding: 3rem 1.25rem;
+      }
+    }
+    .benefits-why_glow {
+      position: absolute;
+      left: 50%;
+      bottom: -60%;
+      width: 60%;
+      height: 80%;
+      translate: -50% 0;
+      border-radius: 50%;
+      background: var(--gradient-glow);
+      filter: blur(9rem);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .benefits-why_rows {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      @media (width < 48rem) {
+        gap: 1rem;
+      }
+    }
+    .benefits-why_row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6rem;
+      @media (width < 64rem) {
+        gap: 1.5rem;
+      }
+      @media (width < 48rem) {
+        gap: 1rem;
+      }
+    }
+    .benefits-why_pill {
+      display: inline-flex;
+      padding: var(--border-width);
+      border-radius: var(--radius-round);
+      background: var(--gradient-border);
+    }
+    .benefits-why_pill_mid {
+      display: inline-flex;
+      padding: 0.3rem;
+      border-radius: var(--radius-round);
+      background-color: var(--dark-700);
+    }
+    .benefits-why_pill_text {
+      padding: 0.375rem 1.5rem;
+      border-radius: var(--radius-round);
+      background: linear-gradient(90deg, rgb(210 190 255 / 0.28), rgb(106 84 155 / 0.28));
+      font-size: var(--text-large);
+      font-weight: var(--primary-medium);
+      line-height: 1.2;
+      white-space: nowrap;
+      @media (width < 48rem) {
+        white-space: normal;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Icon from "@/components/media/Icon.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Carousel from "@/components/interactive/Carousel.astro";
+import play from "@/assets/icons/play-solid.svg";
+import { videoStories } from "@/data/uni.ts";
+---
+
+<Section theme="dark" gap="7">
+  <div slot="background" class="stories-video_bg" />
+  <Heading tag="h2" class="heading-accent alignment-center align-self-center" maxWidth={24}>
+    Making a <strong>Difference</strong>, One Professional at a Time
+  </Heading>
+  <Carousel bleed>
+    {videoStories.map((v) => (
+      <a class="stories-video_card" href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener">
+        <SiteImg class="stories-video_image" src={v.image} alt="Student story video" />
+        <span class="stories-video_play"><span class="stories-video_play_icon"><Icon src={play} variant="full-width" /></span></span>
+      </a>
+    ))}
+  </Carousel>
+</Section>
+
+<style is:global>
+  @layer components {
+    .stories-video_bg {
+      background: linear-gradient(180deg, var(--dark-900) 0%, var(--dark-700) 100%);
+    }
+    .stories-video_card {
+      position: relative;
+      width: 26rem;
+      overflow: hidden;
+      border-radius: var(--radius-small);
+      @media (width < 30rem) {
+        width: 85%;
+      }
+    }
+    .stories-video_image {
+      aspect-ratio: 3 / 2;
+      transition: scale 0.3s var(--hover-ease);
+      @media (hover: hover) {
+        .stories-video_card:hover & {
+          scale: 1.04;
+        }
+      }
+    }
+    .stories-video_play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-items: center;
+      padding-left: 0.15rem;
+      border-radius: 50%;
+      background: linear-gradient(var(--purple-300), #7543e3);
+      color: var(--light-100);
+    }
+    .stories-video_play_icon {
+      width: 0.85rem;
+    }
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import { steps, stepsImage } from "@/data/uni.ts";
+---
+
+<Section>
+  <div slot="background" class="steps-process_bg" />
+  <div class="steps-process_layout">
+    <div class="steps-process_intro margin-trim">
+      <Heading tag="h2" variant="h3" maxWidth={16}>How Futurense UNI Works?</Heading>
+      <SiteImg class="steps-process_image" src={stepsImage} alt="Three students holding notebooks" transparent />
+      <div class="steps-process_action">
+        <Button element="link" href="#top">Talk To Counsellor</Button>
+      </div>
+    </div>
+    <ol class="steps-process_list">
+      {steps.map((s, i) => (
+        <li class="steps-process_item" data-reveal>
+          <span class="steps-process_number">Step {i + 1}</span>
+          <div>
+            <h3 class="text-style-h5 steps-process_title">{s.title}</h3>
+            <p class="steps-process_text">{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .steps-process_bg {
+      background: linear-gradient(180deg, var(--light-100) 35%, #e6dbff 100%);
+    }
+    .steps-process_layout {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 0.57fr 1fr;
+      gap: 2rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .steps-process_intro {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .steps-process_image {
+      width: 9.5rem;
+    }
+    .steps-process_list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .steps-process_item {
+      display: grid;
+      grid-template-columns: 3.25rem 1fr;
+      gap: 0.75rem;
+      padding: 1.5rem 0.75rem;
+      border-top: var(--border-width) solid var(--purple-400);
+    }
+    .steps-process_action {
+      align-self: stretch;
+      display: flex;
+      justify-content: center;
+    }
+    .steps-process_number {
+      color: var(--purple-400);
+      line-height: 1.5;
+    }
+    .steps-process_title {
+      margin-bottom: 0.5rem;
+    }
+    .steps-process_text {
+      color: var(--text-2);
+    }
+  }
+</style>

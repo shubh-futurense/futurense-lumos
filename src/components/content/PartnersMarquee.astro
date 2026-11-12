@@ -1,0 +1,73 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import { partners } from "@/data/uni.ts";
+
+// Three copies of the logo row, moved by GSAP in src/scripts/animations.ts
+const copies = [0, 1, 2];
+---
+
+<Section theme="dark" paddingTop="none" align="center" gap="7">
+  <div slot="background" class="partners-marquee_bg" />
+  <Heading tag="h2" variant="h4" class="heading-accent padding-top-6">
+    Our University <em>Partners</em>
+  </Heading>
+  <div
+    class="partners-marquee_wrap"
+    data-marquee
+    data-marquee-speed="15"
+    data-marquee-scroll-speed="10"
+    data-marquee-direction="right"
+  >
+    <div class="partners-marquee_scroll" data-marquee-scroll>
+      {copies.map((copy) => (
+        <div class="partners-marquee_list" data-marquee-collection aria-hidden={copy > 0 ? "true" : undefined}>
+          {partners.map((p) => (
+            <div class="partners-marquee_item">
+              <SiteImg src={p.src} alt={copy > 0 ? "" : p.name} transparent />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .partners-marquee_bg {
+      background: linear-gradient(0deg, var(--dark-700), var(--dark-800));
+    }
+    .partners-marquee_wrap {
+      width: 100vw;
+      overflow: hidden;
+    }
+    .partners-marquee_scroll {
+      display: flex;
+      will-change: transform;
+    }
+    .partners-marquee_list {
+      display: flex;
+      flex-shrink: 0;
+      gap: 1rem;
+      padding-right: 1rem;
+      will-change: transform;
+    }
+    .partners-marquee_item {
+      width: 13rem;
+      height: 6rem;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      border-radius: var(--radius-medium);
+      background-color: rgb(100 86 119 / 0.36);
+      & img {
+        width: auto;
+        max-width: 100%;
+        max-height: 3.5rem;
+      }
+    }
+  }
+</style>

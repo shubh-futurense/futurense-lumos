@@ -1,0 +1,40 @@
+---
+/**
+ * Image from the Futurense content files.
+ * `src` is a short CDN path like "A/123_photo.avif" (see src/data/site.ts).
+ * If the same file has been downloaded into src/assets/cdn/, it goes through
+ * Lumos <Img> and gets optimized. Otherwise it loads straight from the CDN.
+ */
+import type { HTMLAttributes } from "astro/types";
+import Img from "@/components/media/Img.astro";
+import { img } from "@/data/site.ts";
+
+type Props = Omit<HTMLAttributes<"img">, "src"> & {
+  src: string;
+  alt?: string;
+  loading?: "lazy" | "eager";
+  transparent?: boolean;
+};
+
+const { src, alt = "", loading = "lazy", transparent = false, class: className, ...rest } = Astro.props;
+
+const local = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/cdn/*.{avif,jpg,jpeg,png,webp}",
+  { eager: true },
+);
+const file = decodeURIComponent(src.split("/").pop() ?? "");
+const asset = local[`/src/assets/cdn/${file}`]?.default;
+---
+
+{asset ? (
+  <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} {...rest} />
+) : (
+  <img
+    src={img(src)}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    class:list={["image", transparent && "transparent", className]}
+    {...rest}
+  />
+)}

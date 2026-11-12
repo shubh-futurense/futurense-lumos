@@ -1,0 +1,249 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Icon from "@/components/media/Icon.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import cap from "@/assets/icons/cap.svg";
+import { hero } from "@/data/uni.ts";
+---
+
+<Section theme="dark" paddingTop="navoverlap" paddingBottom="large" gap="8" id="header">
+  <div slot="background" class="hero-uni_bg">
+    <div class="hero-uni_glow" />
+    <div class="hero-uni_glow right" />
+  </div>
+
+  <ContentWrapper variant="columns">
+    <span class="hero-uni_tag">
+      <span class="hero-uni_tag_inner"><Icon src={cap} />{hero.tag}</span>
+    </span>
+    <Heading tag="h1" class="heading-accent margin-top-3">
+      Your Second Chance<br />At the <strong>{hero.titleAccent}</strong>
+    </Heading>
+    <Paragraph variant="large" class="color-faded">{hero.text}</Paragraph>
+    <div class="hero-uni_actions">
+      <Button element="link" href={hero.button.href}>{hero.button.label}</Button>
+      <div class="hero-uni_proof">
+        <div class="hero-uni_faces">
+          {hero.faces.map((f) => <SiteImg src={f.src} alt={f.name} width="51" height="51" />)}
+        </div>
+        <div>
+          <p class="hero-uni_stars" aria-label="Rated 5 out of 5">★★★★★</p>
+          <p class="hero-uni_proof_text">{hero.proofText}</p>
+        </div>
+      </div>
+    </div>
+
+    <div slot="column2" class="hero-uni_form_wrap">
+      <form class="hero-uni_form" data-lead-form>
+        <div class="hero-uni_row">
+          <label class="field">
+            <span class="field-label hero-uni_label">Full Name</span>
+            <input class="field-control hero-uni_input" name="name" type="text" placeholder="Elon Musk" required />
+          </label>
+          <label class="field">
+            <span class="field-label hero-uni_label">Email Address</span>
+            <input class="field-control hero-uni_input" name="email" type="email" placeholder="elon@spacex.com" required />
+          </label>
+        </div>
+        <div class="hero-uni_row">
+          <label class="field">
+            <span class="field-label hero-uni_label">Phone Number</span>
+            <input class="field-control hero-uni_input" name="phone" type="tel" placeholder="+91 9876543210" required />
+          </label>
+          <label class="field">
+            <span class="field-label hero-uni_label">What Program you are looking for?</span>
+            <select class="field-control hero-uni_input" name="program" required>
+              <option value="">Select one...</option>
+              {hero.programOptions.map((o) => <option>{o}</option>)}
+            </select>
+          </label>
+        </div>
+        <div class="hero-uni_submit">
+          <Button type="submit">Submit</Button>
+        </div>
+        <p class="hero-uni_message" data-form-message hidden>
+          Thank you! Our counsellor will reach out to you shortly.
+        </p>
+      </form>
+    </div>
+  </ContentWrapper>
+
+  <ul class="hero-uni_benefits">
+    {hero.benefits.map((b) => (
+      <li class="hero-uni_benefit">
+        <SiteImg src={b.icon} transparent width="34" height="34" />
+        <span>{b.label}</span>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<script>
+  // Placeholder: shows a thank-you message. Connect to the CRM later.
+  document.querySelectorAll<HTMLFormElement>("[data-lead-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      form.querySelector<HTMLElement>("[data-form-message]")!.hidden = false;
+      form.reset();
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .hero-uni_bg {
+      overflow: hidden;
+      background: linear-gradient(0deg, var(--dark-800), var(--dark-700));
+    }
+    .hero-uni_glow {
+      position: absolute;
+      top: -12rem;
+      left: -10rem;
+      width: 36rem;
+      height: 36rem;
+      border-radius: 50%;
+      background: var(--gradient-glow);
+      filter: blur(10rem);
+      opacity: 0.2;
+      &.right {
+        top: -8rem;
+        left: auto;
+        right: -12rem;
+      }
+    }
+
+    .hero-uni_tag {
+      display: inline-flex;
+      padding: 0.09rem;
+      border-radius: var(--radius-round);
+      background: var(--gradient-border);
+    }
+    .hero-uni_tag_inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 1rem;
+      border-radius: var(--radius-round);
+      background: linear-gradient(rgb(159 118 249 / 0.25), rgb(159 118 249 / 0.45)), var(--dark-900);
+      font-size: 0.75rem;
+      font-weight: var(--primary-medium);
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .hero-uni_actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: var(--space-5);
+    }
+    .hero-uni_proof {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      max-width: 22rem;
+    }
+    .hero-uni_faces {
+      display: flex;
+      flex-shrink: 0;
+      & img {
+        width: 3rem;
+        height: 3rem;
+        margin-left: -0.9rem;
+        border: 0.125rem solid var(--light-100);
+        border-radius: 50%;
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+    .hero-uni_stars {
+      margin-bottom: 0.25rem;
+      color: var(--orange-500);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+    .hero-uni_proof_text {
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .hero-uni_form_wrap {
+      width: 100%;
+      padding: 0.125rem;
+      border-radius: var(--radius-main);
+      background: var(--gradient-border);
+    }
+    .hero-uni_form {
+      --background-2: rgb(255 255 255 / 0.1);
+      --background-3: rgb(255 255 255 / 0.16);
+      display: grid;
+      gap: var(--space-4);
+      width: 100%;
+      padding: 2rem 1.5rem;
+      border-radius: var(--radius-main);
+      background: linear-gradient(rgb(159 118 249 / 0.05), rgb(159 118 249 / 0.12)), var(--dark-900);
+    }
+    .hero-uni_row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      @media (width < 30rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .hero-uni_input {
+      min-height: 0;
+      height: 2.75rem;
+      padding: 0.5rem 0.75rem;
+      border-color: rgb(255 255 255 / 0.15);
+      border-radius: var(--radius-small);
+    }
+    .hero-uni_label {
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+    .hero-uni_submit {
+      display: grid;
+    }
+    .hero-uni_message {
+      color: var(--purple-400);
+      text-align: center;
+    }
+
+    .hero-uni_benefits {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+      width: 100%;
+      @media (width < 64rem) {
+        justify-content: flex-start;
+      }
+    }
+    .hero-uni_benefit {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: var(--text-small);
+      font-weight: var(--primary-medium);
+      letter-spacing: -0.01em;
+      & img {
+        width: 2rem;
+        height: 2rem;
+      }
+      @media (width < 64rem) {
+        width: calc(50% - 1rem);
+      }
+      @media (width < 30rem) {
+        width: 100%;
+      }
+    }
+  }
+</style>

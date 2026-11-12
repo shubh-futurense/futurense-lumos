@@ -1,0 +1,20 @@
+---
+// The home page sends visitors straight to the UNI page for now.
+// The Lumos style guide moved to /style-guide.
+import { withBase } from "@/utils/base.ts";
+const target = withBase("uni");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={target} />
+    <title>Futurense</title>
+  </head>
+  <body>
+    <a href={target}>Go to Futurense UNI</a>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+import Icon from "@/components/media/Icon.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Carousel from "@/components/interactive/Carousel.astro";
+import readMore from "@/assets/icons/read-more.svg";
+import { media } from "@/data/uni.ts";
+import { LIVE } from "@/data/site.ts";
+---
+
+<Section theme="dark" align="center" gap="7">
+  <div slot="background" class="media-spotlight_bg" />
+  <Heading tag="h2">Media Spotlight</Heading>
+  <Carousel controls="dots" bleed>
+    {media.map((m) => (
+      <article class="media-spotlight_card">
+        <div class="media-spotlight_inner">
+          <SiteImg class="media-spotlight_image" src={m.image} />
+          <h3 class="text-style-h4">{m.title}</h3>
+          <SiteImg class="media-spotlight_logo" src={m.logo} transparent />
+          <div class="media-spotlight_foot">
+            <a href={m.href} target="_blank" rel="noopener" class="media-spotlight_link">
+              Read More <Icon src={readMore} variant="small" />
+            </a>
+            <span>{m.date}</span>
+          </div>
+        </div>
+      </article>
+    ))}
+  </Carousel>
+  <Button element="link" href={`${LIVE}/media`}>View All Press & Media Articles</Button>
+</Section>
+
+<style is:global>
+  @layer components {
+    .media-spotlight_bg {
+      background: linear-gradient(180deg, var(--dark-700), var(--dark-800));
+    }
+    .media-spotlight_card {
+      width: 26rem;
+      display: flex;
+      padding: var(--border-width);
+      border-radius: var(--radius-main);
+      background: linear-gradient(var(--purple-300), rgb(117 67 227 / 0));
+      text-align: start;
+      @media (width < 64rem) {
+        width: 22rem;
+      }
+      @media (width < 48rem) {
+        width: 85%;
+      }
+    }
+    .media-spotlight_inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.5rem;
+      border-radius: var(--radius-main);
+      background-color: var(--dark-900);
+    }
+    .media-spotlight_image {
+      aspect-ratio: 3 / 2;
+      border-radius: var(--radius-small);
+    }
+    .media-spotlight_logo {
+      width: auto;
+      max-width: 100%;
+      height: 2.3rem;
+      margin-top: auto;
+      object-position: left;
+    }
+    .media-spotlight_foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--text-small);
+      color: var(--text-2);
+    }
+    .media-spotlight_link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: var(--text-main);
+      font-weight: var(--primary-medium);
+      color: var(--purple-400);
+    }
+  }
+</style>

@@ -1,0 +1,241 @@
+---
+import Icon from "@/components/media/Icon.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import logo from "@/assets/logo/futurense.svg";
+import instagram from "@/assets/icons/instagram.svg";
+import linkedin from "@/assets/icons/linkedin.svg";
+import x from "@/assets/icons/x.svg";
+import youtube from "@/assets/icons/youtube.svg";
+import facebook from "@/assets/icons/facebook.svg";
+import { SITE_NAME } from "@/consts.ts";
+import { withBase } from "@/utils/base.ts";
+import { footerColumns, programsByCollege, socials, legalLinks } from "@/data/site.ts";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+const year = new Date().getFullYear();
+const socialIcons = { Instagram: instagram, LinkedIn: linkedin, X: x, YouTube: youtube, Facebook: facebook };
+---
+
+{render && (
+  <footer class="footer_wrap theme-dark">
+    <div class="footer_inner">
+      <div class="footer_newsletter">
+        <div class="footer_newsletter_text margin-trim">
+          <Heading tag="h2" variant="h4">Join our newsletter</Heading>
+          <Paragraph class="footer_muted">
+            Get latest update about our upcoming Applied AI & Tech Up-skilling programs with latest job ready syllabus.
+          </Paragraph>
+        </div>
+        <div class="footer_form_block">
+          <form class="footer_form" data-newsletter>
+            <input class="footer_input" type="email" required placeholder="Enter your email" aria-label="Email address" />
+            <Button type="submit">Subscribe</Button>
+          </form>
+          <p class="footer_terms">
+            By subscribing you agree with our <a href={legalLinks[0].href}>Privacy Policy</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer_top">
+        <div class="footer_brand">
+          <a href={withBase("uni")} class="footer_logo" aria-label={SITE_NAME}>
+            <Icon src={logo} variant="full-width" />
+          </a>
+          <a href="mailto:info@futurense.com" class="footer_link">info@futurense.com</a>
+          <a href="tel:+918826336400" class="footer_link">+91 8826336400</a>
+          <div class="footer_socials">
+            {socials.map((s) => (
+              <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+                <Icon src={socialIcons[s.label as keyof typeof socialIcons]} />
+              </a>
+            ))}
+          </div>
+        </div>
+        {footerColumns.map((col) => (
+          <div class="footer_col">
+            <p class="footer_col_title">{col.title}</p>
+            {col.links.map((l) => <a href={l.href} class="footer_link">{l.label}</a>)}
+          </div>
+        ))}
+      </div>
+
+      <div class="footer_programs">
+        <p class="footer_col_title">UNI Programs</p>
+        <div class="footer_programs_grid">
+          {programsByCollege.map((g) => (
+            <div class="footer_col">
+              <a href={g.href} class="footer_college">{g.college}</a>
+              {g.programs.map((p) => <a href={p.href} class="footer_link">{p.label}</a>)}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="footer_bottom">
+        <p>© {year} Futurense Technologies. All rights reserved.</p>
+        <div class="footer_legal">
+          {legalLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+        </div>
+      </div>
+    </div>
+  </footer>
+)}
+
+<script>
+  // Placeholder until the form is connected to the CRM.
+  document.querySelectorAll<HTMLFormElement>("[data-newsletter]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      form.innerHTML = "<p>Thanks for subscribing!</p>";
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .footer_wrap {
+      background: linear-gradient(180deg, var(--dark-800) 0%, var(--dark-900) 25%);
+      padding-inline: var(--site-margin);
+    }
+    .footer_inner {
+      max-width: var(--max-width-main);
+      margin-inline: auto;
+      padding-block: var(--section-space-medium);
+      display: flex;
+      flex-direction: column;
+      & > * + * {
+        margin-top: var(--space-7);
+        padding-top: var(--space-7);
+        border-top: var(--border-width) solid var(--border);
+      }
+    }
+    .footer_muted,
+    .footer_link {
+      color: var(--text-3);
+    }
+
+    .footer_newsletter {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+    }
+    .footer_newsletter_text {
+      max-width: 25rem;
+    }
+    .footer_form_block {
+      width: 25rem;
+      max-width: 100%;
+    }
+    .footer_form {
+      display: flex;
+      gap: 1rem;
+      --button-radius: var(--radius-small);
+      --button-padding: 0.75em 1.5em;
+      @media (width < 30rem) {
+        flex-direction: column;
+      }
+    }
+    .footer_input {
+      flex: 1;
+      min-width: 0;
+      height: 3.1rem;
+      padding: 0.5rem 0.75rem;
+      background-color: #1e1e1e;
+      border: var(--border-width) solid rgb(255 255 255 / 0.1);
+      border-radius: var(--radius-small);
+      color: var(--text);
+    }
+    .footer_terms {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      & a {
+        color: var(--purple-400);
+        text-decoration: underline;
+      }
+    }
+
+    .footer_top {
+      display: grid;
+      grid-template-columns: 45fr 24fr 17fr 14fr;
+      gap: 1rem 2rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+      @media (width < 30rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .footer_brand,
+    .footer_col {
+      display: flex;
+      flex-direction: column;
+    }
+    .footer_logo {
+      width: 8.3rem;
+      margin-bottom: 1rem;
+    }
+    .footer_socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .footer_col_title {
+      margin-bottom: 1rem;
+      font-size: var(--text-large);
+      font-weight: var(--primary-medium);
+      line-height: 1.4;
+    }
+    .footer_link {
+      padding-block: 0.5rem;
+      transition: color var(--hover-duration) var(--hover-ease);
+      @media (hover: hover) {
+        &:hover {
+          color: var(--text);
+        }
+      }
+    }
+
+    .footer_programs_grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+      @media (width < 30rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .footer_college {
+      margin-bottom: 0.5rem;
+      color: var(--text-2);
+    }
+
+    .footer_bottom {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: var(--text-small);
+      color: var(--text-3);
+    }
+    .footer_legal {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      & a {
+        color: var(--text);
+        text-decoration: underline;
+      }
+    }
+  }
+</style>

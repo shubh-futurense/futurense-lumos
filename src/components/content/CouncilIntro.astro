@@ -1,0 +1,94 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import { flcPillars, flcArrows } from "@/data/uni.ts";
+import { img } from "@/data/site.ts";
+---
+
+<Section>
+  <div slot="background" class="council-intro_bg" />
+  <div class="council-intro_layout">
+    <div class="margin-trim">
+      <Heading tag="h2" variant="h3" maxWidth={24}>Learn from the Futurense Leadership Council</Heading>
+      <Paragraph class="council-intro_text">
+        The Futurense Leadership Council (FLC) is an exclusive community of AI leaders, CXOs, and product heads from MAANG, Fortune 500s, and leading startups. They shape your learning journey to match the future of work.
+      </Paragraph>
+    </div>
+    <div class="council-intro_pillars">
+      <img class="council-intro_arrows" src={img(flcArrows)} alt="" />
+      <ul class="council-intro_list">
+        {flcPillars.map((p) => (
+          <li class="council-intro_item">
+            <SiteImg class="council-intro_icon" src={p.icon} transparent />
+            <div>
+              <h3 class="text-style-h4 council-intro_title">{p.title}</h3>
+              <p class="text-style-small council-intro_item_text">{p.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .council-intro_bg {
+      background: linear-gradient(180deg, #e6dbff, var(--light-100));
+    }
+    .council-intro_layout {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 0.57fr 1fr;
+      align-items: center;
+      gap: 2rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .council-intro_text {
+      color: var(--text-2);
+    }
+    .council-intro_pillars {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      align-items: stretch;
+      @media (width < 48rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .council-intro_arrows {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      @media (width < 48rem) {
+        display: none;
+      }
+    }
+    .council-intro_list {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .council-intro_item {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      align-items: start;
+      gap: 0.75rem;
+    }
+    .council-intro_icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    .council-intro_title {
+      font-weight: var(--primary-bold);
+      color: #523979;
+    }
+    .council-intro_item_text {
+      color: var(--text-3);
+    }
+  }
+</style>

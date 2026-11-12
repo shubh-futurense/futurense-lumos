@@ -1,0 +1,215 @@
+---
+/**
+ * Swiper.js carousel with a draggable scrollbar, like the live Futurense sliders.
+ * Put any cards inside it; each direct child becomes a slide and sets its own width.
+ *
+ * controls="bar"  draggable scrollbar plus arrows
+ * controls="dots" clickable dots
+ * bleed           let the slides run past the right edge of the page
+ */
+import type { HTMLAttributes } from "astro/types";
+import Icon from "@/components/media/Icon.astro";
+import chevronLeft from "@/assets/icons/chevron-left.svg";
+import chevronRight from "@/assets/icons/chevron-right.svg";
+
+type Props = HTMLAttributes<"div"> & {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** Control style under the slides. */
+  controls?: "bar" | "dots";
+  /** Space between slides, in rem. */
+  gap?: number;
+  /** Run past the right edge of the container. */
+  bleed?: boolean;
+};
+
+const { render = true, controls = "bar", gap = 1.5, bleed = false, class: className, ...rest } = Astro.props;
+---
+
+{render && (
+  <div
+    class:list={["carousel_wrap", bleed && "bleed", className]}
+    data-carousel
+    data-controls={controls}
+    data-gap={gap}
+    {...rest}
+  >
+    <div class="swiper carousel_viewport">
+      <div class="swiper-wrapper carousel_track" data-carousel-track>
+        <slot />
+      </div>
+    </div>
+    {controls === "dots" ? (
+      <div class="carousel_controls dots">
+        <div class="carousel_dots" data-carousel-dots />
+      </div>
+    ) : (
+      <div class="carousel_controls">
+        <div class="carousel_scrollbar" data-carousel-scrollbar />
+        <div class="carousel_arrows">
+          <button class="carousel_arrow" type="button" data-carousel-prev aria-label="Previous">
+            <Icon src={chevronLeft} />
+          </button>
+          <button class="carousel_arrow next" type="button" data-carousel-next aria-label="Next">
+            <Icon src={chevronRight} />
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+
+  const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+    const viewport = carousel.querySelector<HTMLElement>(".swiper")!;
+    const track = carousel.querySelector<HTMLElement>("[data-carousel-track]")!;
+    [...track.children].forEach((child) => child.classList.add("swiper-slide"));
+    const gap = Number(carousel.dataset.gap) || 1.5;
+
+    const swiper = new Swiper(viewport, {
+      modules: [Navigation, Pagination, Scrollbar],
+      slidesPerView: "auto",
+      spaceBetween: gap * rem(),
+      speed: 300,
+      grabCursor: true,
+      watchOverflow: true,
+      navigation: {
+        prevEl: carousel.querySelector<HTMLElement>("[data-carousel-prev]"),
+        nextEl: carousel.querySelector<HTMLElement>("[data-carousel-next]"),
+        disabledClass: "is-disabled",
+      },
+      scrollbar: {
+        el: carousel.querySelector<HTMLElement>("[data-carousel-scrollbar]"),
+        draggable: true,
+        dragClass: "carousel_drag",
+        hide: false,
+        snapOnRelease: true,
+      },
+      pagination: {
+        el: carousel.querySelector<HTMLElement>("[data-carousel-dots]"),
+        clickable: true,
+        bulletElement: "button",
+        bulletClass: "carousel_dot",
+        bulletActiveClass: "is-active",
+      },
+      on: {
+        resize(s) {
+          s.params.spaceBetween = gap * rem();
+          s.update();
+        },
+        lock() {
+          carousel.classList.add("is-static");
+        },
+        unlock() {
+          carousel.classList.remove("is-static");
+        },
+      },
+    });
+
+    carousel.dispatchEvent(new CustomEvent("carousel:ready", { detail: swiper }));
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .carousel_wrap {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      &.bleed .carousel_viewport {
+        margin-right: calc((100% - 100vw) / 2);
+      }
+    }
+    .carousel_viewport {
+      overflow: hidden;
+    }
+    .carousel_track {
+      display: flex;
+      & > * {
+        flex-shrink: 0;
+        height: auto;
+      }
+    }
+    .carousel_controls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      .carousel_wrap.is-static & {
+        visibility: hidden;
+      }
+      &.dots {
+        justify-content: center;
+        margin-top: 2rem;
+      }
+    }
+
+    /* The bar under the slides: follows the slides and can be dragged */
+    .carousel_scrollbar {
+      position: relative;
+      flex: 1;
+      height: 0.25rem;
+      border-radius: var(--radius-round);
+      background-color: light-dark(var(--light-300), rgb(229 229 229 / 0.25));
+      touch-action: none;
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -0.5rem 0;
+      }
+    }
+    .carousel_drag {
+      position: relative;
+      height: 100%;
+      border-radius: var(--radius-round);
+      background-color: var(--purple-400);
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    .carousel_arrows {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .carousel_arrow {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-small);
+      border: var(--border-width) solid var(--text);
+      background-color: light-dark(var(--light-100), transparent);
+      color: var(--text);
+      &.next {
+        background-color: var(--text);
+        color: light-dark(var(--light-100), var(--dark-900));
+      }
+      &.is-disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+    }
+
+    .carousel_dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .carousel_dot {
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: var(--radius-round);
+      background-color: light-dark(var(--light-300), rgb(229 229 229 / 0.3));
+      &.is-active {
+        background-color: var(--purple-400);
+      }
+    }
+  }
+</style>

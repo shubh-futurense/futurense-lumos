@@ -1,0 +1,182 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Icon from "@/components/media/Icon.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Carousel from "@/components/interactive/Carousel.astro";
+import quote from "@/assets/icons/quote.svg";
+import { stats, studentTestimonials } from "@/data/uni.ts";
+
+const statIcons = [
+  "A/68847d6478f5ceb16b596a06_icon1.svg",
+  "A/68847dd86aa97547b7f81105_Icon2.svg",
+  "A/68847dd8aa8af7a37bd6d3f8_Icon3.svg",
+  "A/68847dd8a43bb3fbe7f2108c_Icon4.svg",
+];
+---
+
+<Section paddingTop="large" paddingBottom="large">
+  <div slot="background" class="testimonials-students_bg" />
+  <div class="testimonials-students_layout">
+    <div class="testimonials-students_intro margin-trim">
+      <Heading tag="h2" maxWidth={14}>Hear It From Our Students</Heading>
+      <div class="testimonials-students_stats">
+        {stats.map((s, i) => (
+          <div class="testimonials-students_stat">
+            <div class="testimonials-students_stat_inner">
+              <SiteImg class="testimonials-students_stat_icon" src={statIcons[i]} transparent />
+              <p class="testimonials-students_value">{s.value}{s.suffix && <span> {s.suffix}</span>}</p>
+              <p class="testimonials-students_label">{s.label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <Carousel gap={1}>
+      {studentTestimonials.map((t) => (
+        <article class="testimonials-students_card theme-dark">
+          <div class="testimonials-students_card_text">
+            <span class="testimonials-students_mark"><Icon src={quote} variant="full-width" /></span>
+            <h3 class="text-style-h4 testimonials-students_name">{t.name}</h3>
+            <p class="text-style-large">{t.role}</p>
+            <p class="testimonials-students_quote">{t.quote}</p>
+            {t.logo && <SiteImg class="testimonials-students_logo" src={t.logo} transparent />}
+          </div>
+          <SiteImg class="testimonials-students_photo" src={t.photo} alt={t.name} transparent />
+        </article>
+      ))}
+    </Carousel>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .testimonials-students_bg {
+      background: linear-gradient(180deg, var(--light-100) 0%, #f4efff 100%);
+    }
+    .testimonials-students_layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 6rem;
+      width: 100%;
+      & > * {
+        min-width: 0;
+      }
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+    .testimonials-students_stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .testimonials-students_stat {
+      padding: var(--border-width);
+      border-radius: var(--radius-main);
+      background: linear-gradient(#9970f4, var(--orange-500));
+    }
+    .testimonials-students_stat_inner {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      padding: 1.125rem 2.5rem;
+      border-radius: var(--radius-main);
+      background-color: var(--background);
+      text-align: center;
+      @media (width < 30rem) {
+        padding-inline: 1rem;
+      }
+    }
+    .testimonials-students_stat_icon {
+      position: absolute;
+      top: -2rem;
+      right: -2rem;
+      width: 10rem;
+      opacity: 0.35;
+    }
+    .testimonials-students_value {
+      position: relative;
+      font-size: var(--h3);
+      font-weight: var(--primary-bold);
+      line-height: 1.2;
+      color: var(--purple-400);
+    }
+    .testimonials-students_label {
+      position: relative;
+      margin-top: 0.5rem;
+      font-weight: var(--primary-medium);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--slate-800);
+    }
+
+    .testimonials-students_card {
+      position: relative;
+      width: 100%;
+      min-height: 21rem;
+      display: flex;
+      overflow: hidden;
+      border: var(--border-width) solid var(--purple-300);
+      border-radius: 1.6rem;
+      background: linear-gradient(var(--purple-400), #5e4693);
+      @media (width < 30rem) {
+        flex-direction: column;
+      }
+    }
+    .testimonials-students_card_text {
+      position: relative;
+      z-index: 1;
+      width: 62%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.75rem;
+      @media (width < 30rem) {
+        width: 100%;
+      }
+    }
+    .testimonials-students_name {
+      font-weight: var(--primary-medium);
+    }
+    .testimonials-students_mark {
+      position: absolute;
+      top: 6.5rem;
+      left: 1.75rem;
+      width: 2.4rem;
+    }
+    .testimonials-students_quote {
+      display: -webkit-box;
+      margin-top: 2.5rem;
+      overflow: hidden;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+    .testimonials-students_logo {
+      width: auto;
+      max-width: 11rem;
+      height: 2rem;
+      margin-top: auto;
+      object-position: left;
+      filter: brightness(0) invert(1);
+    }
+    .testimonials-students_photo {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 55%;
+      height: 88%;
+      object-fit: cover;
+      object-position: top;
+      @media (width < 30rem) {
+        position: relative;
+        width: 100%;
+        height: 16rem;
+      }
+    }
+  }
+</style>

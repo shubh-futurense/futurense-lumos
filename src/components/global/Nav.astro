@@ -1,0 +1,385 @@
+---
+import Icon from "@/components/media/Icon.astro";
+import logo from "@/assets/logo/futurense.svg";
+import chevronDown from "@/assets/icons/chevron-down.svg";
+import { SITE_NAME } from "@/consts.ts";
+import { withBase } from "@/utils/base.ts";
+import { navLinks, programsByCollege, LIVE } from "@/data/site.ts";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** Fix the nav over the page. */
+  overlap?: boolean;
+}
+
+const { render = true, overlap = false } = Astro.props;
+---
+
+{render && (
+  <header class:list={["nav_wrap", "theme-dark", overlap && "overlap"]}>
+    <div class="nav_inner">
+      <div class="nav_start">
+        <a class="nav_logo" href={withBase("uni")} aria-label={SITE_NAME}>
+          <Icon src={logo} variant="full-width" />
+        </a>
+        <details class="nav_programs">
+          <summary class="nav_programs_toggle">
+            Our Programs <Icon src={chevronDown} variant="small" />
+          </summary>
+          <div class="nav_mega theme-light">
+            {programsByCollege.map((group) => (
+              <div class="nav_mega_col">
+                <a href={group.href} class="nav_mega_title">{group.college}</a>
+                {group.programs.map((p) => (
+                  <a href={p.href} class="nav_mega_link">{p.label}</a>
+                ))}
+              </div>
+            ))}
+          </div>
+        </details>
+      </div>
+
+      <button
+        class="nav_toggle"
+        type="button"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        <span class="nav_toggle_icon" />
+      </button>
+
+      <nav class="nav_menu" id="nav-menu" aria-label="Main">
+        <div class="nav_menu_inner">
+          <ul class="nav_links">
+            {navLinks.map((link) => (
+              <li class="nav_item">
+                <a href={link.href} class="nav_link">
+                  {link.label}
+                  {link.dropdown && <Icon src={chevronDown} variant="small" />}
+                </a>
+                {link.dropdown && (
+                  <div class="nav_dropdown theme-light">
+                    {link.dropdown.map((d) => <a href={d.href}>{d.label}</a>)}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div class="nav_end">
+            <a href="https://fde.academy/" class="nav_fde">FDE Academy</a>
+            <a href={`${LIVE}/contact`} class="nav_contact">Contact</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+)}
+
+<noscript>
+  <style>
+    .nav_toggle { display: none; }
+    .nav_menu { grid-template-rows: 1fr; visibility: visible; }
+  </style>
+</noscript>
+
+<script>
+  const nav = document.querySelector<HTMLElement>(".nav_wrap");
+  const toggle = nav?.querySelector<HTMLButtonElement>(".nav_toggle");
+  const programs = nav?.querySelector<HTMLDetailsElement>(".nav_programs");
+
+  if (nav && toggle) {
+    const setOpen = (open: boolean) => {
+      nav.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    nav.querySelectorAll(".nav_menu a").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (programs?.open) programs.open = false;
+      if (nav.classList.contains("open")) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (programs?.open && !programs.contains(target)) programs.open = false;
+      if (nav.classList.contains("open") && !nav.contains(target)) setOpen(false);
+    });
+
+    window.matchMedia("(width >= 64rem)").addEventListener("change", (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+</script>
+
+<style is:global>
+  @layer components {
+    .nav_wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      background-color: var(--dark-900);
+      color: var(--text);
+
+      &.overlap {
+        position: fixed;
+        inset-inline: 0;
+      }
+    }
+
+    .nav_inner {
+      width: 90%;
+      min-height: var(--nav-height);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 0 var(--space-3);
+      @media (width >= 64rem) {
+        grid-template-columns: 1fr auto 1fr;
+      }
+    }
+
+    .nav_start {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .nav_logo {
+      display: flex;
+      width: 8.3rem;
+      color: var(--text);
+    }
+
+    /* Programs mega menu */
+    .nav_programs {
+      position: relative;
+    }
+    .nav_programs_toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 0.09rem solid rgb(255 255 255 / 0.8);
+      border-radius: var(--radius-round);
+      background-color: rgb(255 255 255 / 0.1);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      &::-webkit-details-marker {
+        display: none;
+      }
+      @media (width < 30rem) {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+      }
+    }
+    .nav_mega {
+      position: absolute;
+      top: calc(100% + 1rem);
+      left: 0;
+      width: min(62rem, 90vw);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      padding: 1.75rem;
+      border-radius: var(--radius-medium);
+      box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 0.25);
+      color: var(--text-2);
+      @media (width < 64rem) {
+        grid-template-columns: 1fr 1fr;
+        max-height: 70vh;
+        overflow: auto;
+      }
+      @media (width < 30rem) {
+        position: fixed;
+        inset-inline: 1rem;
+        top: var(--nav-height);
+        width: auto;
+        grid-template-columns: 1fr;
+      }
+    }
+    .nav_mega_title {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: var(--primary-medium);
+      color: var(--purple-500);
+    }
+    .nav_mega_link {
+      display: block;
+      padding-block: 0.3rem;
+      font-size: var(--text-small);
+      line-height: 1.35;
+      @media (hover: hover) {
+        &:hover {
+          color: var(--purple-500);
+        }
+      }
+    }
+
+    /* Mobile toggle */
+    .nav_toggle {
+      --_icon-width: 1.5rem;
+      --_bar-gap: 0.4rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--nav-height);
+      color: var(--text);
+      @media (width >= 64rem) {
+        display: none;
+      }
+    }
+    .nav_toggle_icon {
+      position: relative;
+      width: var(--_icon-width);
+      height: var(--border-width);
+      background-color: currentcolor;
+      box-shadow: 0 calc(var(--_bar-gap) * -1) 0 currentcolor, 0 var(--_bar-gap) 0 currentcolor;
+      transition: box-shadow var(--hover-duration) var(--hover-ease), rotate var(--hover-duration) var(--hover-ease);
+    }
+    .nav_wrap.open .nav_toggle_icon {
+      box-shadow: none;
+      rotate: 45deg;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: currentcolor;
+        rotate: 90deg;
+      }
+    }
+
+    /* Menu: a drop panel on small screens, a row on large ones */
+    .nav_menu {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-rows: 0fr;
+      visibility: hidden;
+      transition: grid-template-rows var(--open-duration) var(--open-ease), visibility var(--open-duration) allow-discrete;
+      @media (width >= 64rem) {
+        display: contents;
+        visibility: visible;
+      }
+    }
+    .nav_wrap.open .nav_menu {
+      grid-template-rows: 1fr;
+      visibility: visible;
+    }
+    .nav_menu_inner {
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      @media (width < 64rem) {
+        padding-bottom: var(--space-4);
+      }
+      @media (width >= 64rem) {
+        display: contents;
+      }
+    }
+
+    .nav_links {
+      display: flex;
+      flex-direction: column;
+      @media (width >= 64rem) {
+        flex-direction: row;
+      }
+    }
+    .nav_item {
+      position: relative;
+    }
+    .nav_link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      text-transform: uppercase;
+      color: var(--text-3);
+      transition: color var(--hover-duration) var(--hover-ease);
+      @media (width < 64rem) {
+        padding-inline: 0;
+      }
+      @media (hover: hover) {
+        &:hover {
+          color: var(--text);
+        }
+      }
+    }
+    .nav_dropdown {
+      display: none;
+      min-width: 16rem;
+      padding: 0.5rem;
+      border-radius: var(--radius-small);
+      box-shadow: 0 0.6rem 2rem rgb(0 0 0 / 0.2);
+      & a {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.3rem;
+        font-size: var(--text-small);
+        color: var(--text-2);
+        @media (hover: hover) {
+          &:hover {
+            background-color: var(--purple-100);
+            color: var(--purple-500);
+          }
+        }
+      }
+      @media (width >= 64rem) {
+        position: absolute;
+        top: 100%;
+        left: 0;
+      }
+    }
+    @media (hover: hover) {
+      .nav_item:hover .nav_dropdown {
+        display: block;
+      }
+    }
+
+    .nav_end {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      @media (width >= 64rem) {
+        justify-content: flex-end;
+      }
+    }
+    .nav_fde {
+      font-size: var(--text-small);
+      text-transform: uppercase;
+      color: var(--text-2);
+    }
+    .nav_contact {
+      padding: 0.625rem 2.5rem;
+      border: var(--border-width) solid #3b3b3b;
+      border-radius: var(--radius-round);
+      font-weight: var(--primary-medium);
+      transition: background-color var(--hover-duration) var(--hover-ease), color var(--hover-duration) var(--hover-ease);
+      @media (hover: hover) {
+        &:hover {
+          background-color: var(--light-100);
+          color: var(--dark-900);
+        }
+      }
+    }
+  }
+</style>
