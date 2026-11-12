@@ -60,7 +60,8 @@ async function download(url, tries = 3) {
 }
 
 async function imagePaths() {
-  const text = (await readFile(join(ROOT, "src/data/uni.ts"), "utf8")) + (await readFile(join(ROOT, "src/data/site.ts"), "utf8"));
+  const files = ["uni.ts", "site.ts", "nav.ts"];
+  const text = (await Promise.all(files.map((f) => readFile(join(ROOT, "src/data", f), "utf8")))).join("\n");
   const found = new Set();
   for (const m of text.matchAll(/"([AB])\/([^"]+?\.(?:avif|jpe?g|png|webp))"/gi)) found.add(`${m[1]}/${m[2]}`);
   // Video thumbnails are listed as ["file.avif", "youtubeId"] and live on CDN B.
