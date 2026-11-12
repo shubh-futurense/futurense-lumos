@@ -583,7 +583,11 @@ const views = [
           overflow: hidden;
         }
       }
-      .nav_mobile_only {
+    }
+
+    /* FDE Academy sits in the bar from tablet up, and inside the menu on phones */
+    .nav_mobile_only {
+      @media (width >= 48rem) {
         display: none;
       }
     }
