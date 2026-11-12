@@ -25,7 +25,7 @@ const copies = [0, 1, 2];
         <div class="partners-marquee_list" data-marquee-collection aria-hidden={copy > 0 ? "true" : undefined}>
           {partners.map((p) => (
             <div class="partners-marquee_item">
-              <SiteImg src={p.src} alt={copy > 0 ? "" : p.name} transparent />
+              <SiteImg src={p.src} alt={copy > 0 ? "" : p.name} transparent size={190} />
             </div>
           ))}
         </div>

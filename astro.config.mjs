@@ -15,5 +15,7 @@ export default defineConfig({
       filter: (page) => !isNoindexRoute(new URL(page).pathname),
     }),
   ],
+  // Put the CSS straight into the page so nothing has to download before the first paint.
+  build: { inlineStylesheets: "always" },
   vite: { build: { cssTarget: "safari15.4" } },
 });

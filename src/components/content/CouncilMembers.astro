@@ -31,7 +31,7 @@ import { LIVE } from "@/data/site.ts";
               <h3 class="text-style-h4 council-members_name">{m.name}</h3>
               <p class="text-style-small council-members_role">{m.title}</p>
             </div>
-            {m.logo && <SiteImg class="council-members_company" src={m.logo} transparent />}
+            {m.logo && <SiteImg class="council-members_company" src={m.logo} transparent size={52} />}
           </div>
           <p class="council-members_bio">{m.bio}</p>
         </article>
@@ -48,13 +48,13 @@ import { LIVE } from "@/data/site.ts";
       {flcQuotes.map((q) => (
         <article class="council-members_quote">
           <div class="council-members_quote_head">
-            <SiteImg class="council-members_avatar" src={q.photo} alt={q.name} />
+            <SiteImg class="council-members_avatar" src={q.photo} alt={q.name} size={86} />
             <div>
               <h3 class="text-style-h4">{q.name}</h3>
               <p class="council-members_quote_role">{q.title}</p>
             </div>
             <div class="council-members_quote_side">
-              {q.logo && <SiteImg class="council-members_quote_logo" src={q.logo} transparent />}
+              {q.logo && <SiteImg class="council-members_quote_logo" src={q.logo} transparent size={94} />}
               <span class="council-members_linkedin"><Icon src={linkedinSquare} /></span>
             </div>
           </div>

@@ -2,8 +2,9 @@
 /**
  * Image from the Futurense content files.
  * `src` is a short CDN path like "A/123_photo.avif" (see src/data/site.ts).
- * If the same file has been downloaded into src/assets/cdn/, it goes through
- * Lumos <Img> and gets optimized. Otherwise it loads straight from the CDN.
+ * scripts/fetch-assets.mjs downloads these into src/assets/cdn/ as "<webflow-id>.<ext>",
+ * so they go through Lumos <Img> and come out as right-sized WebP files.
+ * Anything not downloaded (SVG icons, or a failed download) loads straight from the CDN.
  */
 import type { HTMLAttributes } from "astro/types";
 import Img from "@/components/media/Img.astro";
@@ -14,20 +15,27 @@ type Props = Omit<HTMLAttributes<"img">, "src"> & {
   alt?: string;
   loading?: "lazy" | "eager";
   transparent?: boolean;
+  /** Width it displays at, in pixels, for small images like faces and logos. Keeps the files tiny. */
+  size?: number;
 };
 
-const { src, alt = "", loading = "lazy", transparent = false, class: className, ...rest } = Astro.props;
+const { src, alt = "", loading = "lazy", transparent = false, size, class: className, ...rest } = Astro.props;
 
 const local = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/cdn/*.{avif,jpg,jpeg,png,webp}",
   { eager: true },
 );
-const file = decodeURIComponent(src.split("/").pop() ?? "");
-const asset = local[`/src/assets/cdn/${file}`]?.default;
+const file = src.split("/").pop() ?? "";
+const localName = `${file.split("_")[0]}.${file.split(".").pop()?.toLowerCase()}`;
+const asset = local[`/src/assets/cdn/${localName}`]?.default;
 ---
 
 {asset ? (
-  <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} {...rest} />
+  size ? (
+    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} {...rest} variant="constrained" width={size} height={undefined} sizes={`${size}px`} />
+  ) : (
+    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} {...rest} width={undefined} height={undefined} />
+  )
 ) : (
   <img
     src={img(src)}

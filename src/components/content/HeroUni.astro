@@ -28,7 +28,7 @@ import { hero } from "@/data/uni.ts";
       <Button element="link" href={hero.button.href}>{hero.button.label}</Button>
       <div class="hero-uni_proof">
         <div class="hero-uni_faces">
-          {hero.faces.map((f) => <SiteImg src={f.src} alt={f.name} width="51" height="51" />)}
+          {hero.faces.map((f) => <SiteImg src={f.src} alt={f.name} size={51} loading="eager" />)}
         </div>
         <div>
           <p class="hero-uni_stars" aria-label="Rated 5 out of 5">★★★★★</p>

@@ -3,6 +3,8 @@ import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/consts.ts";
 import { isNoindexRoute } from "@/utils/seo.ts";
 import { withBase } from "@/utils/base.ts";
 import type { SeoProps } from "@/types.ts";
+import fontRegular from "@/assets/fonts/sf-pro-400.woff2?url";
+import fontBold from "@/assets/fonts/sf-pro-700.woff2?url";
 
 type Props = SeoProps;
 
@@ -33,7 +35,10 @@ const socialImage = new URL(image, Astro.site);
   @layer base, patterns, components, utilities;
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="preconnect" href="https://cdn.prod.website-files.com" crossorigin />
+<!-- The two fonts the first screen needs: body text and the big heading -->
+<link rel="preload" href={fontRegular} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={fontBold} as="font" type="font/woff2" crossorigin />
+<link rel="preconnect" href="https://cdn.prod.website-files.com" />
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
