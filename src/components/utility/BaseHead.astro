@@ -1,5 +1,5 @@
 ---
-import { SITE_NAME, SITE_DESCRIPTION } from "@/consts.ts";
+import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/consts.ts";
 import { isNoindexRoute } from "@/utils/seo.ts";
 import { withBase } from "@/utils/base.ts";
 import type { SeoProps } from "@/types.ts";
@@ -14,12 +14,17 @@ const {
   noindex,
 } = Astro.props;
 
-// Preview copies (like GitHub Pages) stay out of search results so they never compete with futurense.com.
-const isPreview = import.meta.env.BASE_URL !== "/";
-const isNoindex = noindex ?? (isPreview || isNoindexRoute(Astro.url.pathname));
+// The page path without the GitHub Pages sub-folder, e.g. "/uni".
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const path = Astro.url.pathname.slice(base.length).replace(/\/$/, "") || "/";
 
-const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const isNoindex = noindex ?? isNoindexRoute(path);
+
+// Titles that already name the brand are used as they are.
+const pageTitle = !title ? SITE_NAME : title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+
+// Canonical always points at futurense.com, so preview copies never compete with the real site.
+const canonical = new URL(path, SITE_URL);
 const socialImage = new URL(image, Astro.site);
 ---
 

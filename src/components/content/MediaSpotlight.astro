@@ -22,7 +22,7 @@ import { LIVE } from "@/data/site.ts";
           <SiteImg class="media-spotlight_logo" src={m.logo} transparent />
           <div class="media-spotlight_foot">
             <a href={m.href} target="_blank" rel="noopener" class="media-spotlight_link">
-              Read More <Icon src={readMore} variant="small" />
+              Read More<span class="sr-only"> about {m.title}</span> <Icon src={readMore} variant="small" />
             </a>
             <span>{m.date}</span>
           </div>

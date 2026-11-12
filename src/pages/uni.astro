@@ -16,13 +16,11 @@ import StoriesVideo from "@/components/content/StoriesVideo.astro";
 import FaqTabs from "@/components/content/FaqTabs.astro";
 import MediaSpotlight from "@/components/content/MediaSpotlight.astro";
 import CtaMain from "@/components/content/CtaMain.astro";
+import { uniSeo, uniSchema } from "@/data/uni-seo.ts";
 ---
 
-<BaseLayout
-  title="Futurense Uni: Your Second Chance At The IIT Dream"
-  description="Build an AI-first career with IIT-powered degrees, industry mentorship, and real-world learning."
-  overlap
->
+<BaseLayout title={uniSeo.title} description={uniSeo.description} image={uniSeo.image} overlap>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(uniSchema)} />
   <HeroUni />
   <PartnersMarquee />
   <ProgramsFinder />

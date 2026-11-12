@@ -4,7 +4,7 @@ export const SITE_NAME = "Futurense";
 export const SITE_DESCRIPTION =
   "Build an AI-first career with IIT-powered degrees, industry mentorship, and real-world learning.";
 /** Canonical origin. Resolves canonical URLs, social images, and the sitemap. */
-export const SITE_URL = "https://www.futurense.com";
+export const SITE_URL = "https://futurense.com";
 /** BCP 47 locale tag used to format dates and numbers. */
 export const SITE_LOCALE = "en-US";
 /** Routes excluded from search and the sitemap. Surrounding slashes are ignored. */
