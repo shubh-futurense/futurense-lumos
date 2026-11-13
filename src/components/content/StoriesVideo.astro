@@ -8,12 +8,12 @@ import play from "@/assets/icons/play-solid.svg";
 import { videoStories } from "@/data/uni.ts";
 ---
 
-<Section theme="dark" gap="6">
+<Section theme="dark" gap="7">
   <div slot="background" class="stories-video_bg" />
   <Heading tag="h2" class="heading-accent alignment-center align-self-center" maxWidth={26}>
     Making a <strong>Difference</strong>, One Professional at a Time
   </Heading>
-  <Carousel gap={1}>
+  <Carousel gap={1} peek>
     {videoStories.map((v) => (
       <a class="stories-video_card" href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener">
         <SiteImg class="stories-video_image" src={v.image} alt="Student story video" />
@@ -26,7 +26,7 @@ import { videoStories } from "@/data/uni.ts";
 <style is:global>
   @layer components {
     .stories-video_bg {
-      background-color: var(--dark-900);
+      background: linear-gradient(#000, rgb(29 19 54));
     }
     .stories-video_card {
       position: relative;

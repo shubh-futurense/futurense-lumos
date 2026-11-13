@@ -19,7 +19,7 @@ import { LIVE } from "@/data/site.ts";
       </Heading>
     </div>
 
-    <Carousel gap={1}>
+    <Carousel gap={1} peek>
       {flcMembers.map((m) => (
         <article class="council-members_card">
           <a href={`${LIVE}/futurense-leadership-council`} class="council-members_media">
@@ -44,7 +44,7 @@ import { LIVE } from "@/data/site.ts";
       </Heading>
     </div>
 
-    <Carousel gap={1}>
+    <Carousel gap={1} peek>
       {flcQuotes.map((q) => (
         <article class="council-members_quote">
           <div class="council-members_quote_head">
@@ -81,7 +81,9 @@ import { LIVE } from "@/data/site.ts";
         margin-top: 2rem;
       }
       & > .council-members_video {
-        margin-top: 1rem;
+        width: 100%;
+        max-width: 73.75rem;
+        margin: 2.5rem auto 0;
       }
     }
     .council-members_head {

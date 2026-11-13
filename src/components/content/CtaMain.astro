@@ -10,8 +10,8 @@ import { img } from "@/data/site.ts";
 <Section theme="dark">
   <div slot="background" class="cta-main_bg" />
   <div class="cta-main_card theme-brand margin-trim" style={`--_bg: url('${img(cta.background)}');`}>
-    <Heading tag="h2" variant="h3">{cta.title}</Heading>
-    <Paragraph variant="large" maxWidth={52}>{cta.text}</Paragraph>
+    <Heading tag="h2" variant="h3" class="margin-bottom-0">{cta.title}</Heading>
+    <Paragraph variant="large" maxWidth={48}>{cta.text}</Paragraph>
     <Button element="link" href={cta.button.href}>{cta.button.label}</Button>
   </div>
 </Section>
@@ -19,7 +19,7 @@ import { img } from "@/data/site.ts";
 <style is:global>
   @layer components {
     .cta-main_bg {
-      background-color: var(--dark-900);
+      background: linear-gradient(0deg, rgb(41 29 69), #000);
     }
     .cta-main_card {
       width: 100%;

@@ -102,7 +102,7 @@ const socialIcons = { Instagram: instagram, LinkedIn: linkedin, X: x, YouTube: y
 <style is:global>
   @layer components {
     .footer_wrap {
-      background: linear-gradient(180deg, var(--dark-800) 0%, var(--dark-900) 25%);
+      background: linear-gradient(rgb(41 29 69), #000 21%);
       padding-inline: var(--site-margin);
     }
     .footer_inner {
@@ -139,7 +139,7 @@ const socialIcons = { Instagram: instagram, LinkedIn: linkedin, X: x, YouTube: y
       display: flex;
       gap: 1rem;
       --button-radius: var(--radius-small);
-      --button-padding: 0.75em 1.5em;
+      --button-padding: 0.75em 2.5em;
       @media (width < 30rem) {
         flex-direction: column;
       }
@@ -165,7 +165,7 @@ const socialIcons = { Instagram: instagram, LinkedIn: linkedin, X: x, YouTube: y
 
     .footer_top {
       display: grid;
-      grid-template-columns: 45fr 24fr 17fr 14fr;
+      grid-template-columns: 3fr 1.5fr 1fr 1fr;
       gap: 1rem 2rem;
       @media (width < 64rem) {
         grid-template-columns: 1fr 1fr;

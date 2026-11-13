@@ -38,9 +38,9 @@ const statIcons = [
         <div class="testimonials-students_slide">
         <article class="testimonials-students_card theme-dark">
           <div class="testimonials-students_card_text">
-            <span class="testimonials-students_mark"><Icon src={quote} variant="full-width" /></span>
             <h3 class="text-style-h4 testimonials-students_name">{t.name}</h3>
             <p class="text-style-large">{t.role}</p>
+            <span class="testimonials-students_mark"><Icon src={quote} variant="full-width" /></span>
             <p class="testimonials-students_quote">{t.quote}</p>
             {t.logo && <SiteImg class="testimonials-students_logo" src={t.logo} transparent size={190} />}
           </div>
@@ -60,7 +60,7 @@ const statIcons = [
     .testimonials-students_layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      align-items: center;
+      align-items: end;
       gap: 6rem;
       width: 100%;
       & > * {
@@ -116,7 +116,7 @@ const statIcons = [
     }
     .testimonials-students_label {
       position: relative;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       font-weight: var(--primary-medium);
       letter-spacing: 0.02em;
       text-transform: uppercase;
@@ -156,14 +156,13 @@ const statIcons = [
       font-weight: var(--primary-medium);
     }
     .testimonials-students_mark {
-      position: absolute;
-      top: 6.5rem;
-      left: 1.75rem;
-      width: 2.4rem;
+      width: 1.6rem;
+      margin-top: 0.75rem;
+      opacity: 0.6;
     }
     .testimonials-students_quote {
       display: -webkit-box;
-      margin-top: 2rem;
+      margin-top: 0.4rem;
       overflow: hidden;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -180,7 +179,7 @@ const statIcons = [
       position: absolute;
       right: 0;
       bottom: 0;
-      width: 55%;
+      width: 37%;
       height: 88%;
       object-fit: cover;
       object-position: top;

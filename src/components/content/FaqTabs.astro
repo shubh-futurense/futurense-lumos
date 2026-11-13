@@ -82,6 +82,16 @@ import { faqCategories } from "@/data/uni.ts";
     .faq-tabs_body {
       position: relative;
       text-align: start;
+      & .tabs_wrap {
+        gap: 2rem;
+      }
+      & .tabs_link {
+        padding-inline: 0.5rem;
+        &:first-child {
+          flex: none;
+          padding-inline: 2rem;
+        }
+      }
     }
     .faq-tabs_step {
       position: absolute;

@@ -7,6 +7,7 @@
  * controls="dots" clickable dots
  * controls="sides" arrows on the left and right of the slides, nothing below
  * bleed           let the slides run past the right edge of the page
+ * peek            keep the slides inside the container but show the ones outside it, up to the page edges
  */
 import type { HTMLAttributes } from "astro/types";
 import Icon from "@/components/media/Icon.astro";
@@ -22,14 +23,16 @@ type Props = HTMLAttributes<"div"> & {
   gap?: number;
   /** Run past the right edge of the container. */
   bleed?: boolean;
+  /** Show slides outside the container, cut off at the page edges. */
+  peek?: boolean;
 };
 
-const { render = true, controls = "bar", gap = 1.5, bleed = false, class: className, ...rest } = Astro.props;
+const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false, class: className, ...rest } = Astro.props;
 ---
 
 {render && (
   <div
-    class:list={["carousel_wrap", bleed && "bleed", controls === "sides" && "sides", className]}
+    class:list={["carousel_wrap", bleed && "bleed", peek && "peek", controls === "sides" && "sides", className]}
     data-carousel
     data-controls={controls}
     data-gap={gap}
@@ -134,6 +137,9 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
       &.bleed .carousel_viewport {
         margin-right: calc((100% - 100vw) / 2);
       }
+      &.peek .carousel_viewport {
+        overflow: visible;
+      }
     }
     .carousel_viewport {
       overflow: hidden;
@@ -148,6 +154,7 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
     .carousel_controls {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 1.5rem;
       margin-top: 1rem;
       .carousel_wrap.is-static & {
@@ -162,7 +169,7 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
     /* The bar under the slides: follows the slides and can be dragged */
     .carousel_scrollbar {
       position: relative;
-      flex: 1;
+      width: 85%;
       height: 0.25rem;
       border-radius: var(--radius-round);
       background-color: light-dark(var(--light-300), rgb(229 229 229 / 0.25));
