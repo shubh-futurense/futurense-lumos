@@ -22,6 +22,9 @@
   align-items: stretch;
   justify-content: center;
   position: relative;
+  /* Sliders and marquees run past the screen edge; cut them off here so phones
+     don't see a page wider than the screen (body clipping doesn't stop that). */
+  overflow-x: clip;
 }
 
 .container {
