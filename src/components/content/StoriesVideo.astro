@@ -16,7 +16,7 @@ import { videoStories } from "@/data/uni.ts";
   <Carousel gap={1} peek>
     {videoStories.map((v) => (
       <a class="stories-video_card" href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener">
-        <SiteImg class="stories-video_image" src={v.image} alt="Student story video" />
+        <SiteImg class="stories-video_image" src={v.image} alt="Student story video" size={460} quality="mid" />
         <span class="stories-video_play"><span class="stories-video_play_icon"><Icon src={play} variant="full-width" /></span></span>
       </a>
     ))}

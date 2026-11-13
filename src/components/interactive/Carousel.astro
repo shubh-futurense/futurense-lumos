@@ -36,6 +36,7 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
     data-carousel
     data-controls={controls}
     data-gap={gap}
+    style={`--_gap: ${gap}rem;`}
     {...rest}
   >
     <div class="swiper carousel_viewport">
@@ -78,7 +79,8 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
 
   const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
 
-  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+  // Start each slider only when it is about a screen away, so page load stays light.
+  const start = (carousel: HTMLElement) => {
     const viewport = carousel.querySelector<HTMLElement>(".swiper")!;
     const track = carousel.querySelector<HTMLElement>("[data-carousel-track]")!;
     [...track.children].forEach((child) => child.classList.add("swiper-slide"));
@@ -125,7 +127,22 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
     });
 
     carousel.dispatchEvent(new CustomEvent("carousel:ready", { detail: swiper }));
-  });
+  };
+
+  const idle = (fn: () => void) =>
+    "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 500 }) : setTimeout(fn, 1);
+
+  const watcher = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        watcher.unobserve(entry.target);
+        idle(() => start(entry.target as HTMLElement));
+      }
+    },
+    { rootMargin: "100% 0px" },
+  );
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => watcher.observe(carousel));
 </script>
 
 <style is:global>
@@ -146,6 +163,10 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
     }
     .carousel_track {
       display: flex;
+      gap: var(--_gap);
+      .swiper-initialized & {
+        gap: 0;
+      }
       & > * {
         flex-shrink: 0;
         height: auto;

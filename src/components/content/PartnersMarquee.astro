@@ -45,6 +45,9 @@ const copies = [0, 1, 2];
     }
     .partners-marquee_scroll {
       display: flex;
+      /* Same as the script sets for a scroll speed of 10, so nothing jumps when it starts */
+      width: 120%;
+      margin-left: -10%;
       will-change: transform;
     }
     .partners-marquee_list {

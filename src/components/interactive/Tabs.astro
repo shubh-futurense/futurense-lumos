@@ -175,7 +175,7 @@ const panels = await slotContent(Astro.slots);
       );
     };
 
-    const show = (next: number, focus = false, share = true) => {
+    const show = (next: number, focus = false, share = true, scroll = true) => {
       const index = (next + links.length) % links.length;
       if (index !== current) {
         tabs.style.setProperty("--_dir", next > current ? "1" : "-1");
@@ -200,7 +200,7 @@ const panels = await slotContent(Astro.slots);
       current = index;
       if (share) remember(index);
       if (focus) links[index].focus();
-      keepInView(links[index]);
+      if (scroll) keepInView(links[index]);
       restart();
     };
 
@@ -239,7 +239,7 @@ const panels = await slotContent(Astro.slots);
     const wanted = slugs.indexOf(
       new URLSearchParams(location.search).get(key) ?? "",
     );
-    show(wanted === -1 ? 0 : wanted, false, false);
+    show(wanted === -1 ? 0 : wanted, false, false, wanted !== -1);
     if (wanted !== -1) tabs.scrollIntoView({ block: "nearest" });
 
     if (!auto) continue;

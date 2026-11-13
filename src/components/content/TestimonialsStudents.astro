@@ -24,7 +24,7 @@ const statIcons = [
         {stats.map((s, i) => (
           <div class="testimonials-students_stat">
             <div class="testimonials-students_stat_inner">
-              <SiteImg class="testimonials-students_stat_icon" src={statIcons[i]} transparent />
+              <SiteImg class="testimonials-students_stat_icon" src={statIcons[i]} transparent size={100} />
               <p class="testimonials-students_value">{s.value}{s.suffix && <span class="testimonials-students_suffix">{s.suffix}</span>}</p>
               <p class="testimonials-students_label">{s.label}</p>
             </div>
@@ -44,7 +44,7 @@ const statIcons = [
             <p class="testimonials-students_quote">{t.quote}</p>
             {t.logo && <SiteImg class="testimonials-students_logo" src={t.logo} transparent size={190} />}
           </div>
-          <SiteImg class="testimonials-students_photo" src={t.photo} alt={t.name} transparent />
+          <SiteImg class="testimonials-students_photo" src={t.photo} alt={t.name} transparent size={260} quality="mid" />
         </article>
         </div>
       ))}

@@ -174,12 +174,14 @@
 }
 
 /* Scroll reveal: hidden until GSAP fades it in, only when JavaScript runs */
-html.js [data-reveal] {
+html.js [data-reveal]:not(.is-revealed) {
   opacity: 0;
+  translate: 0 6rem;
 }
 @media (prefers-reduced-motion: reduce) {
-  html.js [data-reveal] {
+  html.js [data-reveal]:not(.is-revealed) {
     opacity: 1;
+    translate: none;
   }
 }
 

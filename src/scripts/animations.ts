@@ -16,17 +16,32 @@ gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
 // ---------- Fade up on scroll (same values as the live site) ----------
-// Add data-reveal to any element to use it.
-if (!reduceMotion) {
-  document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
-    gsap.set(el, { opacity: 0, y: '6rem' });
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 92%',
-      once: true,
-      onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: 'power4.out' }),
-    });
-  });
+// Add data-reveal to any element to use it. CSS hides it and drops it 6rem;
+// an IntersectionObserver plays the fade without measuring the page on load.
+const revealed = (el: Element) => el.classList.add('is-revealed');
+const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+if (reduceMotion || !('IntersectionObserver' in window)) {
+  revealEls.forEach(revealed);
+} else {
+  const revealer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const el = entry.target as HTMLElement;
+        revealer.unobserve(el);
+        el.animate(
+          [
+            { opacity: 0, translate: '0 6rem' },
+            { opacity: 1, translate: '0 0' },
+          ],
+          { duration: 1000, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+        );
+        revealed(el);
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px' },
+  );
+  revealEls.forEach((el) => revealer.observe(el));
 }
 
 // ---------- Back to top button ----------
@@ -43,7 +58,7 @@ if (backToTop) {
 }
 
 // ---------- Logo marquee: loops, flips direction with scroll, and shifts as you scroll ----------
-document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((marquee) => {
+const startMarquees = () => document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((marquee) => {
   const scroller = marquee.querySelector<HTMLElement>('[data-marquee-scroll]')!;
   const items = marquee.querySelectorAll<HTMLElement>('[data-marquee-collection]');
   const speedAttr = Number(marquee.dataset.marqueeSpeed) || 15;
@@ -71,6 +86,12 @@ document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((marquee) => {
   gsap.timeline({ scrollTrigger: { trigger: marquee, start: '0% 100%', end: '100% 0%', scrub: 0 } })
     .fromTo(scroller, { x: `${start}vw` }, { x: `${-start}vw`, ease: 'none' });
 });
+
+// Measuring the logos forces a layout, so wait until the page has loaded and the browser is idle.
+const whenIdle = (fn: () => void) =>
+  'requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 200);
+if (document.readyState === 'complete') whenIdle(startMarquees);
+else window.addEventListener('load', () => whenIdle(startMarquees), { once: true });
 
 // Recalculate positions once images have loaded
 window.addEventListener('load', () => ScrollTrigger.refresh());

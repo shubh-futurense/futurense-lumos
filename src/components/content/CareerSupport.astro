@@ -17,7 +17,7 @@ import { careerSupport } from "@/data/uni.ts";
     {careerSupport.map((c) => (
       <article class="career-support_card" data-reveal>
         <div class="career-support_inner">
-          <SiteImg class="career-support_image" src={c.image} />
+          <SiteImg class="career-support_image" src={c.image} size={340} quality="mid" />
           <div class="career-support_text theme-dark">
             <h3 class="text-style-h4 career-support_title">{c.title}</h3>
             <p class="text-style-small color-faded">{c.text}</p>

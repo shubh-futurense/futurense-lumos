@@ -17,7 +17,7 @@ import { LIVE } from "@/data/site.ts";
     {media.map((m) => (
       <article class="media-spotlight_card">
         <div class="media-spotlight_inner">
-          <SiteImg class="media-spotlight_image" src={m.image} />
+          <SiteImg class="media-spotlight_image" src={m.image} size={400} quality="mid" />
           <h3 class="text-style-h4">{m.title}</h3>
           <SiteImg class="media-spotlight_logo" src={m.logo} transparent size={400} />
           <div class="media-spotlight_foot">

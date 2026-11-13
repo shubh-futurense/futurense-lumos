@@ -13,7 +13,7 @@ import { LIVE } from "@/data/site.ts";
 <Section gap="0">
   <div class="council-members_wrap">
     <div class="council-members_head">
-      <SiteImg class="council-members_logo" src={flcLogo} alt="Futurense Leadership Council" transparent />
+      <SiteImg class="council-members_logo" src={flcLogo} alt="Futurense Leadership Council" transparent size={160} />
       <Heading tag="h2" class="heading-accent margin-top-2">
         The Council that Powers The Next wave of <em>Talent</em>
       </Heading>
@@ -23,7 +23,7 @@ import { LIVE } from "@/data/site.ts";
       {flcMembers.map((m) => (
         <article class="council-members_card">
           <a href={`${LIVE}/futurense-leadership-council`} class="council-members_media">
-            <SiteImg class="council-members_photo" src={m.photo} alt={m.name} />
+            <SiteImg class="council-members_photo" src={m.photo} alt={m.name} size={440} quality="mid" />
             <span class="council-members_play"><span class="council-members_play_icon"><Icon src={play} variant="full-width" /></span></span>
           </a>
           <div class="council-members_card_head">

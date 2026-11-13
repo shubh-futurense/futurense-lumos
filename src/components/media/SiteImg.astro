@@ -17,9 +17,11 @@ type Props = Omit<HTMLAttributes<"img">, "src"> & {
   transparent?: boolean;
   /** Width it displays at, in pixels, for small images like faces and logos. Keeps the files tiny. */
   size?: number;
+  /** Compression level for the optimized file. */
+  quality?: "low" | "mid" | "high" | "max";
 };
 
-const { src, alt = "", loading = "lazy", transparent = false, size, class: className, width: _w, height: _h, sizes: _s, ...rest } = Astro.props;
+const { src, alt = "", loading = "lazy", transparent = false, size, quality, class: className, width: _w, height: _h, sizes: _s, ...rest } = Astro.props;
 
 const local = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/cdn/*.{avif,jpg,jpeg,png,webp}",
@@ -32,9 +34,9 @@ const asset = local[`/src/assets/cdn/${localName}`]?.default;
 
 {asset ? (
   size ? (
-    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} {...rest} variant="constrained" width={size} sizes={`${size}px`} />
+    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} quality={quality} {...rest} variant="constrained" width={size} sizes={`${size}px`} />
   ) : (
-    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} {...rest} variant="full-width" />
+    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} quality={quality} {...rest} variant="full-width" />
   )
 ) : (
   <img
