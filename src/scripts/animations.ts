@@ -16,7 +16,7 @@ gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
 // ---------- Fade up on scroll (same values as the live site) ----------
-// Add data-reveal to any element to use it. CSS hides it and drops it 6rem;
+// Add data-reveal to any element to use it. CSS hides it, then it rises 6rem as it fades in;
 // an IntersectionObserver plays the fade without measuring the page on load.
 const revealed = (el: Element) => el.classList.add('is-revealed');
 const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
