@@ -25,7 +25,7 @@ const statIcons = [
           <div class="testimonials-students_stat">
             <div class="testimonials-students_stat_inner">
               <SiteImg class="testimonials-students_stat_icon" src={statIcons[i]} transparent />
-              <p class="testimonials-students_value">{s.value}{s.suffix && <span> {s.suffix}</span>}</p>
+              <p class="testimonials-students_value">{s.value}{s.suffix && <span class="testimonials-students_suffix">{s.suffix}</span>}</p>
               <p class="testimonials-students_label">{s.label}</p>
             </div>
           </div>
@@ -33,8 +33,9 @@ const statIcons = [
       </div>
     </div>
 
-    <Carousel gap={1}>
+    <Carousel controls="sides" gap={0}>
       {studentTestimonials.map((t) => (
+        <div class="testimonials-students_slide">
         <article class="testimonials-students_card theme-dark">
           <div class="testimonials-students_card_text">
             <span class="testimonials-students_mark"><Icon src={quote} variant="full-width" /></span>
@@ -45,6 +46,7 @@ const statIcons = [
           </div>
           <SiteImg class="testimonials-students_photo" src={t.photo} alt={t.name} transparent />
         </article>
+        </div>
       ))}
     </Carousel>
   </div>
@@ -86,6 +88,9 @@ const statIcons = [
       overflow: hidden;
       padding: 1.125rem 2.5rem;
       border-radius: var(--radius-main);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       background-color: var(--background);
       text-align: center;
       @media (width < 30rem) {
@@ -101,10 +106,13 @@ const statIcons = [
     }
     .testimonials-students_value {
       position: relative;
-      font-size: var(--h3);
+      font-size: var(--h2);
       font-weight: var(--primary-bold);
       line-height: 1.2;
       color: var(--purple-400);
+    }
+    .testimonials-students_suffix {
+      margin-left: 0.5rem;
     }
     .testimonials-students_label {
       position: relative;
@@ -115,10 +123,14 @@ const statIcons = [
       color: var(--slate-800);
     }
 
+    .testimonials-students_slide {
+      width: 100%;
+      padding-inline: 1.5rem;
+    }
     .testimonials-students_card {
       position: relative;
       width: 100%;
-      min-height: 21rem;
+      height: 21.2rem;
       display: flex;
       overflow: hidden;
       border: var(--border-width) solid var(--purple-300);
@@ -131,11 +143,11 @@ const statIcons = [
     .testimonials-students_card_text {
       position: relative;
       z-index: 1;
-      width: 62%;
+      width: 61.7%;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      padding: 1.75rem;
+      gap: 0.25rem;
+      margin: 1.75rem 0 1.75rem 1.75rem;
       @media (width < 30rem) {
         width: 100%;
       }
@@ -151,9 +163,9 @@ const statIcons = [
     }
     .testimonials-students_quote {
       display: -webkit-box;
-      margin-top: 2.5rem;
+      margin-top: 2rem;
       overflow: hidden;
-      -webkit-line-clamp: 5;
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
     }
     .testimonials-students_logo {

@@ -19,7 +19,7 @@ import { LIVE } from "@/data/site.ts";
       </Heading>
     </div>
 
-    <Carousel bleed>
+    <Carousel gap={1}>
       {flcMembers.map((m) => (
         <article class="council-members_card">
           <a href={`${LIVE}/futurense-leadership-council`} class="council-members_media">
@@ -38,13 +38,13 @@ import { LIVE } from "@/data/site.ts";
       ))}
     </Carousel>
 
-    <div class="council-members_quotes_title">
+    <div class="council-members_quotes_title margin-trim">
       <Heading tag="h2" class="heading-accent">
         Hear It From <strong>Our FLC Leaders</strong>
       </Heading>
     </div>
 
-    <Carousel bleed>
+    <Carousel gap={1}>
       {flcQuotes.map((q) => (
         <article class="council-members_quote">
           <div class="council-members_quote_head">
@@ -77,6 +77,12 @@ import { LIVE } from "@/data/site.ts";
       display: flex;
       flex-direction: column;
       gap: 4rem;
+      & > .council-members_quotes_title {
+        margin-top: 2rem;
+      }
+      & > .council-members_video {
+        margin-top: 1rem;
+      }
     }
     .council-members_head {
       max-width: 38rem;
@@ -92,7 +98,6 @@ import { LIVE } from "@/data/site.ts";
       --heading-accent: var(--text);
     }
     .council-members_quotes_title {
-      margin-top: 2rem;
       text-align: center;
     }
 
@@ -123,14 +128,14 @@ import { LIVE } from "@/data/site.ts";
     }
 
     .council-members_card {
-      width: 26rem;
+      width: calc((100% - 2rem) / 3);
       padding: 1.5rem;
       border-radius: var(--radius-small);
       background: linear-gradient(rgb(201 87 253 / 0.08), rgb(227 205 255 / 0.25)), var(--light-100);
       @media (width < 64rem) {
-        width: 22rem;
+        width: calc((100% - 1rem) / 2);
       }
-      @media (width < 30rem) {
+      @media (width < 48rem) {
         width: 85%;
       }
     }
@@ -171,11 +176,11 @@ import { LIVE } from "@/data/site.ts";
     }
 
     .council-members_quote {
-      width: 39rem;
-      min-height: 16.4rem;
-      padding: 1.5rem;
+      width: calc((100% - 1rem) / 2);
+      min-height: 16.5rem;
+      padding: 2rem 1.5rem;
       border-radius: var(--radius-medium);
-      background: linear-gradient(#cfb9ff, var(--light-100));
+      background: linear-gradient(rgb(226 213 255), rgb(117 67 227 / 0));
       @media (width < 64rem) {
         width: 85%;
       }
@@ -216,7 +221,7 @@ import { LIVE } from "@/data/site.ts";
       display: -webkit-box;
       margin-top: 1.5rem;
       overflow: hidden;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
 
@@ -226,7 +231,6 @@ import { LIVE } from "@/data/site.ts";
     .council-members_video {
       position: relative;
       display: block;
-      margin-top: 2rem;
       overflow: hidden;
       border-radius: var(--radius-main);
       background-color: var(--dark-900);

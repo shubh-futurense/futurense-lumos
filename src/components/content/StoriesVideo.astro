@@ -8,12 +8,12 @@ import play from "@/assets/icons/play-solid.svg";
 import { videoStories } from "@/data/uni.ts";
 ---
 
-<Section theme="dark" gap="7">
+<Section theme="dark" gap="6">
   <div slot="background" class="stories-video_bg" />
-  <Heading tag="h2" class="heading-accent alignment-center align-self-center" maxWidth={24}>
+  <Heading tag="h2" class="heading-accent alignment-center align-self-center" maxWidth={26}>
     Making a <strong>Difference</strong>, One Professional at a Time
   </Heading>
-  <Carousel bleed>
+  <Carousel gap={1}>
     {videoStories.map((v) => (
       <a class="stories-video_card" href={`https://www.youtube.com/watch?v=${v.youtubeId}`} target="_blank" rel="noopener">
         <SiteImg class="stories-video_image" src={v.image} alt="Student story video" />
@@ -26,14 +26,17 @@ import { videoStories } from "@/data/uni.ts";
 <style is:global>
   @layer components {
     .stories-video_bg {
-      background: linear-gradient(180deg, var(--dark-900) 0%, var(--dark-700) 100%);
+      background-color: var(--dark-900);
     }
     .stories-video_card {
       position: relative;
-      width: 26rem;
+      width: calc((100% - 2rem) / 3);
       overflow: hidden;
       border-radius: var(--radius-small);
-      @media (width < 30rem) {
+      @media (width < 64rem) {
+        width: calc((100% - 1rem) / 2);
+      }
+      @media (width < 48rem) {
         width: 85%;
       }
     }

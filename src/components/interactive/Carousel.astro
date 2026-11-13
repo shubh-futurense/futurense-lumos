@@ -5,6 +5,7 @@
  *
  * controls="bar"  draggable scrollbar plus arrows
  * controls="dots" clickable dots
+ * controls="sides" arrows on the left and right of the slides, nothing below
  * bleed           let the slides run past the right edge of the page
  */
 import type { HTMLAttributes } from "astro/types";
@@ -16,7 +17,7 @@ type Props = HTMLAttributes<"div"> & {
   /** Set to `false` to omit the component. */
   render?: boolean;
   /** Control style under the slides. */
-  controls?: "bar" | "dots";
+  controls?: "bar" | "dots" | "sides";
   /** Space between slides, in rem. */
   gap?: number;
   /** Run past the right edge of the container. */
@@ -28,7 +29,7 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
 
 {render && (
   <div
-    class:list={["carousel_wrap", bleed && "bleed", className]}
+    class:list={["carousel_wrap", bleed && "bleed", controls === "sides" && "sides", className]}
     data-carousel
     data-controls={controls}
     data-gap={gap}
@@ -43,6 +44,15 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
       <div class="carousel_controls dots">
         <div class="carousel_dots" data-carousel-dots />
       </div>
+    ) : controls === "sides" ? (
+      <Fragment>
+        <button class="carousel_side" type="button" data-carousel-prev aria-label="Previous">
+          <Icon src={chevronLeft} />
+        </button>
+        <button class="carousel_side next" type="button" data-carousel-next aria-label="Next">
+          <Icon src={chevronRight} />
+        </button>
+      </Fragment>
     ) : (
       <div class="carousel_controls">
         <div class="carousel_scrollbar" data-carousel-scrollbar />
@@ -139,13 +149,13 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
       display: flex;
       align-items: center;
       gap: 1.5rem;
-      margin-top: 2.5rem;
+      margin-top: 1rem;
       .carousel_wrap.is-static & {
         visibility: hidden;
       }
       &.dots {
         justify-content: center;
-        margin-top: 2rem;
+        margin-top: 1.1rem;
       }
     }
 
@@ -193,6 +203,28 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, class: classN
       }
       &.is-disabled {
         opacity: 0.4;
+        cursor: default;
+      }
+    }
+
+    /* Arrows at the sides, vertically centred on the slides */
+    .carousel_side {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      z-index: 2;
+      translate: 0 -50%;
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 3rem;
+      color: var(--purple-400);
+      &.next {
+        left: auto;
+        right: 0;
+      }
+      &.is-disabled {
+        opacity: 0.35;
         cursor: default;
       }
     }

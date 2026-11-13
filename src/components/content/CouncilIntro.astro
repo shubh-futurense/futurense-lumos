@@ -41,8 +41,8 @@ import { img } from "@/data/site.ts";
     .council-intro_layout {
       width: 100%;
       display: grid;
-      grid-template-columns: 0.57fr 1fr;
-      align-items: center;
+      grid-template-columns: 1fr 1.75fr;
+      align-items: start;
       gap: 2rem;
       @media (width < 64rem) {
         grid-template-columns: 1fr;
@@ -53,8 +53,9 @@ import { img } from "@/data/site.ts";
     }
     .council-intro_pillars {
       display: grid;
-      grid-template-columns: 8rem 1fr;
+      grid-template-columns: 13.6rem 1fr;
       align-items: stretch;
+      min-height: 22.35rem;
       @media (width < 48rem) {
         grid-template-columns: 1fr;
       }
@@ -71,19 +72,20 @@ import { img } from "@/data/site.ts";
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 2rem;
+      gap: 1rem;
     }
     .council-intro_item {
       display: grid;
-      grid-template-columns: 2.5rem 1fr;
-      align-items: start;
-      gap: 0.75rem;
+      grid-template-columns: 4rem 1fr;
+      align-items: center;
+      gap: 0.5rem;
     }
     .council-intro_icon {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 4rem;
+      height: 4rem;
     }
     .council-intro_title {
+      margin-bottom: 0.25rem;
       font-weight: var(--primary-bold);
       color: #523979;
     }
