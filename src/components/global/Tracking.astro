@@ -1,0 +1,59 @@
+---
+/**
+ * Marketing tags copied from futurense.com (Webflow site settings and custom code):
+ * Google Ads + Google Analytics (gtag.js), Google Tag Manager and Microsoft Clarity.
+ *
+ * They only run on futurense.com, so preview copies (GitHub Pages, local) never
+ * count visits or ad conversions.
+ */
+
+interface Props {
+  /** Google Ads conversion to report on this page, e.g. "AW-16634577510/bmz4CKzQ4-0aEOaE_vs9". */
+  conversion?: string;
+}
+
+const { conversion } = Astro.props;
+
+const config = {
+  hosts: ["futurense.com", "www.futurense.com"],
+  ads: "AW-16634577510",
+  analytics: "G-09S1J7F1NM",
+  gtm: "GTM-WLG7RVMT",
+  clarity: "owrz7ebjgx",
+  conversion: conversion ?? null,
+};
+---
+
+<script is:inline define:vars={{ config }}>
+  (function () {
+    if (!config.hosts.includes(location.hostname)) return;
+
+    // Google tag (gtag.js): Google Ads + Google Analytics
+    var g = document.createElement("script");
+    g.async = true;
+    g.src = "https://www.googletagmanager.com/gtag/js?id=" + config.ads;
+    document.head.appendChild(g);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", config.ads);
+    window.gtag("config", config.analytics);
+    if (config.conversion) window.gtag("event", "conversion", { send_to: config.conversion });
+
+    // Google Tag Manager, loaded after the page like on futurense.com
+    window.addEventListener("load", function () {
+      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var t = document.createElement("script");
+      t.async = true;
+      t.src = "https://www.googletagmanager.com/gtm.js?id=" + config.gtm;
+      document.head.appendChild(t);
+    });
+
+    // Microsoft Clarity
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", config.clarity);
+  })();
+</script>

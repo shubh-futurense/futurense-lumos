@@ -3,6 +3,7 @@ import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/consts.ts";
 import { isNoindexRoute } from "@/utils/seo.ts";
 import { withBase } from "@/utils/base.ts";
 import type { SeoProps } from "@/types.ts";
+import Tracking from "@/components/global/Tracking.astro";
 import fontRegular from "@/assets/fonts/sf-pro-400.woff2?url";
 import fontBold from "@/assets/fonts/sf-pro-700.woff2?url";
 
@@ -15,6 +16,7 @@ const {
   type = "website",
   noindex,
   exactTitle = false,
+  conversion,
 } = Astro.props;
 
 // The page path without the GitHub Pages sub-folder, e.g. "/uni".
@@ -59,4 +61,7 @@ const socialImage = new URL(image, Astro.site);
 
 <link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
 <link rel="icon" href={withBase("favicon.ico")} />
+
+<!-- Google Ads, Analytics, Tag Manager and Clarity (futurense.com only) -->
+<Tracking conversion={conversion} />
 <meta name="generator" content={Astro.generator} />

@@ -1,0 +1,83 @@
+---
+/**
+ * Futurense AI chatbot, copied from the embed on the live program pages.
+ * The chatbot app loads once the page has finished loading, so it never slows the first screen.
+ */
+
+interface Props {
+  /** Course code the chatbot answers about, e.g. "bscai". */
+  course: string;
+  /** Accessible name of the chat window. */
+  title?: string;
+}
+
+const { course, title = "Futurense AI Chatbot" } = Astro.props;
+const src = `https://futurense-chatbot.vercel.app/?course=${encodeURIComponent(course)}`;
+---
+
+<div class="chatbot_wrap" data-chatbot data-src={src} data-title={title}></div>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>("[data-chatbot]");
+  if (wrap) {
+    const sizes = {
+      closed: { maxWidth: "300px", maxHeight: "90px", bottom: "20px", right: "20px", borderRadius: "20px" },
+      desktop: { maxWidth: "380px", maxHeight: "calc(100vh - 40px)", bottom: "20px", right: "20px", borderRadius: "20px" },
+      mobile: { maxWidth: "100vw", maxHeight: "100vh", bottom: "0", right: "0", borderRadius: "0" },
+    };
+    let open = false;
+    const apply = () => Object.assign(wrap.style, open ? (innerWidth < 768 ? sizes.mobile : sizes.desktop) : sizes.closed);
+
+    const start = () => {
+      const frame = document.createElement("iframe");
+      frame.src = wrap.dataset.src!;
+      frame.title = wrap.dataset.title!;
+      frame.allow = "microphone; camera";
+      frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
+      frame.setAttribute("scrolling", "no");
+      wrap.append(frame);
+    };
+    const idle = (fn: () => void) => ("requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 3000 }) : setTimeout(fn, 1500));
+    if (document.readyState === "complete") idle(start);
+    else addEventListener("load", () => idle(start), { once: true });
+
+    // The chatbot tells the page when it opens or closes.
+    addEventListener("message", (event) => {
+      if (event.data?.type === "chatbot_expanded") open = true;
+      else if (event.data?.type === "chatbot_minimized") open = false;
+      else return;
+      apply();
+    });
+    addEventListener("resize", () => open && apply());
+  }
+</script>
+
+<style is:global>
+  @layer components {
+    .chatbot_wrap {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1000;
+      width: 100%;
+      height: 100%;
+      max-width: 300px;
+      max-height: 90px;
+      overflow: hidden;
+      border-radius: 20px;
+      pointer-events: none;
+      transition: max-width 0.4s ease-in-out, max-height 0.4s ease-in-out;
+      &:has(iframe) {
+        pointer-events: auto;
+      }
+      & iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background-color: transparent;
+      }
+    }
+  }
+</style>

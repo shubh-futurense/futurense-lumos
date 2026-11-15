@@ -12,4 +12,6 @@ export interface SeoProps {
   noindex?: boolean;
   /** Use the title exactly as given, without adding the site name. */
   exactTitle?: boolean;
+  /** Google Ads conversion to report when this page loads (thank-you pages). */
+  conversion?: string;
 }

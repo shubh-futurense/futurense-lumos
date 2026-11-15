@@ -10,6 +10,7 @@ import SkipLink from "@/components/global/SkipLink.astro";
 import ProgramNav from "@/components/global/ProgramNav.astro";
 import ProgramFooter from "@/components/global/ProgramFooter.astro";
 import BackToTop from "@/components/global/BackToTop.astro";
+import Chatbot from "@/components/global/Chatbot.astro";
 import type { SeoProps } from "@/types.ts";
 
 type Props = SeoProps & {
@@ -23,9 +24,11 @@ type Props = SeoProps & {
   brand?: string;
   /** Structured data (JSON-LD) objects for search engines. */
   schema?: readonly object[];
+  /** Course code for the Futurense AI chatbot. Omit to leave the chatbot out. */
+  chatbot?: string;
 };
 
-const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], ...seo } = Astro.props;
+const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, ...seo } = Astro.props;
 ---
 
 <!doctype html>
@@ -44,6 +47,7 @@ const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], ...seo } = Astr
     </main>
     <ProgramFooter logo={footerLogo} phone={phone} />
     <BackToTop />
+    {chatbot && <Chatbot course={chatbot} title="IIT Jodhpur AI Chatbot" />}
     <script>
       import "@/scripts/animations.ts";
     </script>
