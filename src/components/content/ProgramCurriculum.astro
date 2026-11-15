@@ -55,7 +55,7 @@ const plain = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "
 <style is:global>
   @layer components {
     .program-curriculum_wrap {
-      padding: var(--section-space-medium) var(--site-margin);
+      padding: var(--section-space-medium) var(--site-margin) calc(var(--section-space-medium) + 1rem);
       background-color: var(--brand-soft);
       color: var(--dark-900);
     }
@@ -71,7 +71,7 @@ const plain = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "
     }
     .program-curriculum_list {
       max-width: 49rem;
-      margin: 2rem auto 0;
+      margin: 3rem auto 0;
       text-align: start;
       & .accordion_title {
         font-size: 1.125rem;

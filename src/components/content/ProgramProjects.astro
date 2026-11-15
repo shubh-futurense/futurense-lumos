@@ -32,7 +32,7 @@ const { projects } = Astro.props;
 <style is:global>
   @layer components {
     .program-projects_wrap {
-      padding: var(--section-space-medium) var(--site-margin);
+      padding: var(--section-space-medium) var(--site-margin) calc(var(--section-space-medium) + 1rem);
       background-color: var(--brand);
       color: var(--light-100);
       text-align: center;
