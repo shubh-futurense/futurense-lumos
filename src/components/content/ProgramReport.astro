@@ -1,0 +1,69 @@
+---
+/** Slider of "why now" facts, each with an illustration. */
+import Carousel from "@/components/interactive/Carousel.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+
+interface Props {
+  slides: readonly { title: string; body: string; image: string }[];
+}
+
+const { slides } = Astro.props;
+---
+
+<section class="program-report_wrap">
+  <div class="program-report_inner">
+    <Carousel controls="bar" gap={1} style="--carousel-thumb: #003f87;">
+      {slides.map((s) => (
+        <article class="program-report_slide">
+          <div class="program-report_text">
+            <h2 class="program-report_title">{s.title}</h2>
+            <div class="program-report_body" set:html={s.body} />
+          </div>
+          <SiteImg class="program-report_image" src={s.image} alt="" size={500} />
+        </article>
+      ))}
+    </Carousel>
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-report_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-report_inner {
+      max-width: var(--max-width-medium);
+      margin-inline: auto;
+    }
+    .program-report_slide {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 5.5rem;
+      padding-inline: 0.3rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        & .program-report_image {
+          order: -1;
+        }
+      }
+    }
+    .program-report_title {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: var(--primary-bold);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .program-report_image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+  }
+</style>

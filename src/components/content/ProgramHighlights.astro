@@ -1,0 +1,147 @@
+---
+/** Program highlights list beside a sample degree certificate that zooms on click. */
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Icon from "@/components/media/Icon.astro";
+import { img } from "@/data/site.ts";
+import check from "@/assets/icons/program/check-circle.svg";
+
+interface Props {
+  highlights: { title: string; points: readonly string[]; image: string };
+}
+
+const { highlights } = Astro.props;
+---
+
+<section class="program-highlights_wrap">
+  <Heading tag="h2" variant="h2" class="alignment-center"><span class="program-gradient">{highlights.title}</span></Heading>
+  <div class="program-highlights_layout">
+    <ul class="program-highlights_list" role="list">
+      {highlights.points.map((p) => (
+        <li class="program-highlights_point"><Icon src={check} />{p}</li>
+      ))}
+    </ul>
+    <div class="program-highlights_media">
+      <button class="program-highlights_thumb" type="button" data-zoom-open aria-label="Zoom in on the sample degree certificate">
+        <SiteImg src={highlights.image} alt="Sample B.S/B.Sc degree certificate from IIT Jodhpur" size={500} />
+        <span class="program-highlights_overlay" aria-hidden="true">Zoom In</span>
+      </button>
+      <p class="program-highlights_caption">Click Image to Zoom</p>
+    </div>
+  </div>
+  <dialog class="program-highlights_zoom" data-zoom aria-label="Sample degree certificate">
+    <p>Click anywhere to minimize image.</p>
+    <img src={img(highlights.image)} alt="Sample B.S/B.Sc degree certificate from IIT Jodhpur" loading="lazy" />
+  </dialog>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".program-highlights_wrap").forEach((wrap) => {
+    const dialog = wrap.querySelector<HTMLDialogElement>("[data-zoom]")!;
+    wrap.querySelector("[data-zoom-open]")?.addEventListener("click", () => dialog.showModal());
+    dialog.addEventListener("click", () => dialog.close());
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .program-highlights_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--brand-soft);
+      color: var(--dark-900);
+    }
+    .program-highlights_layout {
+      max-width: var(--max-width-medium);
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5.5rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+    .program-highlights_list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding-top: 5.5rem;
+      @media (width < 64rem) {
+        padding-top: 0;
+      }
+    }
+    .program-highlights_point {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      & .icon {
+        flex-shrink: 0;
+        width: 1.5rem;
+        margin-top: 0.25rem;
+        color: var(--brand-red);
+      }
+    }
+    .program-highlights_thumb {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.75rem;
+      background-color: rgb(255 255 255 / 0.1);
+      cursor: zoom-in;
+      & img {
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        object-fit: cover;
+        border-radius: 0.625rem;
+      }
+    }
+    .program-highlights_overlay {
+      position: absolute;
+      inset: 0.5rem 0.75rem;
+      display: grid;
+      place-items: center;
+      border-radius: 0.625rem;
+      background-color: rgb(19 19 19 / 0.6);
+      color: var(--light-100);
+      opacity: 0;
+      transition: opacity var(--hover-duration) var(--hover-ease);
+    }
+    .program-highlights_thumb:hover .program-highlights_overlay,
+    .program-highlights_thumb:focus-visible .program-highlights_overlay {
+      opacity: 1;
+    }
+    .program-highlights_caption {
+      margin-top: 0.5rem;
+      font-weight: var(--primary-medium);
+      text-align: center;
+      @media (width < 48rem) {
+        display: none;
+      }
+    }
+    .program-highlights_zoom {
+      max-width: min(90vw, 70rem);
+      max-height: 92vh;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: zoom-out;
+      &::backdrop {
+        background-color: rgb(0 0 0 / 0.85);
+      }
+      & p {
+        margin-bottom: 0.75rem;
+        color: var(--light-100);
+        text-align: center;
+      }
+      & img {
+        max-height: 82vh;
+        width: auto;
+        margin-inline: auto;
+        border-radius: 0.5rem;
+      }
+    }
+  }
+</style>

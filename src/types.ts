@@ -10,4 +10,6 @@ export interface SeoProps {
   type?: "website" | "article";
   /** Override `NOINDEX_ROUTES` for this page's robots tag. */
   noindex?: boolean;
+  /** Use the title exactly as given, without adding the site name. */
+  exactTitle?: boolean;
 }

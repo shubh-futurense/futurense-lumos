@@ -1,0 +1,73 @@
+---
+/** Closing call to action on a tinted campus photo. */
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+
+interface Props {
+  cta: { title: string; text: string; button: string; image: string };
+}
+
+const { cta } = Astro.props;
+---
+
+<section class="program-cta_wrap">
+  <div class="program-cta_card">
+    <SiteImg class="program-cta_image" src={cta.image} alt="" size={1400} />
+    <div class="program-cta_content">
+      <Heading tag="h2" variant="h3">{cta.title}</Heading>
+      <p>{cta.text}</p>
+      <Button element="link" href="#header">{cta.button}</Button>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-cta_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--light-100);
+    }
+    .program-cta_card {
+      position: relative;
+      max-width: var(--max-width-main);
+      margin-inline: auto;
+      overflow: hidden;
+      border-radius: 0.75rem;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: color-mix(in srgb, var(--brand) 65%, transparent);
+      }
+    }
+    .program-cta_image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .program-cta_content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 1.5rem;
+      color: var(--light-100);
+      text-align: center;
+      --button-background: var(--light-100);
+      --button-border: var(--light-100);
+      --button-text: var(--dark-900);
+      --button-background-hover: var(--light-200);
+      --button-border-hover: var(--light-200);
+      --button-text-hover: var(--dark-900);
+      & p {
+        margin-block: 1.5rem 2rem;
+        font-size: var(--text-large);
+        line-height: 1.4;
+      }
+    }
+  }
+</style>

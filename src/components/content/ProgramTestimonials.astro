@@ -1,0 +1,82 @@
+---
+/** Learner testimonials, one per slide. */
+import Heading from "@/components/typography/Heading.astro";
+import Carousel from "@/components/interactive/Carousel.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+
+interface Props {
+  testimonials: { title: string; items: readonly { name: string; role: string; quote: string; image: string; alt: string }[] };
+}
+
+const { testimonials } = Astro.props;
+---
+
+<section class="program-testimonials_wrap">
+  <Heading tag="h2" variant="h2" class="alignment-center"><span class="program-gradient">{testimonials.title}</span></Heading>
+  <div class="program-testimonials_inner">
+    <Carousel controls="bar" gap={1} style="--carousel-thumb: var(--brand);">
+      {testimonials.items.map((t) => (
+        <article class="program-testimonials_slide">
+          <SiteImg class="program-testimonials_photo" src={t.image} alt={t.alt} size={280} />
+          <div>
+            <h3 class="program-testimonials_name">{t.name}</h3>
+            <p class="program-testimonials_role">{t.role}</p>
+            <p class="program-testimonials_quote">{t.quote}</p>
+          </div>
+        </article>
+      ))}
+    </Carousel>
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-testimonials_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-testimonials_inner {
+      max-width: var(--max-width-medium);
+      margin: 3rem auto 0;
+    }
+    .program-testimonials_slide {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 15.35rem 1fr;
+      align-items: start;
+      gap: 2rem;
+      padding-left: 0.3rem;
+      @media (width < 48rem) {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+    }
+    .program-testimonials_photo {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 1rem;
+      @media (width < 48rem) {
+        width: 10rem;
+      }
+    }
+    .program-testimonials_name {
+      font-size: 1.5rem;
+      font-weight: var(--primary-bold);
+      line-height: 1.2;
+    }
+    .program-testimonials_role {
+      font-size: var(--text-large);
+      line-height: 1.4;
+      color: #323e4a;
+    }
+    .program-testimonials_quote {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+  }
+</style>

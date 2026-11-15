@@ -14,6 +14,7 @@ const {
   image = withBase("og-image.jpg"),
   type = "website",
   noindex,
+  exactTitle = false,
 } = Astro.props;
 
 // The page path without the GitHub Pages sub-folder, e.g. "/uni".
@@ -23,7 +24,7 @@ const path = Astro.url.pathname.slice(base.length).replace(/\/$/, "") || "/";
 const isNoindex = noindex ?? isNoindexRoute(path);
 
 // Titles that already name the brand are used as they are.
-const pageTitle = !title ? SITE_NAME : title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+const pageTitle = !title ? SITE_NAME : exactTitle || title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
 // Canonical always points at futurense.com, so preview copies never compete with the real site.
 const canonical = new URL(path, SITE_URL);

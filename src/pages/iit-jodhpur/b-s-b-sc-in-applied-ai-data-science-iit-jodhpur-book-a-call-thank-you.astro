@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProgramThankYou from "@/components/content/ProgramThankYou.astro";
+
+// Shown after the lead form on the IIT Jodhpur B.S/B.Sc book-a-call page.
+const thanks = {
+  title: "Thank you for your interest",
+  brochure: "https://futurense-assets.s3.ap-south-1.amazonaws.com/brochures/IITJ+-+B.SB.Sc+in+Applied+AI+%26+Data+Science.pdf",
+  whatsapp: "919266586500",
+  phone: "08071811234",
+  apply: "https://applications.futurense.com/signup?program_code=IITJ-BSC-AADS&team_code=iitum8z",
+  video: { youtube: "Zir2zCMmgpM", image: "A/69d20131868147e3a7f81ebe_IIT%20Jodhpur%20-%20BSC.avif" },
+};
+---
+
+<BaseLayout
+  title="B.S/B.Sc in Applied AI & Data Science IIT Jodhpur Book a Call Thank You"
+  description="Achieve your IIT dream with Futurense Uni. Fast-track your career with degrees from top IITs, immersive live classes, campus experiences & MAANG leader mentorship."
+  exactTitle
+  noindex
+  overlap
+>
+  <ProgramThankYou thanks={thanks} />
+</BaseLayout>

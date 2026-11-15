@@ -1,0 +1,80 @@
+---
+/** "Who can apply" list beside a student photo. */
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Icon from "@/components/media/Icon.astro";
+import { programIcon } from "@/utils/programIcons.ts";
+
+interface Props {
+  who: { title: string; items: readonly { icon: string | null; title: string; html: string }[]; image: string; alt: string };
+}
+
+const { who } = Astro.props;
+---
+
+<section class="program-who_wrap">
+  <Heading tag="h2" variant="h2" class="alignment-center"><span class="program-gradient">{who.title}</span></Heading>
+  <div class="program-who_layout">
+    <ul class="program-who_list" role="list">
+      {who.items.map((w) => (
+        <li class="program-who_item">
+          <Icon src={programIcon(w.icon)} />
+          <div>
+            <h3 class="program-who_title">{w.title}</h3>
+            <div set:html={w.html} />
+          </div>
+        </li>
+      ))}
+    </ul>
+    <SiteImg class="program-who_image" src={who.image} alt={who.alt} size={540} />
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-who_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-who_layout {
+      max-width: var(--max-width-medium);
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3.5rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .program-who_list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .program-who_item {
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      gap: 1.5rem;
+      padding-left: 0.5rem;
+      & .icon {
+        width: 2rem;
+        margin-top: 0.5rem;
+      }
+    }
+    .program-who_title {
+      margin-bottom: 1rem;
+      font-size: 1.375rem;
+      font-weight: var(--primary-semibold);
+      line-height: 1.2;
+      color: var(--brand-red);
+    }
+    .program-who_image {
+      width: 100%;
+      aspect-ratio: 514 / 439;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+  }
+</style>

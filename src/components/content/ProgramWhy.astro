@@ -1,0 +1,81 @@
+---
+/** "Why this program" cards with an icon, title and line of text. */
+import Heading from "@/components/typography/Heading.astro";
+import Icon from "@/components/media/Icon.astro";
+import { programIcon } from "@/utils/programIcons.ts";
+
+interface Props {
+  why: { title: readonly string[]; cards: readonly { icon: string | null; title: string; text: string }[] };
+}
+
+const { why } = Astro.props;
+---
+
+<section class="program-why_wrap">
+  <Heading tag="h2" variant="h2" class="alignment-center">
+    {why.title.map((line, i) => (
+      <Fragment>{i > 0 && <br />}<span class="program-gradient">{line}</span></Fragment>
+    ))}
+  </Heading>
+  <ul class="program-why_grid" role="list">
+    {why.cards.map((c) => (
+      <li class="program-why_card" data-reveal>
+        <span class="program-why_icon"><Icon src={programIcon(c.icon)} /></span>
+        <h3 class="program-why_title">{c.title}</h3>
+        <p>{c.text}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-why_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-why_grid {
+      max-width: var(--max-width-medium);
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+      @media (width < 30rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .program-why_card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.375rem;
+      border: var(--border-width) solid rgb(0 0 0 / 0.15);
+      border-radius: 0.75rem;
+      background-color: var(--light-100);
+    }
+    .program-why_icon {
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.5rem;
+      background-color: var(--brand-soft);
+      color: var(--brand-red);
+      & .icon {
+        width: 2rem;
+      }
+    }
+    .program-why_title {
+      display: flex;
+      align-items: flex-end;
+      min-height: 2.4em;
+      margin-block: 1rem;
+      font-size: 1.25rem;
+      font-weight: var(--primary-bold);
+      line-height: 1.2;
+    }
+  }
+</style>

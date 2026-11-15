@@ -6,7 +6,7 @@
 //
 // Neither folder is committed to GitHub, so the repository stays light.
 
-import { readFile, writeFile, mkdir, access } from "node:fs/promises";
+import { readdir, readFile, writeFile, mkdir, access } from "node:fs/promises";
 import { join } from "node:path";
 import subsetFont from "subset-font";
 
@@ -60,8 +60,15 @@ async function download(url, tries = 3) {
 }
 
 async function imagePaths() {
-  const files = ["uni.ts", "site.ts", "nav.ts"];
-  const text = (await Promise.all(files.map((f) => readFile(join(ROOT, "src/data", f), "utf8")))).join("\n");
+  // Every data file and page can name Webflow images.
+  const dirs = ["src/data", "src/pages"];
+  const files = [];
+  for (const dir of dirs) {
+    for (const entry of await readdir(join(ROOT, dir), { recursive: true })) {
+      if (/\.(ts|astro)$/.test(entry)) files.push(join(ROOT, dir, entry));
+    }
+  }
+  const text = (await Promise.all(files.map((f) => readFile(f, "utf8")))).join("\n");
   const found = new Set();
   for (const m of text.matchAll(/"([AB])\/([^"]+?\.(?:avif|jpe?g|png|webp))"/gi)) found.add(`${m[1]}/${m[2]}`);
   // Video thumbnails are listed as ["file.avif", "youtubeId"] and live on CDN B.

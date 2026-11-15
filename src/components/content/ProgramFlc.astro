@@ -1,0 +1,143 @@
+---
+/** Futurense Leadership Council: two rows of member cards that scroll in opposite directions. */
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+
+interface Person {
+  name: string;
+  role: string;
+  photo: string;
+  logo: string;
+  logoAlt: string;
+}
+
+interface Props {
+  flc: { titleStart: string; titleAccent: string; titleEnd: string; text: string; people: readonly Person[] };
+}
+
+const { flc } = Astro.props;
+const half = Math.ceil(flc.people.length / 2);
+const rows = [flc.people.slice(0, half), flc.people.slice(half)];
+---
+
+<section class="program-flc_wrap">
+  <div class="program-flc_head">
+    <Heading tag="h2" variant="h2">{flc.titleStart} {flc.titleAccent} {flc.titleEnd}</Heading>
+    <p>{flc.text}</p>
+  </div>
+  <div class="program-flc_rows">
+    {rows.map((row, r) => (
+      <div class:list={["program-flc_row", r === 1 && "is-reverse"]}>
+        {[0, 1].map((copy) => (
+          <ul class="program-flc_track" role="list" aria-hidden={copy === 1 ? "true" : undefined}>
+            {row.map((p) => (
+              <li class="program-flc_card">
+                <SiteImg class="program-flc_photo" src={p.photo} alt={copy === 0 ? p.name : ""} size={130} />
+                <h3 class="program-flc_name">{p.name}</h3>
+                <p class="program-flc_role">{p.role}</p>
+                {p.logo && <SiteImg class="program-flc_logo" src={p.logo} alt={p.logoAlt} size={140} transparent />}
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-flc_wrap {
+      padding-block: var(--section-space-medium);
+      background-color: var(--light-100);
+      color: var(--dark-900);
+      overflow: hidden;
+    }
+    .program-flc_head {
+      max-width: var(--max-width-main);
+      margin-inline: auto;
+      padding-inline: var(--site-margin);
+      text-align: center;
+      & p {
+        max-width: 38rem;
+        margin: 1rem auto 0;
+        font-size: var(--text-large);
+        line-height: 1.4;
+        color: #323e4a;
+      }
+    }
+    .program-flc_rows {
+      display: flex;
+      flex-direction: column;
+      gap: 5.5rem;
+      margin-top: 8rem;
+      @media (width < 48rem) {
+        margin-top: 6rem;
+      }
+    }
+    .program-flc_row {
+      --_speed: 140s;
+      display: flex;
+      width: max-content;
+      &:hover .program-flc_track {
+        animation-play-state: paused;
+      }
+    }
+    .program-flc_track {
+      display: flex;
+      gap: 1.25rem;
+      padding-right: 1.25rem;
+      animation: program-flc-scroll var(--_speed) linear infinite;
+      .is-reverse & {
+        animation-direction: reverse;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+      }
+    }
+    @keyframes program-flc-scroll {
+      to {
+        translate: -100% 0;
+      }
+    }
+    .program-flc_card {
+      position: relative;
+      width: 17rem;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4.5rem 0.625rem 1.5rem;
+      border-radius: 1.25rem;
+      background-color: rgb(0 0 0 / 0.08);
+      text-align: center;
+    }
+    .program-flc_photo {
+      position: absolute;
+      top: -4rem;
+      left: 50%;
+      translate: -50% 0;
+      width: 7.5rem;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: var(--radius-round);
+    }
+    .program-flc_name {
+      font-size: 1.25rem;
+      font-weight: var(--primary-medium);
+      line-height: 1.4;
+    }
+    .program-flc_role {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .program-flc_logo {
+      width: auto;
+      height: 1.5rem;
+      margin-top: auto;
+      padding-top: 0.5rem;
+      box-sizing: content-box;
+    }
+  }
+</style>

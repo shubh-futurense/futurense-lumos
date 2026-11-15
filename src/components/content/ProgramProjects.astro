@@ -1,0 +1,92 @@
+---
+/** Sample student projects in dropdowns, each opening to a set of cards. */
+import Heading from "@/components/typography/Heading.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+
+interface Props {
+  projects: { title: string; text: string; items: readonly { title: string; cards: readonly string[] }[] };
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="program-projects_wrap">
+  <div class="program-projects_inner">
+    <Heading tag="h2" variant="h2">{projects.title}</Heading>
+    <p class="program-projects_text">{projects.text}</p>
+    <div class="program-projects_list">
+      <Accordion variant="box" single={false}>
+        {projects.items.map((p) => (
+          <AccordionItem heading={p.title}>
+            <div class="program-projects_cards">
+              {p.cards.map((html) => <div class="program-projects_card" set:html={html} />)}
+            </div>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-projects_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--brand);
+      color: var(--light-100);
+      text-align: center;
+    }
+    .program-projects_inner {
+      max-width: var(--max-width-medium);
+      margin-inline: auto;
+    }
+    .program-projects_text {
+      margin-top: 1rem;
+      font-size: var(--text-large);
+      line-height: 1.4;
+    }
+    .program-projects_list {
+      margin-top: 3rem;
+      text-align: start;
+      color: var(--dark-900);
+      & .accordion_title {
+        font-size: 1.125rem;
+        font-weight: var(--primary-bold);
+      }
+    }
+    .program-projects_cards {
+      columns: 2;
+      column-gap: 1.5rem;
+      @media (width < 48rem) {
+        columns: 1;
+      }
+    }
+    .program-projects_card {
+      break-inside: avoid;
+      margin-bottom: 1.25rem;
+      padding: 1.75rem;
+      border-radius: 0.75rem;
+      background-color: var(--brand-soft);
+      color: #323e4a;
+      & h3 {
+        margin-bottom: 1rem;
+        font-size: 1.375rem;
+        line-height: 1.2;
+        color: var(--dark-900);
+      }
+      & p + p,
+      & p + ul,
+      & ul + p {
+        margin-top: 1rem;
+      }
+      & ul {
+        padding-left: 1.25rem;
+        list-style: disc;
+      }
+      & li + li {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import ProgramLayout from "@/layouts/ProgramLayout.astro";
+import ProgramHero from "@/components/content/ProgramHero.astro";
+import ProgramDetails from "@/components/content/ProgramDetails.astro";
+import ProgramHighlights from "@/components/content/ProgramHighlights.astro";
+import ProgramReport from "@/components/content/ProgramReport.astro";
+import ProgramAbout from "@/components/content/ProgramAbout.astro";
+import ProgramWhy from "@/components/content/ProgramWhy.astro";
+import ProgramCurriculum from "@/components/content/ProgramCurriculum.astro";
+import ProgramProjects from "@/components/content/ProgramProjects.astro";
+import ProgramWho from "@/components/content/ProgramWho.astro";
+import ProgramComparison from "@/components/content/ProgramComparison.astro";
+import ProgramSteps from "@/components/content/ProgramSteps.astro";
+import ProgramTestimonials from "@/components/content/ProgramTestimonials.astro";
+import ProgramAfter from "@/components/content/ProgramAfter.astro";
+import ProgramVideo from "@/components/content/ProgramVideo.astro";
+import ProgramFlc from "@/components/content/ProgramFlc.astro";
+import ProgramCta from "@/components/content/ProgramCta.astro";
+import ProgramFaq from "@/components/content/ProgramFaq.astro";
+import { iitjBsc as p } from "@/data/programs/iitj-bsc.ts";
+---
+
+<ProgramLayout
+  title={p.seo.title}
+  description={p.seo.description}
+  exactTitle
+  logo={p.nav.logo}
+  footerLogo={p.footer.logo}
+  phone={p.nav.phone}
+  schema={p.schema}
+>
+  <ProgramHero hero={p.hero} form={p.form} course="IIT Jodhpur - BSc in Applied AI and Data Science" />
+  <ProgramDetails details={p.details} />
+  <ProgramHighlights highlights={p.highlights} />
+  <ProgramReport slides={p.report} />
+  <ProgramAbout about={p.about} />
+  <ProgramWhy why={p.why} />
+  <ProgramCurriculum curriculum={p.curriculum} />
+  <ProgramProjects projects={p.projects} />
+  <ProgramWho who={p.who} />
+  <ProgramComparison comparison={p.comparison} />
+  <ProgramSteps steps={p.steps} />
+  <ProgramTestimonials testimonials={p.testimonials} />
+  <ProgramAfter after={p.after} />
+  <ProgramVideo video={p.video} />
+  <ProgramFlc flc={p.flc} />
+  <ProgramCta cta={p.cta} />
+  <ProgramFaq faq={p.faq} />
+</ProgramLayout>

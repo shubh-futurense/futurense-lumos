@@ -7,6 +7,7 @@
  * controls="dots" clickable dots
  * controls="sides" arrows on the left and right of the slides, nothing below
  * bleed           let the slides run past the right edge of the page
+ * --carousel-thumb  CSS variable for the scrollbar handle colour (purple by default)
  * peek            keep the slides inside the container but show the ones outside it, up to the page edges
  */
 import type { HTMLAttributes } from "astro/types";
@@ -27,7 +28,7 @@ type Props = HTMLAttributes<"div"> & {
   peek?: boolean;
 };
 
-const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false, class: className, ...rest } = Astro.props;
+const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false, class: className, style, ...rest } = Astro.props;
 ---
 
 {render && (
@@ -36,7 +37,7 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
     data-carousel
     data-controls={controls}
     data-gap={gap}
-    style={`--_gap: ${gap}rem;`}
+    style={`--_gap: ${gap}rem;${typeof style === "string" ? ` ${style}` : ""}`}
     {...rest}
   >
     <div class="swiper carousel_viewport">
@@ -205,7 +206,7 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
       position: relative;
       height: 100%;
       border-radius: var(--radius-round);
-      background-color: var(--purple-400);
+      background-color: var(--carousel-thumb, var(--purple-400));
       cursor: grab;
       &:active {
         cursor: grabbing;

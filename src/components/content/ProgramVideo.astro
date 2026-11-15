@@ -1,0 +1,66 @@
+---
+/** Program video card, then the director's podcast on a black panel. Both play in a pop-up. */
+import Heading from "@/components/typography/Heading.astro";
+import ProgramVideoCard from "@/components/content/ProgramVideoCard.astro";
+
+interface Props {
+  video: {
+    main: { youtube: string; image: string; alt: string };
+    director: { title: string; text: string; youtube: string; image: string; alt: string };
+  };
+}
+
+const { video } = Astro.props;
+---
+
+<section class="program-video_wrap">
+  <div class="program-video_main">
+    <ProgramVideoCard youtube={video.main.youtube} image={video.main.image} alt={video.main.alt} />
+  </div>
+  <div class="program-video_director">
+    <Heading tag="h2" variant="h2" class="alignment-center">{video.director.title}</Heading>
+    <p class="program-video_text">{video.director.text}</p>
+    <div class="program-video_director_card">
+      <ProgramVideoCard youtube={video.director.youtube} image={video.director.image} alt={video.director.alt} small />
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-video_wrap {
+      padding: var(--section-space-medium) 1.125rem 1.125rem;
+      background-color: var(--brand-soft);
+    }
+    .program-video_main {
+      width: min(var(--max-width-medium), 100% - 2 * (var(--site-margin) - 1.125rem));
+      margin-inline: auto;
+    }
+    .program-video_director {
+      margin-top: 6rem;
+      padding: var(--section-space-medium) var(--site-margin) 6.75rem;
+      border-radius: 2rem;
+      background-color: var(--dark-900);
+      color: var(--light-100);
+      @media (width < 48rem) {
+        margin-top: 3rem;
+        padding-bottom: 3rem;
+      }
+    }
+    .program-video_text {
+      max-width: 48rem;
+      margin: 1rem auto 0;
+      font-size: var(--text-large);
+      line-height: 1.4;
+      color: #cbd2da;
+      text-align: center;
+    }
+    .program-video_director_card {
+      max-width: 57.6rem;
+      margin: 4.75rem auto 0;
+      @media (width < 48rem) {
+        margin-top: 2rem;
+      }
+    }
+  }
+</style>

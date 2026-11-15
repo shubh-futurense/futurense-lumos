@@ -1,0 +1,85 @@
+---
+/** Career paths after graduating: alternating rows of photo and text. */
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+
+interface Props {
+  after: { title: string; rows: readonly { title: string; html: string; image: string; alt: string }[] };
+}
+
+const { after } = Astro.props;
+---
+
+<section class="program-after_wrap">
+  <Heading tag="h2" variant="h2" class="alignment-center"><span class="program-gradient">{after.title}</span></Heading>
+  <div class="program-after_rows">
+    {after.rows.map((r, i) => (
+      <article class:list={["program-after_row", i % 2 === 1 && "is-flipped"]}>
+        <SiteImg class="program-after_image" src={r.image} alt={r.alt} size={540} />
+        <div class="program-after_text">
+          <h3 class="program-after_title">{r.title}</h3>
+          <div class="program-after_body" set:html={r.html} />
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-after_wrap {
+      padding: 2.5rem var(--site-margin) var(--section-space-medium);
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-after_rows {
+      max-width: var(--max-width-medium);
+      margin: 5rem auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      @media (width < 48rem) {
+        margin-top: 2.5rem;
+      }
+    }
+    .program-after_row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3.5rem;
+      &.is-flipped .program-after_image {
+        order: 2;
+      }
+      @media (width < 48rem) {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        &.is-flipped .program-after_image {
+          order: 0;
+        }
+      }
+    }
+    .program-after_image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+    .program-after_title {
+      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
+      font-weight: var(--primary-bold);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      @media (width < 48rem) {
+        font-size: 2rem;
+      }
+    }
+    .program-after_body {
+      font-size: var(--text-large);
+      line-height: 1.4;
+      & p + p {
+        margin-top: 1.4em;
+      }
+    }
+  }
+</style>

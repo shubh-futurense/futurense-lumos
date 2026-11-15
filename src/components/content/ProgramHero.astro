@@ -1,0 +1,125 @@
+---
+/** First screen of a program page: title, eligibility and the lead form over the campus photo. */
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import ProgramLeadForm from "@/components/content/ProgramLeadForm.astro";
+
+interface Props {
+  hero: {
+    eyebrow: string;
+    titleStart: string;
+    titleAccent: string;
+    lead: string;
+    eligibility: string;
+    images: { topPaper: string; leftPaper: string; rightPaper: string; campus: string; campusMobile: string };
+  };
+  form: { redirect: string; selects: readonly { label: string; name: string; className: string; options: readonly string[] }[] };
+  /** Course name stored on each lead. */
+  course: string;
+}
+
+const { hero, form, course } = Astro.props;
+---
+
+<header id="header" class="program-hero_wrap">
+  <SiteImg class="program-hero_paper is-top" src={hero.images.topPaper} loading="eager" size={260} transparent />
+  <SiteImg class="program-hero_paper is-left" src={hero.images.leftPaper} loading="eager" size={100} transparent />
+  <SiteImg class="program-hero_paper is-right" src={hero.images.rightPaper} loading="eager" size={140} transparent />
+  <SiteImg class="program-hero_campus" src={hero.images.campus} loading="eager" transparent />
+
+  <div class="program-hero_layout">
+    <div class="program-hero_content">
+      <p class="program-hero_eyebrow">{hero.eyebrow}</p>
+      <Heading tag="h1" variant="h1" class="program-hero_title">
+        {hero.titleStart} <span class="program-hero_accent">{hero.titleAccent}</span>
+      </Heading>
+      <p class="program-hero_lead">{hero.lead}</p>
+      <p class="program-hero_eligibility">{hero.eligibility}</p>
+    </div>
+    <ProgramLeadForm redirect={form.redirect} course={course} selects={form.selects} />
+  </div>
+</header>
+
+<style is:global>
+  @layer components {
+    .program-hero_wrap {
+      position: relative;
+      overflow: hidden;
+      padding: 9rem var(--site-margin) 16.5rem;
+      background-color: var(--brand-cream);
+      color: var(--dark-900);
+      @media (width < 64rem) {
+        padding-top: 7rem;
+        padding-bottom: 14rem;
+      }
+    }
+    .program-hero_paper {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      &.is-top {
+        top: 0;
+        left: 4rem;
+        width: 15rem;
+      }
+      &.is-left {
+        top: 25rem;
+        left: 0;
+        width: 5.75rem;
+      }
+      &.is-right {
+        top: 22rem;
+        right: 0;
+        width: 8rem;
+      }
+      @media (width < 48rem) {
+        display: none;
+      }
+    }
+    .program-hero_campus {
+      position: absolute;
+      inset: auto 0 0;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+    .program-hero_layout {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max-width-main);
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3.5rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+    .program-hero_eyebrow {
+      font-weight: var(--primary-bold);
+      margin-bottom: 0.25rem;
+    }
+    .program-hero_title {
+      margin-bottom: 1rem;
+    }
+    .program-hero_accent {
+      color: var(--brand);
+    }
+    .program-hero_lead {
+      max-width: 30rem;
+      font-size: 1.25rem;
+      font-weight: var(--primary-semibold);
+      line-height: 1.4;
+    }
+    .program-hero_eligibility {
+      margin-top: 1rem;
+      padding-left: 1.125rem;
+      border-left: 0.1875rem solid #f79009;
+      font-weight: var(--primary-medium);
+      letter-spacing: -0.01em;
+      color: #6a3b12;
+    }
+  }
+</style>

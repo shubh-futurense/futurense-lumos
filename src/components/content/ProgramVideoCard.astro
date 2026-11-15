@@ -1,0 +1,137 @@
+---
+/**
+ * A video thumbnail with a play button. Clicking it opens the YouTube video
+ * in a pop-up; the YouTube player only loads at that moment.
+ */
+import SiteImg from "@/components/media/SiteImg.astro";
+import Icon from "@/components/media/Icon.astro";
+import play from "@/assets/icons/program/play.svg";
+
+interface Props {
+  /** YouTube video ID. */
+  youtube: string;
+  /** Thumbnail (Webflow image path). */
+  image: string;
+  /** Thumbnail description. */
+  alt?: string;
+  /** Smaller play button and corners. */
+  small?: boolean;
+}
+
+const { youtube, image, alt = "", small = false } = Astro.props;
+---
+
+<button class:list={["program-video-card", small && "is-small"]} type="button" data-youtube={youtube} aria-label={`Play video${alt ? `: ${alt}` : ""}`}>
+  <SiteImg class="program-video-card_image" src={image} alt={alt} size={1100} />
+  <span class="program-video-card_play" aria-hidden="true"><Icon src={play} /></span>
+</button>
+
+<script>
+  // One shared pop-up for every video card on the page.
+  let dialog: HTMLDialogElement | null = null;
+  const getDialog = () => {
+    if (dialog) return dialog;
+    dialog = document.createElement("dialog");
+    dialog.className = "program-video-card_dialog";
+    dialog.setAttribute("aria-label", "Video");
+    dialog.innerHTML = `<button type="button" class="program-video-card_close" aria-label="Close">×</button><div class="program-video-card_frame"></div>`;
+    document.body.append(dialog);
+    const stop = () => (dialog!.querySelector(".program-video-card_frame")!.innerHTML = "");
+    dialog.addEventListener("close", stop);
+    dialog.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      if (t === dialog || t.closest(".program-video-card_close")) dialog!.close();
+    });
+    return dialog;
+  };
+
+  document.addEventListener("click", (event) => {
+    const card = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-youtube]");
+    if (!card) return;
+    const d = getDialog();
+    d.querySelector(".program-video-card_frame")!.innerHTML =
+      `<iframe src="https://www.youtube.com/embed/${card.dataset.youtube}?autoplay=1&rel=0" title="YouTube video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    d.showModal();
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .program-video-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 1rem;
+      cursor: pointer;
+      &.is-small {
+        border-radius: 0.75rem;
+      }
+    }
+    .program-video-card_image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      transition: scale 0.6s var(--hover-ease);
+    }
+    .program-video-card:hover .program-video-card_image {
+      scale: 1.03;
+    }
+    .program-video-card_play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      display: grid;
+      place-items: center;
+      width: 4rem;
+      height: 4rem;
+      border-radius: var(--radius-round);
+      background: linear-gradient(#c7aeff, #7543e3);
+      box-shadow: 0 0.6rem 4rem rgb(0 0 0 / 0.45);
+      color: var(--light-100);
+      .is-small & {
+        width: 2.75rem;
+        height: 2.75rem;
+      }
+      & .icon {
+        width: 1.25rem;
+        margin-left: 0.15rem;
+        aspect-ratio: 13 / 16;
+        .is-small & {
+          width: 1rem;
+        }
+      }
+    }
+    .program-video-card_dialog {
+      width: min(92vw, 64rem);
+      padding: 0;
+      border: 0;
+      background: transparent;
+      overflow: visible;
+      &::backdrop {
+        background-color: rgb(0 0 0 / 0.85);
+      }
+    }
+    .program-video-card_frame {
+      aspect-ratio: 16 / 9;
+      & iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 0.75rem;
+      }
+    }
+    .program-video-card_close {
+      position: absolute;
+      top: -2.75rem;
+      right: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--light-100);
+      cursor: pointer;
+    }
+  }
+</style>

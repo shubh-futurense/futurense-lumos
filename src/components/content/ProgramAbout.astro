@@ -1,0 +1,219 @@
+---
+/** About the institute, then tabs for the director and program directors. */
+import Heading from "@/components/typography/Heading.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Icon from "@/components/media/Icon.astro";
+import chevronLeft from "@/assets/icons/chevron-left.svg";
+import chevronRight from "@/assets/icons/chevron-right.svg";
+
+interface Props {
+  about: {
+    title: string;
+    text: string;
+    image: string;
+    faculty: readonly { tab: string; heading: string; image: string; alt: string; html: string }[];
+  };
+}
+
+const { about } = Astro.props;
+---
+
+<section class="program-about_wrap">
+  <div class="program-about_inner">
+    <div class="program-about_intro">
+      <div>
+        <Heading tag="h2" variant="h3">{about.title}</Heading>
+        <p class="program-about_text">{about.text}</p>
+      </div>
+      <SiteImg class="program-about_image" src={about.image} alt={`${about.title.replace("About ", "")} campus`} size={520} />
+    </div>
+
+    <div class="program-about_tabs" data-faculty-tabs>
+      <div class="program-about_bar">
+        <button class="program-about_step" type="button" data-step="-1" aria-label="Previous">
+          <Icon src={chevronLeft} />
+        </button>
+        <div class="program-about_list" role="tablist">
+          {about.faculty.map((f, i) => (
+            <button class:list={["program-about_tab", i === 0 && "is-active"]} type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} id={`faculty-tab-${i}`} aria-controls={`faculty-panel-${i}`} tabindex={i === 0 ? 0 : -1}>
+              {f.tab}
+            </button>
+          ))}
+        </div>
+        <button class="program-about_step" type="button" data-step="1" aria-label="Next">
+          <Icon src={chevronRight} />
+        </button>
+      </div>
+
+      {about.faculty.map((f, i) => (
+        <div class="program-about_card" role="tabpanel" id={`faculty-panel-${i}`} aria-labelledby={`faculty-tab-${i}`} hidden={i !== 0}>
+          <SiteImg class="program-about_photo" src={f.image} alt={f.alt || f.heading} size={460} />
+          <div class="program-about_body">
+            <h3 class="program-about_name">{f.heading}</h3>
+            <div class="program-about_rich" set:html={f.html} />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-faculty-tabs]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[role=tabpanel]")];
+    let current = 0;
+    const show = (next: number, focus = false) => {
+      current = (next + tabs.length) % tabs.length;
+      tabs.forEach((t, i) => {
+        const on = i === current;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p, i) => (p.hidden = i !== current));
+      if (focus) tabs[current].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => show(i));
+      t.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") show(current + 1, true);
+        if (e.key === "ArrowLeft") show(current - 1, true);
+      });
+    });
+    root.querySelectorAll<HTMLButtonElement>("[data-step]").forEach((b) =>
+      b.addEventListener("click", () => show(current + Number(b.dataset.step))),
+    );
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .program-about_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--brand);
+      color: var(--light-100);
+    }
+    .program-about_inner {
+      max-width: var(--max-width-medium);
+      margin-inline: auto;
+    }
+    .program-about_intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      gap: 5.5rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+    .program-about_text {
+      margin-top: 1.5rem;
+      font-size: var(--text-large);
+      line-height: 1.4;
+    }
+    .program-about_image {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      margin-top: 0.375rem;
+      border-radius: 1rem;
+    }
+    .program-about_tabs {
+      margin-top: 6.5rem;
+      @media (width < 64rem) {
+        margin-top: 3rem;
+      }
+    }
+    .program-about_bar {
+      position: relative;
+    }
+    .program-about_list {
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .program-about_tab {
+      min-width: max-content;
+      padding: 0.5rem;
+      border-bottom: 0.09rem solid rgb(31 29 30 / 0.2);
+      color: var(--light-100);
+      text-align: center;
+      transition: border-color var(--hover-duration) var(--hover-ease);
+      cursor: pointer;
+      &.is-active {
+        border-bottom-color: var(--dark-900);
+      }
+    }
+    .program-about_step {
+      position: absolute;
+      top: 50%;
+      left: -3.25rem;
+      translate: 0 -50%;
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius-round);
+      color: var(--light-100);
+      cursor: pointer;
+      &[data-step="1"] {
+        left: auto;
+        right: -3.25rem;
+      }
+      & .icon {
+        width: 1.5rem;
+      }
+      @media (width < 74rem) {
+        display: none;
+      }
+    }
+    .program-about_card {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      min-height: 32rem;
+      margin-top: 2rem;
+      overflow: hidden;
+      border: var(--border-width) solid #a5cfff;
+      border-radius: 2rem;
+      background-color: var(--light-100);
+      color: var(--dark-900);
+      @media (width < 48rem) {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+    }
+    .program-about_photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background-color: #f0f9ff;
+      @media (width < 48rem) {
+        aspect-ratio: 4 / 3;
+      }
+    }
+    .program-about_body {
+      padding: 2rem 3rem;
+      @media (width < 48rem) {
+        padding: 1.5rem;
+      }
+    }
+    .program-about_name {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: var(--primary-bold);
+      line-height: 1.2;
+    }
+    .program-about_rich {
+      & p + p {
+        margin-top: 1rem;
+      }
+      & p:first-child strong:only-child {
+        font-size: 1.25rem;
+      }
+    }
+  }
+</style>

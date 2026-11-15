@@ -1,0 +1,141 @@
+---
+/** Thank-you screen after the lead form: next-step links, Apply Now and the program video. */
+import Heading from "@/components/typography/Heading.astro";
+import Icon from "@/components/media/Icon.astro";
+import ProgramVideoCard from "@/components/content/ProgramVideoCard.astro";
+import { programIcon } from "@/utils/programIcons.ts";
+
+interface Props {
+  thanks: {
+    title: string;
+    brochure: string;
+    whatsapp: string;
+    phone: string;
+    apply: string;
+    video: { youtube: string; image: string };
+  };
+}
+
+const { thanks } = Astro.props;
+---
+
+<section class="program-thanks_wrap">
+  <div class="program-thanks_card">
+    <Heading tag="h1" variant="h3" class="alignment-center">{thanks.title}</Heading>
+    <div class="program-thanks_layout">
+      <div>
+        <ul class="program-thanks_list" role="list">
+          <li>
+            <Icon src={programIcon("download.svg")} />
+            <div>
+              <a href={thanks.brochure} target="_blank" rel="noopener">Download Brochure</a>
+              <p>Get detailed program information to track your career</p>
+            </div>
+          </li>
+          <li>
+            <Icon src={programIcon("whatsapp.svg")} />
+            <div>
+              <a href={`https://api.whatsapp.com/send?phone=${thanks.whatsapp}`} data-whatsapp={thanks.whatsapp} target="_blank" rel="noopener">Contact us on WhatsApp</a>
+              <p>Have questions? Our Advisor will assit you.</p>
+            </div>
+          </li>
+          <li>
+            <Icon src={programIcon("calendar.svg")} />
+            <div>
+              <a href={`tel:${thanks.phone}`}>Schedule a Call</a>
+              <p>Our Advisor will call you based on your convenience</p>
+            </div>
+          </li>
+          <li>
+            <Icon src={programIcon("phone-thanks.svg")} />
+            <div>
+              <a class="program-thanks_phone" href={`tel:${thanks.phone}`}>{thanks.phone}</a>
+              <p>Talk with us</p>
+            </div>
+          </li>
+        </ul>
+        <a class="program-thanks_apply" href={thanks.apply} target="_blank" rel="noopener">Apply Now</a>
+      </div>
+      <ProgramVideoCard youtube={thanks.video.youtube} image={thanks.video.image} alt="IIT Jodhpur B.S/B.Sc program video" small />
+    </div>
+  </div>
+</section>
+
+<script>
+  // Adds the page link to the WhatsApp message, like the live site.
+  document.querySelectorAll<HTMLAnchorElement>("[data-whatsapp]").forEach((link) => {
+    const text = `Hi! I want to know more about the program\nPage: ${location.href}`;
+    link.href = `https://api.whatsapp.com/send?phone=${link.dataset.whatsapp}&text=${encodeURIComponent(text)}`;
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .program-thanks_wrap {
+      padding: 8rem var(--site-margin) var(--section-space-medium);
+      background-color: var(--dark-900);
+    }
+    .program-thanks_card {
+      max-width: var(--max-width-medium);
+      margin-inline: auto;
+      padding: 3rem 2rem;
+      border-radius: 1.25rem;
+      background-color: var(--light-100);
+      color: var(--dark-900);
+      @media (width < 48rem) {
+        padding: 2rem 1.25rem;
+      }
+    }
+    .program-thanks_layout {
+      display: grid;
+      grid-template-columns: 21rem 1fr;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 3rem;
+      @media (width < 64rem) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .program-thanks_list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      & li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      & .icon {
+        width: 1.25rem;
+        margin-top: 0.125rem;
+      }
+      & a {
+        font-weight: var(--primary-medium);
+      }
+      & p {
+        margin-top: 0.15rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: #52606d;
+      }
+    }
+    .program-thanks_phone {
+      font-weight: var(--primary-semibold) !important;
+      text-decoration: underline;
+    }
+    .program-thanks_apply {
+      display: block;
+      margin-top: 2.25rem;
+      padding: 0.75rem 2.5rem;
+      border-radius: var(--radius-round);
+      background-color: #0975a8;
+      color: var(--light-100);
+      font-weight: var(--primary-medium);
+      text-align: center;
+      transition: background-color var(--hover-duration) var(--hover-ease);
+      &:hover {
+        background-color: #075f88;
+      }
+    }
+  }
+</style>

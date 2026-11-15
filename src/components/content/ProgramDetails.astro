@@ -1,0 +1,75 @@
+---
+/** Key facts bar that overlaps the bottom of the hero: start date, duration, seats, deadline. */
+
+interface Props {
+  details: readonly { label: string; value: string; desktop: boolean }[];
+}
+
+const { details } = Astro.props;
+---
+
+<div class="program-details_wrap">
+  <dl class="program-details_bar">
+    {details.map((d) => (
+      <div class:list={["program-details_item", !d.desktop && "is-mobile-only"]}>
+        <dt>{d.label}</dt>
+        <dd>{d.value}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style is:global>
+  @layer components {
+    .program-details_wrap {
+      position: relative;
+      z-index: 3;
+      margin-top: -3rem;
+      padding-inline: var(--site-margin);
+    }
+    .program-details_bar {
+      max-width: var(--max-width-main);
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: var(--border-width) solid rgb(0 0 0 / 0.2);
+      border-radius: 0.75rem;
+      background-color: var(--light-100);
+      box-shadow: 0 1.25rem 1.5rem -0.25rem rgb(0 0 0 / 0.08), 0 0.5rem 0.5rem -0.25rem rgb(0 0 0 / 0.03);
+      color: var(--dark-900);
+      @media (width < 48rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .program-details_item {
+      padding: 0.8rem 0.875rem;
+      & + & {
+        border-left: var(--border-width) solid rgb(0 0 0 / 0.2);
+      }
+      & dt {
+        margin-bottom: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: var(--primary-medium);
+        letter-spacing: -0.01em;
+        color: #727a8f;
+      }
+      & dd {
+        font-weight: var(--primary-semibold);
+      }
+      &.is-mobile-only {
+        @media (width >= 48rem) {
+          display: none;
+        }
+      }
+      @media (width < 48rem) {
+        border-left: 0;
+        &:nth-child(n + 3) {
+          border-top: var(--border-width) solid rgb(0 0 0 / 0.2);
+        }
+        &:nth-child(even) {
+          border-left: var(--border-width) solid rgb(0 0 0 / 0.2);
+        }
+      }
+    }
+  }
+</style>

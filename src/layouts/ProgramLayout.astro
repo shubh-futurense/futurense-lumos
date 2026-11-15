@@ -1,0 +1,87 @@
+---
+/**
+ * Layout for program landing pages (like the IIT Jodhpur book-a-call page).
+ * It swaps the main Futurense navbar and footer for the slim landing ones,
+ * and colours the page with the institute's brand.
+ */
+import "@/styles/global.css";
+import BaseHead from "@/components/utility/BaseHead.astro";
+import SkipLink from "@/components/global/SkipLink.astro";
+import ProgramNav from "@/components/global/ProgramNav.astro";
+import ProgramFooter from "@/components/global/ProgramFooter.astro";
+import BackToTop from "@/components/global/BackToTop.astro";
+import type { SeoProps } from "@/types.ts";
+
+type Props = SeoProps & {
+  /** Institute logo for the navbar (Webflow image path). */
+  logo: string;
+  /** White version of the logo for the footer. */
+  footerLogo: string;
+  /** Phone number shown in the navbar and footer. */
+  phone: string;
+  /** Brand colour of the institute. */
+  brand?: string;
+  /** Structured data (JSON-LD) objects for search engines. */
+  schema?: readonly object[];
+};
+
+const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], ...seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" style={`--brand: ${brand};`}>
+  <head>
+    <BaseHead {...seo} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    {schema.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+    <slot name="head" />
+  </head>
+  <body id="top" class="program-page">
+    <SkipLink />
+    <ProgramNav logo={logo} phone={phone} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <ProgramFooter logo={footerLogo} phone={phone} />
+    <BackToTop />
+    <script>
+      import "@/scripts/animations.ts";
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @layer components {
+    /* Institute colours, used by every program section */
+    .program-page {
+      --brand-soft: #f7edeb;
+      --brand-cream: #fefae8;
+      --brand-red: #f04438;
+      --brand-gradient: linear-gradient(45deg, #cb3847, #7b1b24);
+      --heading-accent: var(--brand);
+      --button-background: var(--brand);
+      --button-border: var(--brand);
+      --button-text: var(--light-100);
+      --button-background-hover: color-mix(in lab, var(--brand) 85%, black);
+      --button-border-hover: var(--button-background-hover);
+      --button-text-hover: var(--light-100);
+      --button-2-background: transparent;
+      --button-2-border: var(--brand);
+      --button-2-text: var(--brand);
+      --button-2-background-hover: var(--brand);
+      --button-2-border-hover: var(--brand);
+      --button-2-text-hover: var(--light-100);
+    }
+    /* Red gradient text used by most section titles */
+    .program-gradient {
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* Titles on this page are a touch tighter than the site default */
+    .program-page :is(h1, h2, h3).text-style-h2 {
+      letter-spacing: -0.01em;
+    }
+  }
+</style>

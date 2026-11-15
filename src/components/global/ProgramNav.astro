@@ -1,0 +1,80 @@
+---
+/** Slim navbar for program landing pages: institute logo, phone number, Apply Now. */
+import Button from "@/components/Button.astro";
+import SiteImg from "@/components/media/SiteImg.astro";
+import Icon from "@/components/media/Icon.astro";
+import phoneIcon from "@/assets/icons/program/phone.svg";
+
+interface Props {
+  /** Institute logo (Webflow image path). */
+  logo: string;
+  /** Phone number. */
+  phone: string;
+}
+
+const { logo, phone } = Astro.props;
+---
+
+<header class="program-nav_wrap">
+  <div class="program-nav_bar">
+    <a class="program-nav_logo" href="#top" aria-label="Back to top">
+      <SiteImg src={logo} alt="Indian Institute of Technology Jodhpur" loading="eager" size={320} transparent />
+    </a>
+    <div class="program-nav_actions">
+      <a class="program-nav_phone" href={`tel:${phone}`}>
+        <Icon src={phoneIcon} />
+        <span>{phone}</span>
+      </a>
+      <Button element="link" href="#header">Apply Now</Button>
+    </div>
+  </div>
+</header>
+
+<style is:global>
+  @layer components {
+    .program-nav_wrap {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-nav_bar {
+      height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-inline: var(--site-margin);
+    }
+    .program-nav_logo {
+      display: block;
+      & img {
+        width: auto;
+        height: 3.5rem;
+        @media (width < 48rem) {
+          height: 2.75rem;
+        }
+      }
+    }
+    .program-nav_actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .program-nav_phone {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-right: 0.75rem;
+      font-size: 1.125rem;
+      color: rgb(0 0 0 / 0.8);
+      & .icon {
+        width: 1.25rem;
+      }
+      @media (width < 48rem) {
+        display: none;
+      }
+    }
+  }
+</style>

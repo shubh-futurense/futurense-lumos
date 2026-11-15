@@ -1,0 +1,144 @@
+---
+/** Year-by-year curriculum in dropdowns, each with semester tables and the fee note. */
+import Heading from "@/components/typography/Heading.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import Icon from "@/components/media/Icon.astro";
+import check from "@/assets/icons/program/check-olive.svg";
+
+interface Props {
+  curriculum: {
+    title: string;
+    text: string;
+    years: readonly {
+      title: string;
+      semesters: readonly { title: string; rows: readonly { n: string; topic: string }[] }[];
+      fee: string | null;
+    }[];
+  };
+}
+
+const { curriculum } = Astro.props;
+const plain = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+---
+
+<section class="program-curriculum_wrap">
+  <div class="program-curriculum_head">
+    <Heading tag="h2" variant="h2"><span class="program-gradient">{curriculum.title}</span></Heading>
+    <p>{curriculum.text}</p>
+  </div>
+  <div class="program-curriculum_list">
+    <Accordion variant="box" single={false}>
+      {curriculum.years.map((y) => (
+        <AccordionItem heading={plain(y.title)}>
+          {y.semesters.map((s) => (
+            <div class="program-curriculum_table">
+              <div class="program-curriculum_row is-head">
+                <span>{s.title}</span>
+                <span>Topic details</span>
+              </div>
+              {s.rows.map((r) => (
+                <div class="program-curriculum_row">
+                  <span class="program-curriculum_number">{r.n}</span>
+                  <span class="program-curriculum_topic"><Icon src={check} />{r.topic}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+          {y.fee && <div class="program-curriculum_fee" set:html={y.fee} />}
+        </AccordionItem>
+      ))}
+    </Accordion>
+  </div>
+</section>
+
+<style is:global>
+  @layer components {
+    .program-curriculum_wrap {
+      padding: var(--section-space-medium) var(--site-margin);
+      background-color: var(--brand-soft);
+      color: var(--dark-900);
+    }
+    .program-curriculum_head {
+      max-width: 49rem;
+      margin-inline: auto;
+      text-align: center;
+      & p {
+        margin-top: 1rem;
+        font-size: var(--text-large);
+        line-height: 1.4;
+      }
+    }
+    .program-curriculum_list {
+      max-width: 49rem;
+      margin: 2rem auto 0;
+      text-align: start;
+      & .accordion_title {
+        font-size: 1.125rem;
+        font-weight: var(--primary-semibold);
+      }
+      & .accordion_body {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        color: var(--dark-900);
+      }
+    }
+    .program-curriculum_table {
+      overflow: hidden;
+      border: var(--border-width) solid var(--dark-900);
+      border-radius: 1.5rem 1.5rem 0.75rem 0.75rem;
+    }
+    .program-curriculum_row {
+      display: grid;
+      grid-template-columns: 10rem 1fr;
+      align-items: center;
+      padding: 1.0625rem 1.5rem;
+      border-bottom: var(--border-width) solid rgb(0 0 0 / 0.1);
+      &:last-child {
+        border-bottom: 0;
+      }
+      &.is-head {
+        padding-block: 1rem;
+        border-bottom-color: rgb(0 0 0 / 0.2);
+        background-color: #f9fafb;
+        font-size: 1.25rem;
+        font-weight: var(--primary-semibold);
+        line-height: 1.4;
+      }
+      @media (width < 48rem) {
+        grid-template-columns: 3.5rem 1fr;
+        padding-inline: 1rem;
+      }
+    }
+    .program-curriculum_number {
+      font-weight: var(--primary-semibold);
+    }
+    .program-curriculum_topic {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: var(--primary-medium);
+      & .icon {
+        width: 1.25rem;
+        aspect-ratio: 16 / 20;
+      }
+    }
+    .program-curriculum_fee {
+      & h5 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+      & ul {
+        padding-left: 1.25rem;
+        list-style: disc;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      & li + li {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+</style>

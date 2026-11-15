@@ -1,0 +1,251 @@
+---
+/**
+ * Lead form for program pages. On submit it sends the lead to LeadSquared
+ * (the same API futurense.com uses), then opens the thank-you page.
+ * Leads are only sent from futurense.com, so test copies never create fake leads.
+ */
+import { withBase } from "@/utils/base.ts";
+
+interface Select {
+  label: string;
+  name: string;
+  className: string;
+  options: readonly string[];
+}
+
+interface Props {
+  /** Thank-you page path, e.g. "/iit-jodhpur/...-thank-you". */
+  redirect: string;
+  /** Course name stored on the lead in LeadSquared. */
+  course: string;
+  /** The three dropdowns under the contact fields. */
+  selects: readonly Select[];
+}
+
+const { redirect, course, selects } = Astro.props;
+---
+
+<div class="program-form_wrap" data-lead-form-wrap>
+  <form
+    class="program-form"
+    data-lead-form
+    data-redirect={withBase(redirect.replace(/^\//, ""))}
+    data-course={course}
+    novalidate
+  >
+    <div class="program-form_grid">
+      <label class="program-form_field">
+        <span class="program-form_label">Full Name *</span>
+        <input class="program-form_input" type="text" name="Full-Name" placeholder="Enter your full name" autocomplete="name" required />
+      </label>
+      <label class="program-form_field">
+        <span class="program-form_label">Email Address *</span>
+        <input class="program-form_input" type="email" name="Email-Address" placeholder="Enter your email" autocomplete="email" required />
+      </label>
+      <label class="program-form_field">
+        <span class="program-form_label">Phone Number *</span>
+        <input class="program-form_input" type="tel" name="Phone-Number" placeholder="Enter your phone number" autocomplete="tel" inputmode="tel" required />
+      </label>
+      {selects.map((s) => (
+        <label class="program-form_field">
+          <span class="program-form_label">{s.label}</span>
+          <select class="program-form_input is-select" name={s.name} data-lead-field={s.className} required>
+            {s.options.map((o, i) => <option value={i === 0 ? "" : o}>{o}</option>)}
+          </select>
+        </label>
+      ))}
+    </div>
+    <label class="program-form_check">
+      <input type="checkbox" name="Consent" required />
+      <span>
+        By submitting this form, you agree to the "<a href="https://www.futurense.com/terms-and-conditions" target="_blank">Terms and Conditions</a>"
+        and "<a href="https://www.futurense.com/privacy-policy" target="_blank">Privacy Policy</a>"
+      </span>
+    </label>
+    <button class="program-form_submit" type="submit">Submit</button>
+    <p class="program-form_error" data-form-error hidden>Please fill in every field and accept the terms.</p>
+  </form>
+</div>
+
+<script>
+  const LEAD_API = "https://lsqleadcaptureapi.futurense.com/api/leadsquared/lead";
+  const LIVE_HOSTS = ["futurense.com", "www.futurense.com"];
+
+  const utm = () => {
+    const p = new URLSearchParams(location.search);
+    const get = (k: string) => p.get(k) ?? "";
+    return {
+      source: get("utm_source"), campaign: get("utm_campaign"), campaignid: get("utm_campaignid"),
+      adgroupid: get("utm_adgroupid"), adid: get("utm_adid"), id: get("utm_id"),
+      keyword: get("utm_keyword"), term: get("utm_term"),
+    };
+  };
+
+  // Same fields and names the live futurense.com form sends to LeadSquared.
+  const buildPayload = (form: HTMLFormElement) => {
+    const value = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? "";
+    const field = (key: string) => form.querySelector<HTMLSelectElement>(`[data-lead-field="${key}"]`)?.value ?? "";
+    const course = form.dataset.course ?? "";
+    const u = utm();
+    const now = new Date();
+    const payload = [
+      { Attribute: "FirstName", Value: value("Full-Name") },
+      { Attribute: "EmailAddress", Value: value("Email-Address") },
+      { Attribute: "Phone", Value: value("Phone-Number") },
+      { Attribute: "ProspectID", Value: crypto.randomUUID() },
+      { Attribute: "mx_Degree_Qualfication", Value: field("mx_degree-qualification") },
+      { Attribute: "mx_Graduation_Percentage", Value: field("mx_under_graduate-percentage") },
+      { Attribute: "mx_Programming_Knowledge", Value: field("mx_prg") },
+      { Attribute: "Source", Value: u.source },
+      { Attribute: "mx_Course", Value: course },
+      { Attribute: "mx_Course_Applying_To", Value: course },
+      { Attribute: "mx_Course_Interested_in", Value: course },
+      { Attribute: "PageUrl", Value: location.href },
+      { Attribute: "mx_LeadCaptureDate", Value: now.toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata" }) },
+      { Attribute: "mx_LeadCaptureTime", Value: now.toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" }) },
+      { Attribute: "mx_utm_campaign", Value: u.campaign },
+      { Attribute: "mx_utm_campaignid", Value: u.campaignid },
+      { Attribute: "mx_utm_adgroupid", Value: u.adgroupid },
+      { Attribute: "mx_utm_adid", Value: u.adid },
+      { Attribute: "mx_UTM_ID", Value: u.id },
+      { Attribute: "mx_UTM_Keyword", Value: u.keyword },
+      { Attribute: "mx_UTM_Term", Value: u.term },
+      { Attribute: "SearchBy", Value: "Phone" },
+    ];
+    const skipIfBlank = ["mx_Degree_Qualfication", "mx_Graduation_Percentage", "mx_Programming_Knowledge"];
+    return payload.filter((item) => !(skipIfBlank.includes(item.Attribute) && item.Value === ""));
+  };
+
+  document.querySelectorAll<HTMLFormElement>("[data-lead-form]").forEach((form) => {
+    const error = form.querySelector<HTMLElement>("[data-form-error]")!;
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form.checkValidity()) {
+        error.hidden = false;
+        form.querySelector<HTMLElement>(":invalid")?.focus();
+        return;
+      }
+      error.hidden = true;
+      button.disabled = true;
+      button.textContent = "Please wait...";
+
+      const payload = buildPayload(form);
+      if (LIVE_HOSTS.includes(location.hostname)) {
+        try {
+          await fetch(LEAD_API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ payload }),
+            keepalive: true,
+          });
+        } catch (e) {
+          console.error("Lead API error:", e);
+        }
+      } else {
+        console.info("Test copy: lead not sent to LeadSquared.", payload);
+      }
+      location.href = form.dataset.redirect!;
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .program-form_wrap {
+      padding: 0.125rem;
+      border-radius: 1.25rem;
+      background-color: rgb(0 0 0 / 0.1);
+    }
+    .program-form {
+      padding: 2rem 1.5rem;
+      border-radius: 1.25rem;
+      background-color: var(--light-100);
+      color: var(--dark-900);
+    }
+    .program-form_grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 1.25rem;
+      @media (width < 30rem) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+    .program-form_field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+    .program-form_label {
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+    .program-form_input {
+      width: 100%;
+      height: 2.75rem;
+      padding: 0.5rem 0.75rem;
+      border: var(--border-width) solid rgb(0 0 0 / 0.2);
+      border-radius: 0.5rem;
+      background-color: rgb(255 255 255 / 0.8);
+      font-size: 1rem;
+      color: inherit;
+      &::placeholder {
+        color: rgb(0 0 0 / 0.5);
+      }
+      &:focus-visible {
+        outline: 2px solid var(--brand);
+        outline-offset: 1px;
+      }
+      &.is-select {
+        appearance: none;
+        padding-right: 2.25rem;
+        background: rgb(255 255 255 / 0.8) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.75rem center / 1rem;
+        &:has(option[value=""]:checked) {
+          color: rgb(0 0 0 / 0.5);
+        }
+      }
+    }
+    .program-form_check {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      & input {
+        flex-shrink: 0;
+        width: 0.8rem;
+        height: 0.8rem;
+        margin-top: 0.3rem;
+        accent-color: var(--dark-900);
+      }
+      & a {
+        font-weight: var(--primary-medium);
+        text-decoration: underline;
+      }
+    }
+    .program-form_submit {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.75rem 2.5rem;
+      border-radius: var(--radius-round);
+      background-color: var(--dark-900);
+      color: var(--light-100);
+      font-weight: var(--primary-medium);
+      line-height: 1.5;
+      cursor: pointer;
+      &:disabled {
+        opacity: 0.6;
+        cursor: progress;
+      }
+    }
+    .program-form_error {
+      margin-top: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--brand-red);
+    }
+  }
+</style>
