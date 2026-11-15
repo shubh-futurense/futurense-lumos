@@ -1,0 +1,17 @@
+# Asks the LeadSquared lead API which websites may send leads to it (CORS).
+# Only sends the browser's permission check (OPTIONS), never a lead.
+name: Check lead API CORS
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for origin in https://www.futurense.com https://futurense.in https://www.futurense.in https://shubh-futurense.github.io https://example.org; do
+            echo "===== Origin: $origin"
+            curl -s -o /dev/null -D - -X OPTIONS \
+              -H "Origin: $origin" \
+              -H "Access-Control-Request-Method: POST" \
+              -H "Access-Control-Request-Headers: content-type" \
+              https://lsqleadcaptureapi.futurense.com/api/leadsquared/lead | grep -i -E "^HTTP|access-control" || true
+          done
