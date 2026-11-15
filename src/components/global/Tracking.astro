@@ -3,7 +3,7 @@
  * Marketing tags copied from futurense.com (Webflow site settings and custom code):
  * Google Ads + Google Analytics (gtag.js), Google Tag Manager and Microsoft Clarity.
  *
- * They only run on futurense.com, so preview copies (GitHub Pages, local) never
+ * They only run on the real Futurense domains (see LIVE_HOSTS), so preview copies (GitHub Pages, local) never
  * count visits or ad conversions.
  */
 
@@ -12,10 +12,12 @@ interface Props {
   conversion?: string;
 }
 
+import { LIVE_HOSTS } from "@/consts.ts";
+
 const { conversion } = Astro.props;
 
 const config = {
-  hosts: ["futurense.com", "www.futurense.com"],
+  hosts: LIVE_HOSTS,
   ads: "AW-16634577510",
   analytics: "G-09S1J7F1NM",
   gtm: "GTM-WLG7RVMT",

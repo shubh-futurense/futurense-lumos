@@ -9,3 +9,9 @@ export const SITE_URL = "https://futurense.com";
 export const SITE_LOCALE = "en-US";
 /** Routes excluded from search and the sitemap. Surrounding slashes are ignored. */
 export const NOINDEX_ROUTES: string[] = ["/404"];
+/**
+ * Real Futurense domains. Only on these do forms send leads to LeadSquared and
+ * do marketing tags (Google Ads, Analytics, Tag Manager, Clarity) run. Preview
+ * copies like GitHub Pages stay silent.
+ */
+export const LIVE_HOSTS: string[] = ["futurense.com", "www.futurense.com", "futurense.in", "www.futurense.in"];

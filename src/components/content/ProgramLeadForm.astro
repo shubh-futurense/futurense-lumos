@@ -2,9 +2,10 @@
 /**
  * Lead form for program pages. On submit it sends the lead to LeadSquared
  * (the same API futurense.com uses), then opens the thank-you page.
- * Leads are only sent from futurense.com, so test copies never create fake leads.
+ * Leads are only sent from the real Futurense domains (LIVE_HOSTS), so test copies never create fake leads.
  */
 import { withBase } from "@/utils/base.ts";
+import { LIVE_HOSTS } from "@/consts.ts";
 
 interface Select {
   label: string;
@@ -31,6 +32,7 @@ const { redirect, course, selects } = Astro.props;
     data-lead-form
     data-redirect={withBase(redirect.replace(/^\//, ""))}
     data-course={course}
+    data-live-hosts={LIVE_HOSTS.join(",")}
     novalidate
   >
     <div class="program-form_grid">
@@ -69,7 +71,6 @@ const { redirect, course, selects } = Astro.props;
 
 <script>
   const LEAD_API = "https://lsqleadcaptureapi.futurense.com/api/leadsquared/lead";
-  const LIVE_HOSTS = ["futurense.com", "www.futurense.com"];
 
   const utm = () => {
     const p = new URLSearchParams(location.search);
@@ -132,7 +133,7 @@ const { redirect, course, selects } = Astro.props;
       button.textContent = "Please wait...";
 
       const payload = buildPayload(form);
-      if (LIVE_HOSTS.includes(location.hostname)) {
+      if ((form.dataset.liveHosts ?? "").split(",").includes(location.hostname)) {
         try {
           await fetch(LEAD_API, {
             method: "POST",
