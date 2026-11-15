@@ -6,16 +6,21 @@ import Icon from "@/components/media/Icon.astro";
 import phoneIcon from "@/assets/icons/program/phone.svg";
 
 interface Props {
-  /** Institute logo (Webflow image path). */
+  /** Institute logo (Webflow image path). Use the white logo on the dark bar. */
   logo: string;
   /** Phone number. */
   phone: string;
+  /** Bar colour: white (default) or black for dark pages like the thank-you page. */
+  theme?: "light" | "dark";
+  /** Where Apply Now goes. Defaults to the form at the top of the page. */
+  applyHref?: string;
 }
 
-const { logo, phone } = Astro.props;
+const { logo, phone, theme = "light", applyHref = "#header" } = Astro.props;
+const external = applyHref.startsWith("http");
 ---
 
-<header class="program-nav_wrap">
+<header class:list={["program-nav_wrap", theme === "dark" && "is-dark"]}>
   <div class="program-nav_bar">
     <a class="program-nav_logo" href="#top" aria-label="Back to top">
       <SiteImg src={logo} alt="Indian Institute of Technology Jodhpur" loading="eager" size={320} transparent />
@@ -25,7 +30,7 @@ const { logo, phone } = Astro.props;
         <Icon src={phoneIcon} />
         <span>{phone}</span>
       </a>
-      <Button element="link" href="#header">Apply Now</Button>
+      <Button element="link" href={applyHref} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>Apply Now</Button>
     </div>
   </div>
 </header>
@@ -38,6 +43,11 @@ const { logo, phone } = Astro.props;
       z-index: 100;
       background-color: var(--light-100);
       color: var(--dark-900);
+      &.is-dark {
+        background-color: var(--dark-900);
+        color: var(--light-100);
+        border-bottom: var(--border-width) solid rgb(255 255 255 / 0.1);
+      }
     }
     .program-nav_bar {
       height: 4.5rem;
@@ -69,6 +79,9 @@ const { logo, phone } = Astro.props;
       margin-right: 0.75rem;
       font-size: 1.125rem;
       color: rgb(0 0 0 / 0.8);
+      .is-dark & {
+        color: rgb(255 255 255 / 0.85);
+      }
       & .icon {
         width: 1.25rem;
       }

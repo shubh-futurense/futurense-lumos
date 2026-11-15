@@ -1,6 +1,7 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProgramLayout from "@/layouts/ProgramLayout.astro";
 import ProgramThankYou from "@/components/content/ProgramThankYou.astro";
+import { iitjBsc as p } from "@/data/programs/iitj-bsc.ts";
 
 // Shown after the lead form on the IIT Jodhpur B.S/B.Sc book-a-call page.
 const thanks = {
@@ -13,14 +14,18 @@ const thanks = {
 };
 ---
 
-<BaseLayout
+<ProgramLayout
   title="B.S/B.Sc in Applied AI & Data Science IIT Jodhpur Book a Call Thank You"
   description="Achieve your IIT dream with Futurense Uni. Fast-track your career with degrees from top IITs, immersive live classes, campus experiences & MAANG leader mentorship."
   exactTitle
   noindex
-  overlap
   conversion="AW-16634577510/bmz4CKzQ4-0aEOaE_vs9"
   leadOnly="/iit-jodhpur/b-s-b-sc-in-applied-ai-data-science-iit-jodhpur-book-a-call"
+  logo={p.nav.logo}
+  footerLogo={p.footer.logo}
+  phone={p.nav.phone}
+  navTheme="dark"
+  applyHref={thanks.apply}
 >
   <ProgramThankYou thanks={thanks} />
-</BaseLayout>
+</ProgramLayout>

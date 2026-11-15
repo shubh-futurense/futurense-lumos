@@ -26,9 +26,13 @@ type Props = SeoProps & {
   schema?: readonly object[];
   /** Course code for the Futurense AI chatbot. Omit to leave the chatbot out. */
   chatbot?: string;
+  /** Navbar colour: white (default) or black for dark pages. */
+  navTheme?: "light" | "dark";
+  /** Where the navbar's Apply Now goes. Defaults to the form on the page. */
+  applyHref?: string;
 };
 
-const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, ...seo } = Astro.props;
+const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, navTheme = "light", applyHref, ...seo } = Astro.props;
 ---
 
 <!doctype html>
@@ -41,7 +45,7 @@ const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, ...seo
   </head>
   <body id="top" class="program-page">
     <SkipLink />
-    <ProgramNav logo={logo} phone={phone} />
+    <ProgramNav logo={navTheme === "dark" ? footerLogo : logo} phone={phone} theme={navTheme} applyHref={applyHref} />
     <main id="main" tabindex="-1">
       <slot />
     </main>
