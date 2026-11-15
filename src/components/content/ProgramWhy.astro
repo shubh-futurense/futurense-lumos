@@ -12,7 +12,7 @@ const { why } = Astro.props;
 ---
 
 <section class="program-why_wrap">
-  <Heading tag="h2" variant="h2" class="alignment-center">
+  <Heading tag="h2" variant="h2" class="margin-top-0 alignment-center">
     {why.title.map((line, i) => (
       <Fragment>{i > 0 && <br />}<span class="program-gradient">{line}</span></Fragment>
     ))}

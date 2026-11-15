@@ -18,7 +18,7 @@ const { video } = Astro.props;
     <ProgramVideoCard youtube={video.main.youtube} image={video.main.image} alt={video.main.alt} />
   </div>
   <div class="program-video_director">
-    <Heading tag="h2" variant="h2" class="alignment-center">{video.director.title}</Heading>
+    <Heading tag="h2" variant="h2" class="margin-top-0 alignment-center">{video.director.title}</Heading>
     <p class="program-video_text">{video.director.text}</p>
     <div class="program-video_director_card">
       <ProgramVideoCard youtube={video.director.youtube} image={video.director.image} alt={video.director.alt} small />

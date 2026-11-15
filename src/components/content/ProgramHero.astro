@@ -30,8 +30,8 @@ const { hero, form, course } = Astro.props;
   <div class="program-hero_layout">
     <div class="program-hero_content">
       <p class="program-hero_eyebrow">{hero.eyebrow}</p>
-      <Heading tag="h1" variant="h1" class="program-hero_title">
-        {hero.titleStart} <span class="program-hero_accent">{hero.titleAccent}</span>
+      <Heading tag="h1" variant="h1" class="margin-top-0">
+        {hero.titleStart}{" "}<span class="program-hero_accent">{hero.titleAccent}</span>
       </Heading>
       <p class="program-hero_lead">{hero.lead}</p>
       <p class="program-hero_eligibility">{hero.eligibility}</p>
@@ -99,16 +99,15 @@ const { hero, form, course } = Astro.props;
     }
     .program-hero_eyebrow {
       font-weight: var(--primary-bold);
+      line-height: 1.2;
       margin-bottom: 0.25rem;
-    }
-    .program-hero_title {
-      margin-bottom: 1rem;
     }
     .program-hero_accent {
       color: var(--brand);
     }
     .program-hero_lead {
       max-width: 30rem;
+      margin-top: 1rem;
       font-size: 1.25rem;
       font-weight: var(--primary-semibold);
       line-height: 1.4;

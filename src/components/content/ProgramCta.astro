@@ -15,7 +15,7 @@ const { cta } = Astro.props;
   <div class="program-cta_card">
     <SiteImg class="program-cta_image" src={cta.image} alt="" size={1400} />
     <div class="program-cta_content">
-      <Heading tag="h2" variant="h3">{cta.title}</Heading>
+      <Heading class="margin-top-0" tag="h2" variant="h3">{cta.title}</Heading>
       <p>{cta.text}</p>
       <Button element="link" href="#header">{cta.button}</Button>
     </div>

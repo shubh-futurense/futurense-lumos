@@ -13,7 +13,7 @@ const { projects } = Astro.props;
 
 <section class="program-projects_wrap">
   <div class="program-projects_inner">
-    <Heading tag="h2" variant="h2">{projects.title}</Heading>
+    <Heading class="margin-top-0" tag="h2" variant="h2">{projects.title}</Heading>
     <p class="program-projects_text">{projects.text}</p>
     <div class="program-projects_list">
       <Accordion variant="box" single={false}>

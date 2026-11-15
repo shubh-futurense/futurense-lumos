@@ -22,7 +22,7 @@ const { steps } = Astro.props;
 <section class="program-steps_wrap" style={`--_pattern: url('${img(steps.pattern)}');`}>
   <div class="program-steps_layout">
     <div class="program-steps_intro">
-      <Heading tag="h2" variant="h3" maxWidth={16}>{steps.title}</Heading>
+      <Heading class="margin-top-0" tag="h2" variant="h3" maxWidth={16}>{steps.title}</Heading>
       <SiteImg class="program-steps_image" src={steps.image} alt={steps.alt} size={440} />
       <div class="program-steps_action">
         <Button element="link" href={steps.button.href} emphasis="secondary" target="_blank" rel="noopener">{steps.button.label}</Button>

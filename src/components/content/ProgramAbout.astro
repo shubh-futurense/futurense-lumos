@@ -22,7 +22,7 @@ const { about } = Astro.props;
   <div class="program-about_inner">
     <div class="program-about_intro">
       <div>
-        <Heading tag="h2" variant="h3">{about.title}</Heading>
+        <Heading class="margin-top-0" tag="h2" variant="h3">{about.title}</Heading>
         <p class="program-about_text">{about.text}</p>
       </div>
       <SiteImg class="program-about_image" src={about.image} alt={`${about.title.replace("About ", "")} campus`} size={520} />
@@ -173,6 +173,9 @@ const { about } = Astro.props;
     }
     .program-about_card {
       display: grid;
+      &[hidden] {
+        display: none;
+      }
       grid-template-columns: 1fr 1.5fr;
       min-height: 32rem;
       margin-top: 2rem;

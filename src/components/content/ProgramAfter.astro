@@ -11,7 +11,7 @@ const { after } = Astro.props;
 ---
 
 <section class="program-after_wrap">
-  <Heading tag="h2" variant="h2" class="alignment-center"><span class="program-gradient">{after.title}</span></Heading>
+  <Heading tag="h2" variant="h2" class="margin-top-0 alignment-center"><span class="program-gradient">{after.title}</span></Heading>
   <div class="program-after_rows">
     {after.rows.map((r, i) => (
       <article class:list={["program-after_row", i % 2 === 1 && "is-flipped"]}>
