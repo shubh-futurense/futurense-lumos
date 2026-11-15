@@ -23,7 +23,7 @@ const { steps } = Astro.props;
   <div class="program-steps_layout">
     <div class="program-steps_intro">
       <Heading class="margin-top-0" tag="h2" variant="h3" maxWidth={16}>{steps.title}</Heading>
-      <SiteImg class="program-steps_image" src={steps.image} alt={steps.alt} size={440} />
+      <SiteImg class="program-steps_image" src={steps.image} alt={steps.alt} size={440} transparent />
       <div class="program-steps_action">
         <Button element="link" href={steps.button.href} emphasis="secondary" target="_blank" rel="noopener">{steps.button.label}</Button>
       </div>

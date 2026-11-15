@@ -144,7 +144,8 @@ export const iitjBsc = {
   },
   "why": {
     "title": [
-      "Why B.S/B.Sc in Applied AI & Data Science? Everything in One Snapshot"
+      "Why B.S/B.Sc in Applied AI & Data Science?",
+      "Everything in One Snapshot"
     ],
     "cards": [
       {

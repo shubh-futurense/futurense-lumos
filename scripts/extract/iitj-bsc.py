@@ -97,7 +97,7 @@ heads = wy.select('h2 .text-color-gradient')
 why_cards = []
 for i, c in enumerate(wy.select('.card-small')):
     why_cards.append({'icon': save_svg(c.find('svg'), f'why-{i+1}'), 'title': text(c.find('strong')), 'text': text(c.find('p'))})
-data['why'] = {'title': [text(x) for x in heads], 'cards': why_cards}
+data['why'] = {'title': [t.strip() for x in heads for t in x.get_text('\n').split('\n') if t.strip()], 'cards': why_cards}
 
 # ---- Curriculum
 cu = secs[6]

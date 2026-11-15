@@ -76,6 +76,7 @@ const plain = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "
       & .accordion_title {
         font-size: 1.125rem;
         font-weight: var(--primary-semibold);
+        text-wrap: wrap;
       }
       & .accordion_body {
         display: flex;
@@ -94,13 +95,9 @@ const plain = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "
       grid-template-columns: 10rem 1fr;
       align-items: center;
       padding: 1.0625rem 1.5rem;
-      border-bottom: var(--border-width) solid rgb(0 0 0 / 0.1);
-      &:last-child {
-        border-bottom: 0;
-      }
       &.is-head {
         padding-block: 1rem;
-        border-bottom-color: rgb(0 0 0 / 0.2);
+        border-bottom: var(--border-width) solid rgb(0 0 0 / 0.2);
         background-color: #f9fafb;
         font-size: 1.25rem;
         font-weight: var(--primary-semibold);
