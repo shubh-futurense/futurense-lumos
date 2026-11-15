@@ -17,7 +17,9 @@ const {
   noindex,
   exactTitle = false,
   conversion,
+  leadOnly,
 } = Astro.props;
+const leadOnlyUrl = leadOnly ? withBase(leadOnly.replace(/^\//, "")) : null;
 
 // The page path without the GitHub Pages sub-folder, e.g. "/uni".
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -62,6 +64,18 @@ const socialImage = new URL(image, Astro.site);
 <link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
 <link rel="icon" href={withBase("favicon.ico")} />
 
-<!-- Google Ads, Analytics, Tag Manager and Clarity (futurense.com only) -->
+{leadOnlyUrl && (
+  <script is:inline define:vars={{ leadOnlyUrl }}>
+    // Thank-you pages: without a form submission in this tab, go back to the form.
+    var submitted = null;
+    try { submitted = sessionStorage.getItem("futurense-lead"); } catch (e) {}
+    if (!submitted) {
+      window.__leadBlocked = true;
+      location.replace(leadOnlyUrl + location.search);
+    }
+  </script>
+)}
+
+<!-- Google Ads, Analytics, Tag Manager and Clarity (live domains only) -->
 <Tracking conversion={conversion} />
 <meta name="generator" content={Astro.generator} />

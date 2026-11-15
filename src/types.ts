@@ -14,4 +14,9 @@ export interface SeoProps {
   exactTitle?: boolean;
   /** Google Ads conversion to report when this page loads (thank-you pages). */
   conversion?: string;
+  /**
+   * Only show this page after a lead form was submitted. Anyone arriving
+   * another way is sent to this path instead (e.g. the book-a-call page).
+   */
+  leadOnly?: string;
 }

@@ -147,6 +147,10 @@ const { redirect, course, selects } = Astro.props;
       } else {
         console.info("Test copy: lead not sent to LeadSquared.", payload);
       }
+      // Lets the thank-you page know a real submission happened in this tab.
+      try {
+        sessionStorage.setItem("futurense-lead", String(Date.now()));
+      } catch {}
       location.href = form.dataset.redirect!;
     });
   });

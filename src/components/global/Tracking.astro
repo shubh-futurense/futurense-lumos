@@ -28,7 +28,7 @@ const config = {
 
 <script is:inline define:vars={{ config }}>
   (function () {
-    if (!config.hosts.includes(location.hostname)) return;
+    if (!config.hosts.includes(location.hostname) || window.__leadBlocked) return;
 
     // Google tag (gtag.js): Google Ads + Google Analytics
     var g = document.createElement("script");
@@ -40,7 +40,15 @@ const config = {
     window.gtag("js", new Date());
     window.gtag("config", config.ads);
     window.gtag("config", config.analytics);
-    if (config.conversion) window.gtag("event", "conversion", { send_to: config.conversion });
+    // One conversion per form submission, so refreshing the thank-you page doesn't count twice.
+    if (config.conversion) {
+      var lead = null, sent = null;
+      try { lead = sessionStorage.getItem("futurense-lead"); sent = sessionStorage.getItem("futurense-lead-sent"); } catch (e) {}
+      if (lead && lead !== sent) {
+        window.gtag("event", "conversion", { send_to: config.conversion });
+        try { sessionStorage.setItem("futurense-lead-sent", lead); } catch (e) {}
+      }
+    }
 
     // Google Tag Manager, loaded after the page like on futurense.com
     window.addEventListener("load", function () {
