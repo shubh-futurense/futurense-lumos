@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "check": "astro check",
     "build": "astro build",
-    "build:landing": "astro build && node scripts/landing-only.mjs",
+    "build:landing": "npm run build && node scripts/landing-only.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",
