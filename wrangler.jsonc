@@ -1,23 +1,20 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "lumos-for-astro",
+  // The futurense.in ad site: the IIT Jodhpur B.S/B.Sc book-a-call page and
+  // its thank-you page. Built with `npm run build:landing`.
+  "name": "futurense-in",
   "compatibility_date": "2026-08-13",
 
   // The built site. There is no `main`, so this deploys as an assets-only
   // Worker: Cloudflare serves the files and no script runs per request.
+  // Static file requests are free and unlimited.
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
   },
 
-  // The domain the Worker answers on. `custom_domain` makes Cloudflare create
-  // and manage the DNS record for it, so the zone needs to be in this account.
-  "routes": [
-    {
-      "pattern": "preview.lumosframework.com",
-      "custom_domain": true,
-    },
-  ],
+  // Test address (futurense-in.<account>.workers.dev) until futurense.in is live.
+  "workers_dev": true,
 
   "observability": {
     "enabled": true,
