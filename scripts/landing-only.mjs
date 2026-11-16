@@ -43,7 +43,19 @@ await writeFile(
 `,
 );
 
-// 4. Let search engines read the page (its canonical link points to futurense.com).
+// 4. Built files have unique names, so browsers can keep them for a year.
+await writeFile(
+  join(DIST, "_headers"),
+  `/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/favicon.*
+  Cache-Control: public, max-age=86400
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400
+`,
+);
+
+// 5. Let search engines read the page (its canonical link points to futurense.com).
 await writeFile(join(DIST, "robots.txt"), "User-agent: *\nAllow: /\n");
 
 console.log(`Landing build ready: ${KEEP_PAGES.join(", ")}`);

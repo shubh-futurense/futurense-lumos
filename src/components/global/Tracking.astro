@@ -5,6 +5,10 @@
  *
  * They only run on the real Futurense domains (see LIVE_HOSTS), so preview copies (GitHub Pages, local) never
  * count visits or ad conversions.
+ *
+ * These tags cost phones about 3 seconds of processing, so on landing pages they load on the visitor's first
+ * interaction (scroll, tap, key press or mouse move). Anyone who fills in the form interacts, so ad click
+ * tracking still works. Pages that report a conversion (thank-you pages) load them straight away.
  */
 
 interface Props {
@@ -30,13 +34,27 @@ const config = {
   (function () {
     if (!config.hosts.includes(location.hostname) || window.__leadBlocked) return;
 
+    // Queue for Google tags, ready before the scripts arrive.
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+
+    var started = false;
+    var events = ["pointerdown", "touchstart", "keydown", "scroll", "wheel", "mousemove"];
+    function start() {
+      if (started) return;
+      started = true;
+      events.forEach(function (e) { removeEventListener(e, start, { passive: true }); });
+      load();
+    }
+    if (config.conversion) start();
+    else events.forEach(function (e) { addEventListener(e, start, { passive: true, once: true }); });
+
+    function load() {
     // Google tag (gtag.js): Google Ads + Google Analytics
     var g = document.createElement("script");
     g.async = true;
     g.src = "https://www.googletagmanager.com/gtag/js?id=" + config.ads;
     document.head.appendChild(g);
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
     window.gtag("js", new Date());
     window.gtag("config", config.ads);
     window.gtag("config", config.analytics);
@@ -50,14 +68,12 @@ const config = {
       }
     }
 
-    // Google Tag Manager, loaded after the page like on futurense.com
-    window.addEventListener("load", function () {
-      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-      var t = document.createElement("script");
-      t.async = true;
-      t.src = "https://www.googletagmanager.com/gtm.js?id=" + config.gtm;
-      document.head.appendChild(t);
-    });
+    // Google Tag Manager
+    window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var t = document.createElement("script");
+    t.async = true;
+    t.src = "https://www.googletagmanager.com/gtm.js?id=" + config.gtm;
+    document.head.appendChild(t);
 
     // Microsoft Clarity
     (function (c, l, a, r, i, t, y) {
@@ -65,5 +81,6 @@ const config = {
       t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", config.clarity);
+    }
   })();
 </script>

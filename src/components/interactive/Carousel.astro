@@ -75,13 +75,15 @@ const { render = true, controls = "bar", gap = 1.5, bleed = false, peek = false,
 )}
 
 <script>
-  import Swiper from "swiper";
-  import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+  // The slider library downloads only when the first carousel comes near the screen.
+  let library: Promise<typeof import("@/scripts/swiper.ts")> | null = null;
+  const loadSwiper = () => (library ??= import("@/scripts/swiper.ts"));
 
   const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
 
   // Start each slider only when it is about a screen away, so page load stays light.
-  const start = (carousel: HTMLElement) => {
+  const start = async (carousel: HTMLElement) => {
+    const { Swiper, Navigation, Pagination, Scrollbar } = await loadSwiper();
     const viewport = carousel.querySelector<HTMLElement>(".swiper")!;
     const track = carousel.querySelector<HTMLElement>("[data-carousel-track]")!;
     [...track.children].forEach((child) => child.classList.add("swiper-slide"));

@@ -60,6 +60,13 @@ const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, navThe
 
 <style is:global>
   @layer components {
+    /* Jump links (Apply Now) stop below the fixed navbar. */
+    html:has(body.program-page) {
+      scroll-padding-top: 5rem;
+      @media (prefers-reduced-motion: no-preference) {
+        scroll-behavior: smooth;
+      }
+    }
     /* Institute colours, used by every program section */
     .program-page {
       --brand-soft: #f7edeb;

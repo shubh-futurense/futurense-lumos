@@ -1,7 +1,7 @@
 ---
 /**
  * Futurense AI chatbot, copied from the embed on the live program pages.
- * The chatbot app loads once the page has finished loading, so it never slows the first screen.
+ * The chatbot app loads on the visitor's first interaction, so it never slows the first screen.
  */
 
 interface Props {
@@ -37,9 +37,16 @@ const src = `https://futurense-chatbot.vercel.app/?course=${encodeURIComponent(c
       frame.setAttribute("scrolling", "no");
       wrap.append(frame);
     };
-    const idle = (fn: () => void) => ("requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 3000 }) : setTimeout(fn, 1500));
-    if (document.readyState === "complete") idle(start);
-    else addEventListener("load", () => idle(start), { once: true });
+    // The chatbot app is heavy, so it loads on the visitor's first interaction.
+    const events = ["pointerdown", "touchstart", "keydown", "scroll", "wheel", "mousemove"] as const;
+    let started = false;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      events.forEach((e) => removeEventListener(e, begin));
+      start();
+    };
+    events.forEach((e) => addEventListener(e, begin, { passive: true, once: true }));
 
     // The chatbot tells the page when it opens or closes.
     addEventListener("message", (event) => {
