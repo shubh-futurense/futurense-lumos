@@ -10,7 +10,7 @@ const DIST = new URL("../dist", import.meta.url).pathname;
 const LANDING = "/iit-jodhpur/b-s-b-sc-in-applied-ai-data-science-iit-jodhpur-book-a-call";
 const KEEP_PAGES = [LANDING, `${LANDING}-thank-you`];
 // Shared files every page needs: styles, scripts, images, fonts, icons.
-const KEEP_TOP = new Set(["_astro", "iit-jodhpur", "favicon.ico", "favicon.svg", "og-image.jpg"]);
+const KEEP_TOP = new Set(["_astro", "iit-jodhpur", "favicon.ico", "favicon.svg", "apple-touch-icon.png", "og-image.jpg"]);
 
 // 1. Remove every page and file the ad site doesn't use.
 for (const entry of await readdir(DIST)) {
