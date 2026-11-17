@@ -24,7 +24,8 @@ const config = {
   hosts: LIVE_HOSTS,
   ads: "AW-16634577510",
   analytics: "G-09S1J7F1NM",
-  gtm: "GTM-WLG7RVMT",
+  // Google Tag Manager containers: the main futurense.com one, plus the one added for futurense.in.
+  gtm: ["GTM-WLG7RVMT", "GTM-MPDSN468"],
   clarity: "owrz7ebjgx",
   conversion: conversion ?? null,
 };
@@ -68,12 +69,14 @@ const config = {
       }
     }
 
-    // Google Tag Manager
+    // Google Tag Manager: one start event, read by every container
     window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-    var t = document.createElement("script");
-    t.async = true;
-    t.src = "https://www.googletagmanager.com/gtm.js?id=" + config.gtm;
-    document.head.appendChild(t);
+    config.gtm.forEach(function (id) {
+      var t = document.createElement("script");
+      t.async = true;
+      t.src = "https://www.googletagmanager.com/gtm.js?id=" + id;
+      document.head.appendChild(t);
+    });
 
     // Microsoft Clarity
     (function (c, l, a, r, i, t, y) {
