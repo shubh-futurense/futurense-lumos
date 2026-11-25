@@ -1,0 +1,358 @@
+---
+import IitjLeadForm from "@/components/iitj-de/IitjLeadForm.astro";
+---
+
+<dialog
+  data-modal-target="brochure"
+  aria-label="Download Brochure"
+  data-show-in-designer="false"
+  class="modal_dialog"
+>
+  <div class="modal_inner">
+    <div data-modal-close="" class="modal_backdrop"></div>
+    <div class="modal_content w-variant-b1435fca-56ec-668f-bd8b-4067700c8a9c">
+      <div class="modal_close">
+        <div
+          data-modal-close=" "
+          autofocus=" "
+          data-button=" "
+          class="button_close_wrap"
+        >
+          <div aria-hidden="true" class="button_close_icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              viewBox="0 0 26 26"
+              fill="none"
+              aria-hidden="true"
+              class="u-svg"
+            >
+              <path
+                d="M2 2L24.6274 24.6274"
+                stroke="currentColor"
+                stroke-width="2"
+                vector-effect="non-scaling-stroke"
+              ></path>
+              <path
+                d="M2 25L24.6274 2.37258"
+                stroke="currentColor"
+                stroke-width="2"
+                vector-effect="non-scaling-stroke"
+              ></path>
+            </svg>
+          </div>
+          <div class="clickable_wrap u-cover-absolute">
+            <a target="" href="#" class="clickable_link w-inline-block"></a>
+            <button type="button" class="clickable_btn">
+              <span class="clickable_text u-sr-only">Close</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        data-modal-scroll=""
+        class="modal_scroll w-variant-b1435fca-56ec-668f-bd8b-4067700c8a9c"
+      >
+        <div class="modal_slot">
+          <div class="content">
+            <div class="margin-bottom margin-xsmall">
+              <div class="text-align-center">
+                <h2 class="heading-style-h4 text-weight-semibold">
+                  Download Brochure
+                </h2>
+              </div>
+            </div>
+            <IitjLeadForm
+              variant="brochure"
+              redirect="https://futurense-assets.s3.ap-south-1.amazonaws.com/brochures/IITJ+-+PG+Diploma+and+MTech+in+Data+Engineering+and+Agentic+AI.pdf"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Download Brochure popup: opens from any [data-modal-trigger="brochure"] link.
+  const modal = document.querySelector<HTMLDialogElement>(
+    'dialog[data-modal-target="brochure"]',
+  );
+  if (modal) {
+    const content = modal.querySelector<HTMLElement>(".modal_content");
+    let last: HTMLElement | null = null;
+    const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const open = () => {
+      last = document.activeElement as HTMLElement;
+      document.documentElement.style.overflow = "hidden";
+      modal.showModal();
+      modal
+        .querySelectorAll<HTMLElement>("[data-modal-scroll]")
+        .forEach((el) => (el.scrollTop = 0));
+      if (!reduce()) {
+        modal.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 300,
+          easing: "ease-out",
+        });
+        content?.animate([{ translate: "0 6rem" }, { translate: "0 0" }], {
+          duration: 300,
+          easing: "ease-out",
+        });
+      }
+    };
+    const close = () => {
+      const done = () => {
+        modal.close();
+        document.documentElement.style.overflow = "";
+        last?.focus();
+      };
+      if (reduce()) return done();
+      modal.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: 250,
+        easing: "ease-in",
+      }).onfinish = done;
+    };
+    modal.addEventListener("cancel", (e) => (e.preventDefault(), close()));
+    modal.addEventListener(
+      "click",
+      (e) => (e.target as Element).closest("[data-modal-close]") && close(),
+    );
+    document.addEventListener("click", (e) => {
+      if (!(e.target as Element).closest('[data-modal-trigger="brochure"]'))
+        return;
+      e.preventDefault();
+      open();
+    });
+    if (location.hash === "#brochure") open();
+  }
+</script>
+
+<style is:global>
+  @layer components {
+    .button.full-black {
+      border-color: var(--button-primary--border-hover);
+      background-color: var(--_primitives---colors--black);
+      width: 100%;
+      color: var(--_primitives---colors--white);
+    }
+    .button.full-black:hover {
+      background-color: var(--_primitives---colors--brand-primary);
+    }
+    .text-weight-semibold {
+      font-family: "SF Pro Display", Arial, sans-serif;
+      font-weight: 600;
+    }
+    .form_field-2col._1-clmn {
+      grid-template-columns: 1fr;
+    }
+    .modal_dialog {
+      z-index: 2000;
+      width: 100%;
+      max-width: none;
+      height: 100vh;
+      max-height: none;
+      color: inherit;
+      background-color: #0000;
+      border-style: none;
+      border-width: 0;
+      margin: 0;
+      padding: 0;
+      position: fixed;
+      inset: 0% 0% auto;
+      overflow: clip;
+    }
+    .modal_inner {
+      width: 100%;
+      height: 100dvh;
+      padding: var(--_primitives---site--margin);
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+    .modal_backdrop {
+      opacity: 0.17;
+      background-color: #000;
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      inset: 0% 0% auto;
+    }
+    .modal_content {
+      z-index: 1000;
+      color: #1f1d1e;
+      background-color: #fff;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 38rem;
+      max-height: 100%;
+      position: relative;
+    }
+    .modal_content:where(.w-variant-b1435fca-56ec-668f-bd8b-4067700c8a9c) {
+      max-width: 27rem;
+      max-height: 90vh;
+    }
+    .modal_scroll {
+      z-index: 1000;
+      height: 100%;
+      padding-top: var(--_size---3rem);
+      padding-right: var(--_size---3rem);
+      padding-bottom: var(--_size---3rem);
+      padding-left: var(--_size---3rem);
+      grid-column-gap: clamp(
+        1.75 * 1rem,
+        (
+          (1.75 - ((2 - 1.75) / (90 - 20) * 20)) * 1rem +
+            ((2 - 1.75) / (90 - 20)) * 100vw
+        ),
+        2 * 1rem
+      );
+      grid-row-gap: clamp(
+        1.75 * 1rem,
+        (
+          (1.75 - ((2 - 1.75) / (90 - 20) * 20)) * 1rem +
+            ((2 - 1.75) / (90 - 20)) * 100vw
+        ),
+        2 * 1rem
+      );
+      flex-flow: column;
+      display: flex;
+      position: relative;
+      overflow: hidden auto;
+    }
+    .modal_scroll:where(.w-variant-b1435fca-56ec-668f-bd8b-4067700c8a9c) {
+      padding: var(--_size---2rem);
+    }
+    .modal_close {
+      z-index: 2000;
+      align-self: flex-end;
+      position: absolute;
+      inset: -3% -3% auto auto;
+    }
+    .button_close_wrap {
+      aspect-ratio: 1;
+      border: 0.094rem solid var(--_primitives---colors--brand-primary);
+      background-color: var(--_primitives---colors--brand-primary);
+      width: 3rem;
+      color: var(--_primitives---colors--white);
+      vertical-align: middle;
+      border-radius: 100vw;
+      justify-content: center;
+      align-items: center;
+      transition:
+        border-color 0.2s,
+        color 0.2s,
+        background-color 0.2s;
+      display: inline-flex;
+      position: relative;
+    }
+    .button_close_wrap:hover {
+      color: #fff;
+      background-color: #1f1d1e;
+      border-color: #1f1d1e;
+    }
+    .button_close_icon {
+      aspect-ratio: 1;
+      width: 36%;
+      position: relative;
+    }
+    .u-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible !important;
+    }
+    .clickable_wrap {
+      z-index: 3;
+      border-radius: inherit;
+      position: absolute;
+      inset: 0%;
+    }
+    .clickable_link {
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      inset: 0%;
+    }
+    .clickable_text.u-sr-only {
+      clip: rect(0, 0, 0, 0);
+      width: 1px;
+      height: 1px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+      position: absolute;
+      inset: 0% 0% auto;
+      overflow: hidden;
+    }
+    .clickable_btn {
+      background-color: var(--button-secondary-transparent--background);
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
+      display: none;
+      position: absolute;
+      inset: 0%;
+    }
+    .modal_slot {
+      flex-flow: column;
+      flex: 1;
+      justify-content: center;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+    }
+    .u-sr-only {
+      white-space: nowrap;
+      clip: rect(0, 0, 0, 0);
+      border-width: 0;
+      width: 1px;
+      height: 1px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+      position: absolute;
+      inset: 0% 0% auto;
+      overflow: hidden;
+    }
+    @media screen and (max-width: 767px) {
+      .heading-style-h4.text-weight-semibold {
+        font-family: "SF Pro Display", Arial, sans-serif;
+        font-weight: 600;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .modal_inner {
+        padding: 2rem 1rem 1rem;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .modal_scroll {
+        padding: 2rem 1rem 1rem;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .modal_scroll:where(.w-variant-b1435fca-56ec-668f-bd8b-4067700c8a9c) {
+        padding-top: 2rem;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .modal_close {
+        top: -6%;
+        right: -1%;
+      }
+    }
+    .modal_dialog::backdrop {
+      opacity: 0;
+    }
+    .clickable_wrap a[href="#"] {
+      display: none;
+    }
+    .clickable_wrap a[href="#"] ~ button {
+      display: block;
+    }
+  }
+</style>

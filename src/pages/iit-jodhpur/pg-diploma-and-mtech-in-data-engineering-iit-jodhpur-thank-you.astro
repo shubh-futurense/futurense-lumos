@@ -1,0 +1,30 @@
+---
+import ProgramLayout from "@/layouts/ProgramLayout.astro";
+import ProgramThankYou from "@/components/content/ProgramThankYou.astro";
+import { iitjBsc as p } from "@/data/programs/iitj-bsc.ts";
+
+// Shown after the lead form on the IIT Jodhpur PG Diploma / Executive M.Tech in Data Engineering page.
+const thanks = {
+  title: "Thank you for your interest",
+  brochure: "https://futurense-assets.s3.ap-south-1.amazonaws.com/brochures/IITJ+-+PG+Diploma+and+MTech+in+Data+Engineering+and+Agentic+AI.pdf",
+  whatsapp: "919958815791",
+  phone: "08065006401",
+  schedule: "https://calendar.app.google/HhuDNGKcYbsoBHgK9",
+  apply: "https://applications.futurense.com/signup?program_code=IITJ-PGMT-DE&team_code=iitj1y6",
+};
+---
+
+<ProgramLayout
+  title="PG Diploma and MTech in Data Engineering IIT Jodhpur Thank You"
+  description="Achieve your IIT dream with Futurense Uni. Fast-track your career with degrees from top IITs, immersive live classes, campus experiences & MAANG leader mentorship."
+  exactTitle
+  noindex
+  leadOnly="/iit-jodhpur/pg-diploma-mtech-data-engineering"
+  logo={p.nav.logo}
+  footerLogo={p.footer.logo}
+  phone={thanks.phone}
+  navTheme="dark"
+  applyHref={thanks.apply}
+>
+  <ProgramThankYou thanks={thanks} />
+</ProgramLayout>

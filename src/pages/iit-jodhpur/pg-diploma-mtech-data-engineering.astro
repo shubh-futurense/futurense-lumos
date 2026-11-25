@@ -1,0 +1,58 @@
+---
+/**
+ * IIT Jodhpur: PG Diploma and Executive M.Tech in Data Engineering and Agentic AI.
+ * Rebuilt from the live Webflow page (futurense.com/iit-jodhpur/pg-diploma-mtech-data-engineering).
+ * Each section is a component in src/components/iitj-de/ carrying its own styles and scripts;
+ * styles shared between sections are in src/styles/iitj-de.css.
+ */
+import "@/styles/iitj-de.css";
+import ProgramLayout from "@/layouts/ProgramLayout.astro";
+import IitjHero from "@/components/iitj-de/IitjHero.astro";
+import IitjWhy from "@/components/iitj-de/IitjWhy.astro";
+import IitjPractical from "@/components/iitj-de/IitjPractical.astro";
+import IitjMarket from "@/components/iitj-de/IitjMarket.astro";
+import IitjWho from "@/components/iitj-de/IitjWho.astro";
+import IitjCurriculum from "@/components/iitj-de/IitjCurriculum.astro";
+import IitjStructure from "@/components/iitj-de/IitjStructure.astro";
+import IitjStrip from "@/components/iitj-de/IitjStrip.astro";
+import IitjOutcomes from "@/components/iitj-de/IitjOutcomes.astro";
+import IitjChanges from "@/components/iitj-de/IitjChanges.astro";
+import IitjCareers from "@/components/iitj-de/IitjCareers.astro";
+import IitjFees from "@/components/iitj-de/IitjFees.astro";
+import IitjCredential from "@/components/iitj-de/IitjCredential.astro";
+import IitjFlc from "@/components/iitj-de/IitjFlc.astro";
+import IitjFaq from "@/components/iitj-de/IitjFaq.astro";
+import IitjFooter from "@/components/iitj-de/IitjFooter.astro";
+import IitjBrochureModal from "@/components/iitj-de/IitjBrochureModal.astro";
+import { iitjDeSchema } from "@/data/programs/iitj-de-schema.ts";
+---
+
+<ProgramLayout
+  title="PG Diploma and Executive M.Tech in Data Engineering & Agentic AI | IIT Jodhpur"
+  description="Join IIT Jodhpur's PG Diploma and Executive M.Tech in Data Engineering & Agentic AI. Build data engineer certification-ready skills with GenAI and live projects."
+  image="https://cdn.prod.website-files.com/687e11ae076e4c47d227af38/6a9e5d3be32c1a1037163ea7_IIT%20Jodhpur%20-%20PG%20Diploma%20and%20M.Tech.%20in%20Data%20Engineering%20OG.jpg"
+  exactTitle
+  chrome={false}
+  bodyClass="iitj-de font-inter"
+  schema={iitjDeSchema}
+>
+  <div class="main-wrapper">
+    <IitjHero />
+    <IitjWhy />
+    <IitjPractical />
+    <IitjMarket />
+    <IitjWho />
+    <IitjCurriculum />
+    <IitjStructure />
+    <IitjStrip />
+    <IitjOutcomes />
+    <IitjChanges />
+    <IitjCareers />
+    <IitjFees />
+    <IitjCredential />
+    <IitjFlc />
+    <IitjFaq />
+  </div>
+  <IitjFooter slot="footer" />
+  <IitjBrochureModal slot="end" />
+</ProgramLayout>

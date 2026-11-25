@@ -1,6 +1,6 @@
-// Turns a normal build into the futurense.in ad site: only the IIT Jodhpur
-// B.S/B.Sc book-a-call page and its thank-you page, with every other address
-// sending visitors to the book-a-call page.
+// Turns a normal build into the futurense.in ad site: only the program pages listed
+// in KEEP_PAGES (and their thank-you pages), with the home page and every other
+// address sending visitors to the B.S/B.Sc book-a-call page.
 //
 // Runs after `astro build` (see the "build:landing" script in package.json).
 import { readdir, rm, writeFile } from "node:fs/promises";
@@ -8,7 +8,13 @@ import { join } from "node:path";
 
 const DIST = new URL("../dist", import.meta.url).pathname;
 const LANDING = "/iit-jodhpur/b-s-b-sc-in-applied-ai-data-science-iit-jodhpur-book-a-call";
-const KEEP_PAGES = [LANDING, `${LANDING}-thank-you`];
+const KEEP_PAGES = [
+  LANDING,
+  `${LANDING}-thank-you`,
+  // IIT Jodhpur PG Diploma / Executive M.Tech in Data Engineering and Agentic AI
+  "/iit-jodhpur/pg-diploma-mtech-data-engineering",
+  "/iit-jodhpur/pg-diploma-and-mtech-in-data-engineering-iit-jodhpur-thank-you",
+];
 // Shared files every page needs: styles, scripts, images, fonts, icons.
 const KEEP_TOP = new Set(["_astro", "iit-jodhpur", "favicon.ico", "favicon.svg", "apple-touch-icon.png", "og-image.jpg"]);
 

@@ -1,0 +1,440 @@
+---
+---
+
+<section id="market" class="iitj-light">
+  <div class="padding-global padding-section-medium">
+    <div class="container-large">
+      <div class="iitj-inner">
+        <div class="iitj-market_top">
+          <div class="iitj-market_intro">
+            <h2 class="iitj-heading-48 iitj-text-ink">
+              The Market Is Already Hiring Engineers Who Connect{" "}
+              <span class="iitj-text-blue">Data and AI</span>
+            </h2>
+            <p class="iitj-text-grey">
+              Build the skills to move from moving data to engineering the
+              systems AI runs on.
+            </p>
+          </div>
+          <div class="iitj-rolestack">
+            <div class="iitj-rolecard iitj-rolecard-back">
+              <div class="iitj-icon-36">
+                <img
+                  src="https://cdn.prod.website-files.com/687e11ae076e4c47d227af38/6adbc86d0f67c5ccffa202d4_iitj-de-icon-role-architect.svg"
+                  alt=""
+                  class="iitj-img-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="text-size-xlarge iitj-weight-semibold iitj-text-ink">
+                Data Architect
+              </div>
+            </div>
+            <div class="iitj-rolecard iitj-rolecard-mid">
+              <div class="iitj-icon-36">
+                <img
+                  src="https://cdn.prod.website-files.com/687e11ae076e4c47d227af38/6adbc86f5117c6be2d07b636_iitj-de-icon-role-llm.svg"
+                  alt=""
+                  class="iitj-img-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="text-size-xlarge iitj-weight-semibold iitj-text-ink">
+                LLM / GenAI Application Developer
+              </div>
+            </div>
+            <div class="iitj-rolecard iitj-rolecard-front">
+              <div class="iitj-icon-36">
+                <img
+                  src="https://cdn.prod.website-files.com/687e11ae076e4c47d227af38/6adbc8719a79bfd568520fcd_iitj-de-icon-role-agentic.svg"
+                  alt=""
+                  class="iitj-img-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="text-size-xlarge iitj-weight-semibold iitj-text-ink">
+                Agentic AI Engineer
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="iitj-stats">
+          <div class="iitj-stat">
+            <div class="iitj-weight-semibold iitj-text-blue">
+              Market size | India
+            </div>
+            <div class="iitj-stat_row">
+              <div class="iitj-stat_text">
+                <div class="iitj-stat-64">
+                  ₹1.9 <span class="iitj-stat-64 is-ai">Lakh Crore+</span>
+                </div>
+                <p class="text-size-medium iitj-text-grey">
+                  Projected size of India's data and analytics market by 2030
+                  (NASSCOM).
+                </p>
+              </div>
+              <div class="iitj-stat_map">
+                <img
+                  src="https://cdn.prod.website-files.com/687e11ae076e4c47d227af38/6adbc873da1e0752ab5dc45d_iitj-de-india-map.svg"
+                  alt="Map of India"
+                  class="iitj-img-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="iitj-stat">
+            <div class="iitj-weight-semibold iitj-text-blue">
+              Indicative salary | India
+            </div>
+            <div class="iitj-stat-64">
+              <span>₹20L to ₹60L+</span>
+            </div>
+            <div class="iitj-range">
+              <div class="iitj-range_bar">
+                <div class="iitj-range_fill"></div>
+              </div>
+              <div class="iitj-range_labels">
+                <div class="text-size-tiny iitj-text-grey">₹0</div>
+                <div class="text-size-tiny iitj-text-grey iitj-range_mid">
+                  ₹20L
+                </div>
+                <div class="text-size-tiny iitj-text-grey">₹60L+</div>
+              </div>
+            </div>
+            <p class="text-size-medium iitj-text-grey">
+              Across data and AI engineering roles.
+            </p>
+          </div>
+        </div>
+        <p class="text-size-tiny iitj-text-grey">
+          *Salary ranges are indicative market ranges from Glassdoor, not
+          program outcomes. Futurense does not guarantee placement or salary.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Role cards: the front card moves to the back every 2.4 seconds (larger screens only).
+  const stack = document.querySelector<HTMLElement>(".iitj-rolestack");
+  const positions = [
+    "iitj-rolecard-front",
+    "iitj-rolecard-mid",
+    "iitj-rolecard-back",
+  ];
+  if (stack && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const cards = positions
+      .map((k) => stack.querySelector<HTMLElement>(`.${k}`))
+      .filter((c): c is HTMLElement => !!c);
+    const lay = () =>
+      cards.forEach((card, i) => {
+        card.classList.remove(...positions);
+        card.classList.add(positions[i]);
+        card.style.zIndex = String(3 - i);
+      });
+    lay();
+    setInterval(() => {
+      if (document.hidden || !matchMedia("(min-width: 992px)").matches) return;
+      cards.push(cards.shift()!);
+      lay();
+    }, 2400);
+  }
+</script>
+
+<style is:global>
+  @layer components {
+    .text-size-medium.iitj-weight-semibold.iitj-text-ink.is-ai {
+      color: #32221a;
+    }
+    .text-size-medium.iitj-text-ink.is-ai {
+      color: #32221a;
+    }
+    .text-size-tiny.iitj-text-grey.iitj-range_mid.is-ai {
+      margin-left: 0;
+      position: relative;
+      left: -41%;
+    }
+    .text-size-tiny.iitj-text-ink.is-ai {
+      color: #32221a;
+    }
+    .text-size-xlarge.iitj-weight-semibold.iitj-text-ink.is-ai {
+      color: #32221a;
+    }
+    .text-size-xlarge.iitj-weight-semibold.iitj-text-blue.is-ai {
+      color: #e8681a;
+    }
+    .iitj-weight-semibold.iitj-text-blue.is-ai {
+      color: #e8681a;
+    }
+    .iitj-heading-48.iitj-text-ink.is-ai {
+      color: #32221a;
+    }
+    .iitj-text-blue.is-ai {
+      color: #e8681a;
+    }
+    .iitj-light {
+      background-color: #f3f7fe;
+      position: relative;
+    }
+    .iitj-light.is-ai {
+      background-color: #fbf6f0;
+    }
+    .iitj-text-ink.is-ai {
+      color: #32221a;
+    }
+    .iitj-market_top {
+      grid-template-rows: auto;
+      grid-template-columns: 1fr 28rem;
+      align-items: start;
+      column-gap: 4.5rem;
+      display: grid;
+    }
+    .iitj-market_intro {
+      flex-direction: column;
+      row-gap: 1.25rem;
+      max-width: 40rem;
+      display: flex;
+    }
+    .iitj-rolestack {
+      height: 11.5rem;
+      position: relative;
+    }
+    .iitj-rolecard {
+      background-color: #fff;
+      border: 1px solid #e4eaf5;
+      border-radius: 1rem;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 0.75rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      display: flex;
+      position: absolute;
+      box-shadow: 0 18px 20px #17204e33;
+    }
+    .iitj-rolecard.iitj-rolecard-back.is-ai,
+    .iitj-rolecard.iitj-rolecard-mid.is-ai,
+    .iitj-rolecard.iitj-rolecard-front.is-ai {
+      border-color: #efe2d7;
+      box-shadow: 0 18px 20px #422d2333;
+    }
+    .iitj-rolecard-back {
+      opacity: 0.45;
+      height: 9rem;
+      top: 2.5rem;
+      left: 1.5rem;
+      right: 1.5rem;
+    }
+    .iitj-rolecard-mid {
+      opacity: 0.75;
+      height: 9.5rem;
+      top: 1.25rem;
+      left: 0.75rem;
+      right: 0.75rem;
+    }
+    .iitj-rolecard-front {
+      height: 10rem;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    .iitj-icon-36 {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+    }
+    .iitj-stats {
+      grid-template-rows: auto;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1.25rem;
+      display: grid;
+    }
+    .iitj-stat {
+      flex-direction: column;
+      row-gap: 1rem;
+      display: flex;
+      position: relative;
+    }
+    .iitj-stat_row {
+      justify-content: space-between;
+      column-gap: 1.25rem;
+      display: flex;
+    }
+    .iitj-stat_text {
+      flex-direction: column;
+      row-gap: 1rem;
+      max-width: 21rem;
+      display: flex;
+    }
+    .iitj-stat_map {
+      background-repeat: no-repeat;
+      background-size: contain;
+      flex-shrink: 0;
+      width: 10rem;
+      height: 10.75rem;
+      margin-right: 3.5rem;
+    }
+    .iitj-stat-64 {
+      color: #0f1022;
+      letter-spacing: -0.07em;
+      font-family: Inter, Arial, sans-serif;
+      font-size: 4rem;
+      font-weight: 300;
+      line-height: 1;
+    }
+    .iitj-stat-64.is-ai {
+      color: #32221a;
+    }
+    .iitj-range {
+      flex-direction: column;
+      row-gap: 0.25rem;
+      margin-top: 1rem;
+      display: flex;
+    }
+    .iitj-range_bar {
+      background-color: #e3ebfc;
+      height: 0.5rem;
+      position: relative;
+    }
+    .iitj-range_bar.is-ai {
+      background-color: #fbe4d0;
+    }
+    .iitj-range_fill {
+      background-color: #1f5fd6;
+      position: absolute;
+      inset: 0 0 0 33.33%;
+    }
+    .iitj-range_fill.is-ai {
+      background-color: #e8681a;
+      left: 7.8%;
+    }
+    .iitj-range_labels {
+      justify-content: space-between;
+      display: flex;
+    }
+    .iitj-range_mid {
+      margin-left: -38%;
+    }
+    @media screen and (max-width: 991px) {
+      .iitj-market_top,
+      .iitj-stats {
+        grid-template-rows: auto;
+        grid-template-columns: 1fr;
+        row-gap: 3rem;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-market_top {
+        row-gap: 1.5rem;
+        margin-bottom: -1.25rem;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolestack {
+        order: -1;
+        column-gap: 0.75rem;
+        height: auto;
+        padding-bottom: 0.5rem;
+        display: flex;
+        overflow-x: auto;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolecard {
+        white-space: nowrap;
+        border-radius: 8px;
+        flex-direction: row;
+        flex-shrink: 0;
+        align-items: center;
+        column-gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        position: relative;
+        box-shadow: 0 4px 12px #17204e14;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolecard.iitj-rolecard-back.is-ai,
+      .iitj-rolecard.iitj-rolecard-mid.is-ai,
+      .iitj-rolecard.iitj-rolecard-front.is-ai {
+        box-shadow: 0 4px 12px #422d2314;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolecard-back {
+        opacity: 1;
+        order: 3;
+        height: auto;
+        top: auto;
+        left: auto;
+        right: auto;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolecard-mid {
+        opacity: 1;
+        order: 2;
+        height: auto;
+        top: auto;
+        left: auto;
+        right: auto;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolecard-front {
+        opacity: 1;
+        order: 1;
+        height: auto;
+        top: auto;
+        left: auto;
+        right: auto;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-icon-36 {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-stats {
+        row-gap: 1.75rem;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-stat_map {
+        width: 9.2rem;
+        height: 9.8rem;
+        margin-right: 0;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-stat-64 {
+        font-size: 2.25rem;
+        line-height: 1;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-stat > .iitj-weight-semibold {
+        font-size: 0.8125rem;
+        line-height: 1.55;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-stat_text .text-size-medium {
+        line-height: 1.55;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .iitj-rolecard .text-size-xlarge {
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+    }
+  }
+</style>

@@ -22,6 +22,12 @@ const FONTS = [
   ["sf-pro-600.woff2", "A/687e12ce926440441757773e_SF-Pro-Display-Semibold.otf"],
   ["sf-pro-700.woff2", "A/687e12ce7debbf93f625f84b_SFPRODISPLAYBOLD.OTF"],
   ["dm-serif-italic.woff2", "A/687e12ee375ee0555ef0e47e_DMSerifText-Italic.ttf"],
+  // Inter, used by the IIT Jodhpur PG Diploma / M.Tech page
+  ["inter-300.woff2", "A/6adb25414590e741a0cdcd97_Inter_24pt-Light.ttf"],
+  ["inter-400.woff2", "A/6adb2541de3b1907ac7d73dd_Inter_24pt-Regular.ttf"],
+  ["inter-500.woff2", "A/6adb25412c596b9da90a2e81_Inter_24pt-Medium.ttf"],
+  ["inter-600.woff2", "A/6adb2541e28a6d2a3f5266f1_Inter_24pt-SemiBold.ttf"],
+  ["inter-700.woff2", "A/6adb2541ce021a2f5667e019_Inter_24pt-Bold.ttf"],
 ];
 
 // Basic Latin, Latin-1, general punctuation and the rupee sign: everything the copy uses.
@@ -60,8 +66,8 @@ async function download(url, tries = 3) {
 }
 
 async function imagePaths() {
-  // Every data file and page can name Webflow images.
-  const dirs = ["src/data", "src/pages"];
+  // Every data file, page and component can name Webflow images.
+  const dirs = ["src/data", "src/pages", "src/components"];
   const files = [];
   for (const dir of dirs) {
     for (const entry of await readdir(join(ROOT, dir), { recursive: true })) {
