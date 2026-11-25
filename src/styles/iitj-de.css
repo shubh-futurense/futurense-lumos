@@ -36,6 +36,26 @@
 }
 
 @layer components {
+  /* The live page sets Inter on <body> (Webflow class "font-inter"). */
+  body.iitj-de {
+    font-family: Inter, Arial, sans-serif;
+    background-color: #fff;
+    color: #000;
+  }
+
+  /* From the live page's custom code: links and form controls take their parent's colour and size. */
+  :where(.iitj-de) a,
+  .iitj-de .w-input,
+  .iitj-de .w-select,
+  .iitj-de .w-tab-link,
+  .iitj-de .w-nav-brand,
+  .iitj-de .w-dropdown-toggle,
+  .iitj-de .w-dropdown-link {
+    color: inherit;
+    text-decoration: inherit;
+    font-size: inherit;
+  }
+
   .iitj-de {
     --_button-style---background-hover: var(--button-primary--background-hover);
     --_button-style---background: var(--button-primary--background);
