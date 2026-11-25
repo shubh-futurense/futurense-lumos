@@ -30,6 +30,8 @@ export const itemSlider = async (component: HTMLElement) => {
       bulletActiveClass: "is-active",
       bulletClass: "item-slider_bullet_item",
       bulletElement: "button",
+      renderBullet: (i: number, cls: string) =>
+        `<button class="${cls}" aria-label="Go to slide ${i + 1}"></button>`,
       clickable: true,
     },
   });
