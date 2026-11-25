@@ -1,5 +1,5 @@
 ---
-/** Thank-you screen after the lead form: next-step links, Apply Now and the program video. */
+/** Thank-you screen after the lead form: next-step links, Apply Now and (optionally) the program video. */
 import Heading from "@/components/typography/Heading.astro";
 import Icon from "@/components/media/Icon.astro";
 import ProgramVideoCard from "@/components/content/ProgramVideoCard.astro";
@@ -12,7 +12,12 @@ interface Props {
     whatsapp: string;
     phone: string;
     apply: string;
-    video: { youtube: string; image: string };
+    /** "Schedule a Call" link (a booking page). Defaults to calling the phone number. */
+    schedule?: string;
+    /** Program video beside the links. Without one, the links sit in two columns. */
+    video?: { youtube: string; image: string };
+    /** Alt text for the video thumbnail. */
+    videoAlt?: string;
   };
 }
 
@@ -22,7 +27,7 @@ const { thanks } = Astro.props;
 <section class="program-thanks_wrap">
   <div class="program-thanks_card">
     <Heading tag="h1" variant="h3" class="margin-top-0 alignment-center">{thanks.title}</Heading>
-    <div class="program-thanks_layout">
+    <div class:list={["program-thanks_layout", !thanks.video && "is-no-video"]}>
       <div>
         <ul class="program-thanks_list" role="list">
           <li>
@@ -42,7 +47,7 @@ const { thanks } = Astro.props;
           <li>
             <Icon src={programIcon("calendar.svg")} />
             <div>
-              <a href={`tel:${thanks.phone}`}>Schedule a Call</a>
+              <a href={thanks.schedule ?? `tel:${thanks.phone}`} target={thanks.schedule ? "_blank" : undefined} rel={thanks.schedule ? "noopener" : undefined}>Schedule a Call</a>
               <p>Our Advisor will call you based on your convenience</p>
             </div>
           </li>
@@ -56,7 +61,7 @@ const { thanks } = Astro.props;
         </ul>
         <a class="program-thanks_apply" href={thanks.apply} target="_blank" rel="noopener">Apply Now</a>
       </div>
-      <ProgramVideoCard youtube={thanks.video.youtube} image={thanks.video.image} alt="IIT Jodhpur B.S/B.Sc program video" small />
+      {thanks.video && <ProgramVideoCard youtube={thanks.video.youtube} image={thanks.video.image} alt={thanks.videoAlt ?? "Program video"} small />}
     </div>
   </div>
 </section>
@@ -94,6 +99,24 @@ const { thanks } = Astro.props;
       margin-top: 3rem;
       @media (width < 64rem) {
         grid-template-columns: 1fr;
+      }
+      &.is-no-video {
+        grid-template-columns: 1fr;
+        & .program-thanks_list {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.75rem 2rem;
+          padding-inline: 1.75rem;
+          @media (width < 48rem) {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding-inline: 0;
+          }
+        }
+        & .program-thanks_apply {
+          width: fit-content;
+          margin-inline: auto;
+        }
       }
     }
     .program-thanks_list {
