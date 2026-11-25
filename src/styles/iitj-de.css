@@ -3,6 +3,8 @@
  * Shared rules carried across from the live Webflow page (classes used by more than one section),
  * its design variables, and the browser defaults Webflow relied on, scoped to the page.
  * Section-specific rules live in each component under src/components/iitj-de/.
+ * Sizes stay in the units the live page uses (px where Webflow used px): this page's root
+ * font size is fluid, so converting px to rem would make every px-sized element slightly larger.
  */
 @font-face {
   font-family: "Inter";
@@ -182,32 +184,32 @@
   :where(.iitj-de) h2,
   :where(.iitj-de) h3,
   :where(.iitj-de) h4 {
-    margin-bottom: 0.625rem;
+    margin-bottom: 10px;
     font-weight: bold;
   }
   :where(.iitj-de) h1 {
-    margin-top: 1.25rem;
-    font-size: 2.375rem;
-    line-height: 2.75rem;
+    margin-top: 20px;
+    font-size: 38px;
+    line-height: 44px;
   }
   :where(.iitj-de) h2 {
-    margin-top: 1.25rem;
-    font-size: 2rem;
-    line-height: 2.25rem;
+    margin-top: 20px;
+    font-size: 32px;
+    line-height: 36px;
   }
   :where(.iitj-de) h3 {
-    margin-top: 1.25rem;
-    font-size: 1.5rem;
-    line-height: 1.875rem;
+    margin-top: 20px;
+    font-size: 24px;
+    line-height: 30px;
   }
   :where(.iitj-de) h4 {
-    margin-top: 0.625rem;
-    font-size: 1.125rem;
-    line-height: 1.5rem;
+    margin-top: 10px;
+    font-size: 18px;
+    line-height: 24px;
   }
   :where(.iitj-de) p {
     margin-top: 0;
-    margin-bottom: 0.625rem;
+    margin-bottom: 10px;
   }
   :where(.iitj-de) button {
     cursor: pointer;
@@ -215,7 +217,7 @@
     border: 0;
   }
   :where(.iitj-de) label {
-    margin-bottom: 0.3125rem;
+    margin-bottom: 5px;
     font-weight: bold;
     display: block;
   }
@@ -274,42 +276,42 @@
     margin-bottom: 0.25rem;
     font-weight: 500;
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     :where(.iitj-de) h1 {
       font-size: 3.25rem;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     :where(.iitj-de) h2 {
       font-size: 2.75rem;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     :where(.iitj-de) h3 {
       font-size: 2.25rem;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     :where(.iitj-de) h4 {
       font-size: 1.75rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     :where(.iitj-de) h1 {
       font-size: 2.5rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     :where(.iitj-de) h2 {
       font-size: 2.25rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     :where(.iitj-de) h3 {
       font-size: 2rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     :where(.iitj-de) h4 {
       font-family: "SF Pro Display", Arial, sans-serif;
       font-size: 1.5rem;
@@ -317,7 +319,7 @@
       line-height: 1.4;
     }
   }
-  @media screen and (max-width: 29.9375rem) {
+  @media screen and (max-width: 479px) {
     :where(.iitj-de) h1 {
       font-size: 2.5rem;
     }
@@ -334,7 +336,7 @@
     background-color: #3898ec;
     border: 0;
     border-radius: 0;
-    padding: 0.5625rem 0.9375rem;
+    padding: 9px 15px;
     text-decoration: none;
     display: inline-block;
   }
@@ -351,18 +353,18 @@
     clear: both;
   }
   .w-form {
-    margin: 0 0 0.9375rem;
+    margin: 0 0 15px;
   }
   .w-form-done {
     text-align: center;
     background-color: #ddd;
-    padding: 1.25rem;
+    padding: 20px;
     display: none;
   }
   .w-form-fail {
     background-color: #ffdede;
-    margin-top: 0.625rem;
-    padding: 0.625rem;
+    margin-top: 10px;
+    padding: 10px;
     display: none;
   }
   .w-input,
@@ -370,12 +372,12 @@
     color: #333;
     vertical-align: middle;
     background-color: #fff;
-    border: 0.0625rem solid #ccc;
+    border: 1px solid #ccc;
     width: 100%;
-    height: 2.375rem;
-    margin-bottom: 0.625rem;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
+    height: 38px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
     line-height: 1.42857;
     display: block;
   }
@@ -411,8 +413,8 @@
     display: inline-block;
   }
   .w-checkbox {
-    margin-bottom: 0.3125rem;
-    padding-left: 1.25rem;
+    margin-bottom: 5px;
+    padding-left: 20px;
     display: block;
   }
   .w-checkbox:before {
@@ -428,14 +430,14 @@
   }
   .w-checkbox-input {
     float: left;
-    margin: 0.25rem 0 0 -1.25rem;
+    margin: 4px 0 0 -20px;
     line-height: normal;
   }
   .w-checkbox-input--inputType-custom {
-    border: 0.0625rem solid #ccc;
-    border-radius: 0.125rem;
-    width: 0.75rem;
-    height: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 12px;
+    height: 12px;
   }
   .z-index-2 {
     z-index: 2;
@@ -483,7 +485,7 @@
     color: #e8681a;
   }
   .form_checkbox-icon {
-    border: 0.0625rem solid var(--_primitives---colors--neutral-darkest-3);
+    border: 1px solid var(--_primitives---colors--neutral-darkest-3);
     border-radius: var(--_ui-styles---radius--small);
     cursor: pointer;
     width: 1.125rem;
@@ -575,7 +577,7 @@
   }
   .button {
     padding: var(--_size---0-75rem) var(--_size---2-5rem);
-    border: 0.0625rem solid var(--_button-style---border);
+    border: 1px solid var(--_button-style---border);
     border-radius: var(--_ui-styles---radius--round);
     background-color: var(--_button-style---background);
     color: var(--_button-style---text);
@@ -620,7 +622,7 @@
     font-weight: 700;
   }
   .form_input {
-    border: 0.0625rem solid var(--_primitives---opacity--neutral-darkest-20);
+    border: 1px solid var(--_primitives---opacity--neutral-darkest-20);
     border-radius: var(--_ui-styles---radius--regular);
     background-color: var(--_primitives---opacity--white-80);
     width: 100%;
@@ -897,13 +899,13 @@
   }
   .iitj-icon-18 {
     flex-shrink: 0;
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 18px;
+    height: 18px;
   }
   .iitj-icon-22 {
     flex-shrink: 0;
-    width: 1.375rem;
-    height: 1.375rem;
+    width: 22px;
+    height: 22px;
   }
   .iitj-nav_brand {
     align-items: center;
@@ -915,7 +917,7 @@
   .iitj-btn {
     color: #fff;
     background-color: #1f5fd6;
-    border: 0.0625rem solid #1f5fd6;
+    border: 1px solid #1f5fd6;
     border-radius: 0.5rem;
     justify-content: center;
     align-items: center;
@@ -929,7 +931,7 @@
   .iitj-btn.iitj-btn_lg.iitj-btn_outline.is-ai {
     color: var(--_primitives---colors--white);
     background-color: #0000;
-    border-width: 0.0938rem;
+    border-width: 1.5px;
     border-color: #ffffffb3;
   }
   .iitj-btn.iitj-btn_lg.iitj-btn_outline.is-ai:hover {
@@ -1022,8 +1024,8 @@
   }
   .iitj-icon-48 {
     flex-shrink: 0;
-    width: 3rem;
-    height: 3rem;
+    width: 48px;
+    height: 48px;
   }
   .iitj-white {
     background-color: #fff;
@@ -1050,18 +1052,18 @@
   .iitj-oc_btn {
     cursor: pointer;
     background-color: #fff;
-    border: 0.0625rem solid #d5deef;
-    border-radius: 1.5rem;
+    border: 1px solid #d5deef;
+    border-radius: 24px;
     justify-content: center;
     align-items: center;
-    width: 3rem;
-    height: 3rem;
+    width: 48px;
+    height: 48px;
     display: flex;
   }
   .iitj-icon-20 {
     flex-shrink: 0;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 20px;
+    height: 20px;
   }
   .iitj-eyebrow {
     letter-spacing: 0.1em;
@@ -1085,25 +1087,25 @@
     height: 100%;
     display: block;
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .margin-bottom {
       margin-top: 0;
       margin-left: 0;
       margin-right: 0;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .padding-section-medium {
       padding-top: 4rem;
       padding-bottom: 4rem;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .item-slider_cms_item.swiper-slide {
       width: 50%;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .iitj-split {
       grid-template-rows: auto;
       grid-template-columns: 1fr;
@@ -1112,51 +1114,51 @@
       padding-right: 0;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .iitj-heading-48 {
       font-size: 2.5rem;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .iitj-inner {
       padding-left: 0;
       padding-right: 0;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .iitj-heading-40 {
       font-size: 2.25rem;
     }
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .iitj-tabs_menu,
     .iitj-faqs-head {
       margin-bottom: 1.5rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .margin-xsmall {
       margin: 0.75rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .margin-bottom {
       margin-top: 0;
       margin-left: 0;
       margin-right: 0;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .text-size-medium {
       font-size: 1rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .button {
       padding: var(--_size---0-625rem) var(--_size---2rem);
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .heading-style-h4 {
       font-family: "SF Pro Display", Arial, sans-serif;
       font-size: var(--_size---1-25rem);
@@ -1164,43 +1166,43 @@
       font-weight: 500;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .form_input::placeholder {
       font-size: var(--_size---0-875rem);
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .text-size-small {
       font-size: var(--_size---0-8125rem);
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .text-size-large {
       font-size: 1.125rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .padding-section-medium {
       padding-top: 3rem;
       padding-bottom: 3rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .text-size-xlarge {
       font-size: 1.125rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .item-slider_cms_item.swiper-slide {
       width: 100%;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .item-slider_cms_item.swiper-slide {
       width: 100%;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .item-slider_bullet_wrap.iitj-bullets-ctrl {
       flex-grow: 1;
       justify-content: center;
@@ -1209,43 +1211,43 @@
       display: flex;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .contact_form {
       padding: var(--_size---2-5rem) var(--_size---1rem);
       grid-column-gap: var(--_size---1-25rem);
       grid-row-gap: var(--_size---1-25rem);
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .form_field-2col {
       grid-column-gap: var(--_size---1rem);
       grid-row-gap: var(--_size---1rem);
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-heading-48 {
       font-size: 1.625rem;
       line-height: 1.15;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-heading-40 {
       font-size: 1.625rem;
       line-height: 1.15;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-icon-48 {
-      width: 1.75rem;
-      height: 1.75rem;
+      width: 28px;
+      height: 28px;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-oc_head {
       display: contents;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-oc_ctrl {
       order: 3;
       justify-content: space-between;
@@ -1255,26 +1257,26 @@
       display: flex;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-oc_btn {
       flex-shrink: 0;
-      width: 2.75rem;
-      height: 2.75rem;
+      width: 44px;
+      height: 44px;
     }
   }
-  @media screen and (max-width: 29.9375rem) {
+  @media screen and (max-width: 479px) {
     .margin-bottom {
       margin-top: 0;
       margin-left: 0;
       margin-right: 0;
     }
   }
-  @media screen and (max-width: 29.9375rem) {
+  @media screen and (max-width: 479px) {
     .text-size-small.iitj-nav_cohort.is-ai {
       max-width: 8rem;
     }
   }
-  @media screen and (max-width: 29.9375rem) {
+  @media screen and (max-width: 479px) {
     .iitj-btn {
       white-space: nowrap;
       padding: 0.625rem 0.75rem;
@@ -1319,24 +1321,24 @@
   .iitj-cmp_track::-webkit-scrollbar {
     display: none;
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .item-slider_cms_item.swiper-slide.iitj-slide-oc,
     .item-slider_cms_item.swiper-slide.iitj-slide-role {
       width: 50%;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .padding-global.padding-section-medium {
       padding-top: 2.5rem;
       padding-bottom: 2.5rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .item-slider_component.iitj-slider {
       row-gap: 1rem;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-split_content .text-size-medium,
     .iitj-curr_head .text-size-medium {
       line-height: 1.5;
@@ -1359,7 +1361,7 @@
   .hide {
     display: none !important;
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .hide,
     .hide-tablet {
       display: none !important;
@@ -1498,7 +1500,7 @@
     background-color: #e3ebfc;
     font-weight: 600;
   }
-  @media screen and (max-width: 61.9375rem) {
+  @media screen and (max-width: 991px) {
     .iitj-faq_tab.iitj-faq-link.is-active {
       color: #fff;
       background-color: #17204e;
@@ -1506,19 +1508,19 @@
       font-weight: 500;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .item-slider_bullet_item {
       padding: 0.25rem;
     }
   }
   .iitj-bullets .item-slider_bullet_item,
   .iitj-bullets-ctrl .item-slider_bullet_item {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 8px;
+    height: 8px;
     min-width: 0;
     padding: 0;
     border: 0;
-    border-radius: 0.25rem;
+    border-radius: 4px;
     aspect-ratio: auto;
     background-color: #b9c8e6;
     cursor: pointer;
@@ -1528,7 +1530,7 @@
   }
   .iitj-bullets .item-slider_bullet_item.is-active,
   .iitj-bullets-ctrl .item-slider_bullet_item.is-active {
-    width: 1.75rem;
+    width: 28px;
     background-color: #1f5fd6;
     color: #1f5fd6;
   }
@@ -1545,24 +1547,24 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-bullets-ctrl .item-slider_bullet_item {
       background-color: #c9d6ee;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-bullets-ctrl .item-slider_bullet_item.is-active {
-      width: 0.625rem;
-      height: 0.625rem;
-      border-radius: 0.3125rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-courses:not(.is-open) .iitj-course:nth-child(n + 9) {
       display: none;
     }
   }
-  @media screen and (max-width: 47.9375rem) {
+  @media screen and (max-width: 767px) {
     .iitj-courses:not(.is-open) .iitj-course:nth-child(8) {
       border-bottom-color: transparent;
     }
@@ -1586,12 +1588,12 @@
   }
   .iitj-seq .iitj-tcard.is-on {
     opacity: 1;
-    transform: translateY(-0.125rem);
-    box-shadow: 0 0.625rem 1.5rem rgba(23, 32, 78, 0.18);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(23, 32, 78, 0.18);
   }
-  @media (max-width: 61.9375rem) {
+  @media (max-width: 991px) {
     body.iitj-de {
-      padding-bottom: 4.5rem;
+      padding-bottom: 72px;
     }
   }
 }
