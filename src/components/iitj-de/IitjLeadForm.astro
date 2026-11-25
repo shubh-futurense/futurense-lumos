@@ -1,0 +1,416 @@
+---
+/**
+ * Lead form for the IIT Jodhpur PG Diploma / M.Tech page. Same markup and classes as the live
+ * Webflow form, so its styles carry across, and the same LeadSquared payload as the live page's
+ * form script. Leads are only sent from the live domains (LIVE_HOSTS); test copies just redirect.
+ *
+ * - variant "hero":     the form beside the hero; goes to the thank-you page after submitting.
+ * - variant "brochure": the form in the Download Brochure popup; opens the brochure PDF.
+ */
+import { LIVE_HOSTS } from "@/consts.ts";
+
+interface Props {
+  variant: "hero" | "brochure";
+  /** Where to send the visitor after submitting. */
+  redirect: string;
+}
+
+const { variant, redirect } = Astro.props;
+const hero = variant === "hero";
+const id = (name: string) => `${variant}-${name}`;
+const experience = [
+  "Freshers",
+  "1 Year",
+  "2 Years",
+  "3 Years",
+  "4 Years",
+  "5 Years",
+  "6 Years",
+  "7 Years",
+  "8 Years",
+  "9 Years",
+  "10+ Years",
+];
+const course =
+  "IIT Jodhpur - PG Diploma and MTech.* in Data Engineering and Agentic AI";
+---
+
+<div class="contact_form_component form-class">
+  <form
+    class="contact_form pad-remove"
+    novalidate
+    data-iitj-form
+    data-redirect={redirect}
+    data-thank-you={hero ? "" : undefined}
+    data-course={course}
+    data-live-hosts={LIVE_HOSTS.join(",")}
+  >
+    {hero ? (
+      <div class="form_field-2col">
+        <div class="form_field-wrapper">
+          <label for={id("name")} class="form_label">
+            Full Name *
+          </label>
+          <input
+            class="form_input first-name"
+            maxlength="256"
+            name="Full-Name"
+            placeholder="Tony Stark"
+            type="text"
+            id={id("name")}
+            autocomplete="name"
+            required
+          />
+        </div>
+        <div class="form_field-wrapper">
+          <label for={id("email")} class="form_label">
+            Email Address *
+          </label>
+          <input
+            class="form_input email-address"
+            maxlength="256"
+            name="Email-Address"
+            placeholder="tony@gmail.com"
+            type="email"
+            id={id("email")}
+            autocomplete="email"
+            required
+          />
+        </div>
+      </div>
+    ) : (
+      <>
+        <div class="form_field-2col _1-clmn">
+          <div class="form_field-wrapper">
+            <label for={id("name")} class="form_label">
+              Full Name *
+            </label>
+            <input
+              class="form_input first-name"
+              maxlength="256"
+              name="Full-Name"
+              placeholder="Enter your full name"
+              type="text"
+              id={id("name")}
+              autocomplete="name"
+              required
+            />
+          </div>
+        </div>
+        <div class="form_field-2col _1-clmn">
+          <div class="form_field-wrapper">
+            <label for={id("email")} class="form_label">
+              Email Address *
+            </label>
+            <input
+              class="form_input email-address"
+              maxlength="256"
+              name="Email-Address"
+              placeholder="Enter your email"
+              type="email"
+              id={id("email")}
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+      </>
+    )}
+    <div class:list={["form_field-2col", !hero && "_1-clmn"]}>
+      <div class="form_field-wrapper">
+        <label for={id("phone")} class="form_label">
+          Phone Number *
+        </label>
+        <input
+          class="form_input phone-number"
+          maxlength="10"
+          minlength="10"
+          name="Phone-Number"
+          pattern="[6-9][0-9]{9}"
+          title="Enter a 10-digit mobile number"
+          placeholder={hero ? "6789123456" : "Enter your phone number"}
+          type="tel"
+          inputmode="numeric"
+          id={id("phone")}
+          autocomplete="tel-national"
+          required
+        />
+      </div>
+      {hero && (
+        <div class="form_field-wrapper">
+          <label for={id("designation")} class="form_label">
+            Designation *
+          </label>
+          <input
+            class="form_input designation"
+            maxlength="256"
+            name="Designation"
+            placeholder="CMO"
+            type="text"
+            id={id("designation")}
+            autocomplete="organization-title"
+            required
+          />
+        </div>
+      )}
+    </div>
+    {hero && (
+      <div class="form_field-2col">
+        <div class="form_field-wrapper">
+          <label for={id("degree")} class="form_label">
+            Degree Qualification *
+          </label>
+          <select
+            id={id("degree")}
+            name="Mx-Degree-Qualfication"
+            required
+            class="form_input is-select-input iitj-select"
+          >
+            <option value="">Select</option>
+            <option value="B.E / B.Tech / M.Tech">B.E / B.Tech / M.Tech</option>
+            <option value="BSc / MSc">BSc / MSc</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="form_field-wrapper">
+          <label for={id("experience")} class="form_label">
+            Work Experience *
+          </label>
+          <select
+            id={id("experience")}
+            name="Mx-Work-Experience"
+            required
+            class="form_input is-select-input iitj-select"
+          >
+            <option value="">Select</option>
+            {experience.map((x) => (
+              <option value={x}>{x}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    )}
+    <label class="w-checkbox form_checkbox">
+      <div class="w-checkbox-input w-checkbox-input--inputType-custom form_checkbox-icon"></div>
+      <input
+        type="checkbox"
+        name="Terms"
+        id={id("terms")}
+        required
+        class="iitj-check"
+      />
+      <span class="form_checkbox-label text-size-small w-form-label">
+        By submitting this form, you agree to the "
+        <a
+          href="https://www.futurense.com/terms-and-conditions"
+          target="_blank"
+          class="text-style-link text-color-black"
+        >
+          Terms and Conditions
+        </a>
+        " and "
+        <a
+          href="https://www.futurense.com/privacy-policy"
+          target="_blank"
+          class="text-style-link text-color-black"
+        >
+          Privacy Policy
+        </a>
+        "
+      </span>
+    </label>
+    <button
+      class:list={[
+        "button w-button",
+        hero ? "iitj-form-btn royal-blue" : "full-black",
+      ]}
+      type="submit"
+    >
+      {hero ? "Submit" : "Download Brochure"}
+    </button>
+    <p class="iitj-form_error text-size-small" data-form-error hidden>
+      Please fill in all the fields correctly.
+    </p>
+  </form>
+</div>
+
+<script>
+  const LEAD_API =
+    "https://lsqleadcaptureapi.futurense.com/api/leadsquared/lead";
+
+  const utm = () => {
+    const p = new URLSearchParams(location.search);
+    const g = (k: string) => p.get(k) || "";
+    return {
+      source: g("utm_source") || "Website",
+      campaign: g("utm_campaign"),
+      campaignid: g("utm_campaignid"),
+      adgroupid: g("utm_adgroupid"),
+      adid: g("utm_adid"),
+      id: g("utm_id"),
+      keyword: g("utm_keyword"),
+      term: g("utm_term"),
+    };
+  };
+
+  // Same payload as the live page's form script.
+  const buildPayload = (form: HTMLFormElement) => {
+    const v = (name: string) =>
+      (
+        form.elements.namedItem(name) as HTMLInputElement | null
+      )?.value.trim() ?? "";
+    const u = utm();
+    const course = form.dataset.course!;
+    const now = new Date();
+    const payload = [
+      { Attribute: "FirstName", Value: v("Full-Name") },
+      { Attribute: "EmailAddress", Value: v("Email-Address") },
+      { Attribute: "Phone", Value: v("Phone-Number") },
+      { Attribute: "ProspectID", Value: crypto.randomUUID() },
+      {
+        Attribute: "mx_Degree_Qualfication",
+        Value: v("Mx-Degree-Qualfication"),
+      },
+      { Attribute: "mx_Experience", Value: v("Mx-Work-Experience") },
+      { Attribute: "JobTitle", Value: v("Designation") },
+      { Attribute: "Source", Value: u.source },
+      { Attribute: "mx_Course", Value: course },
+      { Attribute: "mx_Course_Applying_To", Value: course },
+      { Attribute: "mx_Course_Interested_in", Value: course },
+      { Attribute: "PageUrl", Value: location.href },
+      {
+        Attribute: "mx_LeadCaptureDate",
+        Value: now.toLocaleDateString("en-GB", { timeZone: "Asia/Kolkata" }),
+      },
+      {
+        Attribute: "mx_LeadCaptureTime",
+        Value: now.toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata" }),
+      },
+      { Attribute: "mx_utm_campaign", Value: u.campaign },
+      { Attribute: "mx_utm_campaignid", Value: u.campaignid },
+      { Attribute: "mx_utm_adgroupid", Value: u.adgroupid },
+      { Attribute: "mx_utm_adid", Value: u.adid },
+      { Attribute: "mx_UTM_ID", Value: u.id },
+      { Attribute: "mx_UTM_Keyword", Value: u.keyword },
+      { Attribute: "mx_UTM_Term", Value: u.term },
+      { Attribute: "SearchBy", Value: "Phone" },
+    ];
+    // The brochure form has no dropdowns: leave blanks out so it cannot wipe earlier answers.
+    const skipIfBlank = ["mx_Degree_Qualfication", "mx_Experience", "JobTitle"];
+    return payload.filter(
+      (item) => !(skipIfBlank.includes(item.Attribute) && item.Value === ""),
+    );
+  };
+
+  document
+    .querySelectorAll<HTMLFormElement>("[data-iitj-form]")
+    .forEach((form) => {
+      const error = form.querySelector<HTMLElement>("[data-form-error]")!;
+      const button = form.querySelector<HTMLButtonElement>(
+        "button[type=submit]",
+      )!;
+      const label = button.textContent;
+
+      // Webflow's custom checkbox: the visible box mirrors the real (hidden) checkbox.
+      const check = form.querySelector<HTMLInputElement>(".iitj-check")!;
+      const box = check.previousElementSibling!;
+      check.addEventListener("change", () =>
+        box.classList.toggle("w--redirected-checked", check.checked),
+      );
+      check.addEventListener("focus", () =>
+        box.classList.add("w--redirected-focus"),
+      );
+      check.addEventListener("blur", () =>
+        box.classList.remove("w--redirected-focus"),
+      );
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) {
+          error.hidden = false;
+          form.querySelector<HTMLElement>(":invalid")?.focus();
+          return;
+        }
+        error.hidden = true;
+        button.disabled = true;
+        button.textContent = "Please wait...";
+
+        const payload = buildPayload(form);
+        if (
+          (form.dataset.liveHosts ?? "").split(",").includes(location.hostname)
+        ) {
+          try {
+            await fetch(LEAD_API, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ payload }),
+              keepalive: true,
+            });
+          } catch (e) {
+            console.error("Lead API error:", e);
+          }
+        } else {
+          console.info("Test copy: lead not sent to LeadSquared.", payload);
+        }
+        if (form.dataset.thankYou !== undefined) {
+          // Lets the thank-you page know a real submission happened in this tab.
+          try {
+            sessionStorage.setItem("futurense-lead", String(Date.now()));
+          } catch {}
+        }
+        button.disabled = false;
+        button.textContent = label;
+        location.href = form.dataset.redirect!;
+      });
+    });
+</script>
+
+<style is:global>
+  @layer components {
+    /* The real checkbox sits under Webflow's custom box. */
+    .iitj-check {
+      opacity: 0;
+      position: absolute;
+      z-index: -1;
+    }
+    .form_checkbox-icon.w--redirected-checked {
+      box-shadow: none;
+      background-color: #000;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E");
+      background-position: 50%;
+      background-repeat: no-repeat;
+      background-size: 0.75rem;
+      border-width: 0.0625rem;
+      border-color: #000;
+    }
+    .form_checkbox-icon.w--redirected-focus {
+      box-shadow: none;
+      border-color: #000;
+    }
+    /* Native dropdowns, drawn like Webflow's custom ones. */
+    .form_input.iitj-select {
+      appearance: none;
+      padding-right: 2.5rem;
+      background: var(--_primitives---opacity--white-80, rgb(255 255 255 / 0.8))
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23222' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
+        no-repeat right 1rem center / 1rem;
+      cursor: pointer;
+      &:has(option[value=""]:checked) {
+        color: rgb(34 34 34 / 0.5);
+      }
+    }
+    .contact_form button.w-button {
+      width: 100%;
+      border: 0;
+      cursor: pointer;
+      &:disabled {
+        opacity: 0.6;
+        cursor: progress;
+      }
+    }
+    .iitj-form_error {
+      margin: 0.5rem 0 0;
+      color: #d92d20;
+    }
+  }
+</style>

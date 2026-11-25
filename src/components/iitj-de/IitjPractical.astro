@@ -1,0 +1,253 @@
+---
+import SiteImg from "@/components/media/SiteImg.astro";
+---
+
+<section id="highlights" class="iitj-dark">
+  <div class="padding-global padding-section-medium">
+    <div class="container-large">
+      <div class="iitj-practical">
+        <div class="iitj-practical_left">
+          <h2 class="iitj-heading-48 iitj-text-white">
+            Built to Be <span class="iitj-text-blue-light">Practical</span>
+          </h2>
+          <div
+            data-marquee-scroll-speed="10"
+            data-marquee-scroll-direction-target=""
+            data-marquee-direction="left"
+            data-marquee-speed="15"
+            data-marquee-duplicate="2"
+            class="iitj-marquee"
+          >
+            <div data-marquee-scroll-target="" class="iitj-marquee_scroll">
+              <div data-marquee-collection-target="" class="iitj-marquee_track">
+                <div class="iitj-marquee_img">
+                  <SiteImg
+                    src="A/6adbc8ebb44fa638bad4cf09_iitj-de-practical-3.jpg"
+                    alt="IIT Jodhpur campus"
+                    class="iitj-img-cover"
+                  />
+                </div>
+                <div class="iitj-marquee_img">
+                  <SiteImg
+                    src="A/6adbc8e543572f68d1f52f7c_iitj-de-practical-1.jpg"
+                    alt="IIT Jodhpur learners on campus"
+                    class="iitj-img-cover"
+                  />
+                </div>
+                <div class="iitj-marquee_img is-wide">
+                  <SiteImg
+                    src="A/6adbc8e8e58115173c6dada3_iitj-de-practical-2.jpg"
+                    alt="IIT Jodhpur campus"
+                    class="iitj-img-cover"
+                  />
+                </div>
+                <div class="iitj-marquee_img is-mid">
+                  <SiteImg
+                    src="A/6adbc8edbf936e5ce304d449_iitj-de-practical-4.jpg"
+                    alt="IIT Jodhpur campus"
+                    class="iitj-img-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="iitj-plist">
+          <div class="iitj-plist_item">
+            <div class="iitj-weight-medium iitj-text-blue-light iitj-plist_num">
+              01
+            </div>
+            <div class="text-size-xlarge iitj-text-white">
+              Data engineering, GenAI, Agentic AI, and data science in one
+              curriculum
+            </div>
+          </div>
+          <div class="iitj-plist_item">
+            <div class="iitj-weight-medium iitj-text-blue-light iitj-plist_num">
+              02
+            </div>
+            <div class="text-size-xlarge iitj-text-white">
+              Taught live by IIT Jodhpur faculty
+            </div>
+          </div>
+          <div class="iitj-plist_item">
+            <div class="iitj-weight-medium iitj-text-blue-light iitj-plist_num">
+              03
+            </div>
+            <div class="text-size-xlarge iitj-text-white">
+              <span>30 academic credits towards an IIT Jodhpur PG Diploma</span>
+            </div>
+          </div>
+          <div class="iitj-plist_item">
+            <div class="iitj-weight-medium iitj-text-blue-light iitj-plist_num">
+              04
+            </div>
+            <div class="text-size-xlarge iitj-text-white">
+              Projects that must run, and a faculty-reviewed capstone
+            </div>
+          </div>
+          <div class="iitj-plist_item">
+            <div class="iitj-weight-medium iitj-text-blue-light iitj-plist_num">
+              05
+            </div>
+            <div class="text-size-xlarge iitj-text-white">
+              5 to 7 days of campus immersion at IIT Jodhpur
+            </div>
+          </div>
+          <div class="iitj-plist_item">
+            <div class="iitj-weight-medium iitj-text-blue-light iitj-plist_num">
+              06
+            </div>
+            <div class="text-size-xlarge iitj-text-white">
+              Regular IIT Alumni Status
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initMarquees } from "@/scripts/iitj-de/marquee.ts";
+  initMarquees(document.getElementById("highlights")!);
+</script>
+
+<style is:global>
+  @layer components {
+    .iitj-practical {
+      grid-template-rows: auto;
+      grid-template-columns: 28rem 1fr;
+      column-gap: 4.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      display: grid;
+    }
+    .iitj-practical_left {
+      flex-direction: column;
+      row-gap: 2rem;
+      min-width: 0;
+      display: flex;
+    }
+    .iitj-marquee {
+      width: 100%;
+      overflow: hidden;
+    }
+    .iitj-marquee_track {
+      flex: none;
+      column-gap: 0.75rem;
+      padding-right: 0.75rem;
+      display: flex;
+    }
+    .iitj-marquee_img {
+      background-color: #ffffff14;
+      background-position: 50%;
+      background-size: cover;
+      border-radius: 0.75rem;
+      flex-shrink: 0;
+      width: 23.25rem;
+      height: 17.5rem;
+    }
+    .iitj-marquee_img.is-wide {
+      width: 37.9rem;
+    }
+    .iitj-marquee_img.is-mid {
+      width: 28.52rem;
+    }
+    .iitj-plist {
+      flex-direction: column;
+      display: flex;
+    }
+    .iitj-plist_item {
+      border-bottom: 0.0625rem solid #ffffff26;
+      align-items: baseline;
+      column-gap: 2rem;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+      display: flex;
+    }
+    .iitj-plist_num {
+      flex-shrink: 0;
+      width: 1.5rem;
+    }
+    .iitj-marquee_scroll {
+      display: flex;
+      position: relative;
+    }
+    @media screen and (max-width: 61.9375rem) {
+      .iitj-practical {
+        grid-template-rows: auto;
+        grid-template-columns: 1fr;
+        row-gap: 2.5rem;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-practical {
+        row-gap: 2rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-practical_left {
+        row-gap: 1.25rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-marquee {
+        width: auto;
+        margin-left: -1.25rem;
+        margin-right: -1.25rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-marquee_track {
+        column-gap: 0.5rem;
+        padding-right: 0.5rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-marquee_img {
+        border-radius: 0.375rem;
+        width: 16.67rem;
+        height: 12.5rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-marquee_img.is-wide {
+        width: 27.075rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-marquee_img.is-mid {
+        width: 20.375rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-plist_item {
+        column-gap: 2rem;
+        padding-top: 0.875rem;
+        padding-bottom: 0.875rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-plist_num {
+        font-size: 0.8125rem;
+        line-height: 1.45rem;
+      }
+    }
+    @media screen and (max-width: 29.9375rem) {
+      .iitj-marquee {
+        margin-left: -1rem;
+        margin-right: -1rem;
+      }
+    }
+    @media screen and (max-width: 47.9375rem) {
+      .iitj-plist_item .text-size-xlarge {
+        font-size: 1rem;
+        line-height: 1.45;
+        letter-spacing: -0.057em;
+      }
+    }
+  }
+</style>

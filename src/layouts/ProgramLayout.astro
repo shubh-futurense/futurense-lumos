@@ -15,11 +15,18 @@ import type { SeoProps } from "@/types.ts";
 
 type Props = SeoProps & {
   /** Institute logo for the navbar (Webflow image path). */
-  logo: string;
+  logo?: string;
   /** White version of the logo for the footer. */
-  footerLogo: string;
+  footerLogo?: string;
   /** Phone number shown in the navbar and footer. */
-  phone: string;
+  phone?: string;
+  /**
+   * Show the slim landing navbar, footer and back-to-top button (default).
+   * Turn off for pages that bring their own, then pass a footer in the "footer" slot.
+   */
+  chrome?: boolean;
+  /** Extra classes for <body>, e.g. a page's own font or theme class. */
+  bodyClass?: string;
   /** Brand colour of the institute. */
   brand?: string;
   /** Structured data (JSON-LD) objects for search engines. */
@@ -32,7 +39,7 @@ type Props = SeoProps & {
   applyHref?: string;
 };
 
-const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, navTheme = "light", applyHref, ...seo } = Astro.props;
+const { logo = "", footerLogo = "", phone = "", brand = "#b44b3a", schema = [], chatbot, navTheme = "light", applyHref, chrome = true, bodyClass, ...seo } = Astro.props;
 ---
 
 <!doctype html>
@@ -43,14 +50,15 @@ const { logo, footerLogo, phone, brand = "#b44b3a", schema = [], chatbot, navThe
     {schema.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
     <slot name="head" />
   </head>
-  <body id="top" class="program-page">
+  <body id="top" class:list={["program-page", bodyClass]}>
     <SkipLink />
-    <ProgramNav logo={navTheme === "dark" ? footerLogo : logo} phone={phone} theme={navTheme} applyHref={applyHref} />
+    {chrome && <ProgramNav logo={navTheme === "dark" ? footerLogo : logo} phone={phone} theme={navTheme} applyHref={applyHref} />}
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <ProgramFooter logo={footerLogo} phone={phone} />
-    <BackToTop />
+    {chrome ? <ProgramFooter logo={footerLogo} phone={phone} /> : <slot name="footer" />}
+    {chrome && <BackToTop />}
+    <slot name="end" />
     {chatbot && <Chatbot course={chatbot} title="IIT Jodhpur AI Chatbot" />}
     <script>
       import "@/scripts/animations.ts";

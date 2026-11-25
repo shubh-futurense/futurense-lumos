@@ -19,9 +19,11 @@ type Props = Omit<HTMLAttributes<"img">, "src"> & {
   size?: number;
   /** Compression level for the optimized file. */
   quality?: "low" | "mid" | "high" | "max";
+  /** Fetch priority, e.g. "high" for the image that paints the first screen. */
+  fetchPriority?: "auto" | "high" | "low";
 };
 
-const { src, alt = "", loading = "lazy", transparent = false, size, quality, class: className, width: _w, height: _h, sizes: _s, ...rest } = Astro.props;
+const { src, alt = "", loading = "lazy", transparent = false, size, quality, fetchPriority, class: className, width: _w, height: _h, sizes: _s, ...rest } = Astro.props;
 
 const local = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/cdn/*.{avif,jpg,jpeg,png,webp}",
@@ -34,15 +36,16 @@ const asset = local[`/src/assets/cdn/${localName}`]?.default;
 
 {asset ? (
   size ? (
-    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} quality={quality} {...rest} variant="constrained" width={size} sizes={`${size}px`} />
+    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} quality={quality} fetchPriority={fetchPriority} {...rest} variant="constrained" width={size} sizes={`${size}px`} />
   ) : (
-    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} quality={quality} {...rest} variant="full-width" />
+    <Img src={asset} alt={alt} loading={loading} transparent={transparent} class={className} quality={quality} fetchPriority={fetchPriority} {...rest} variant="full-width" />
   )
 ) : (
   <img
     src={img(src)}
     alt={alt}
     loading={loading}
+    fetchpriority={fetchPriority}
     decoding="async"
     class:list={["image", transparent && "transparent", className]}
     {...rest}
