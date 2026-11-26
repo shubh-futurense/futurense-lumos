@@ -12,7 +12,8 @@ const KEEP_PAGES = [
   LANDING,
   `${LANDING}-thank-you`,
   // IIT Jodhpur PG Diploma / Executive M.Tech in Data Engineering and Agentic AI
-  "/iit-jodhpur/pg-diploma-mtech-data-engineering",
+  // Unpublished for now (Nov 26). Put this line back to publish it again:
+  // "/iit-jodhpur/pg-diploma-mtech-data-engineering",
   "/iit-jodhpur/pg-diploma-and-mtech-in-data-engineering-iit-jodhpur-thank-you",
 ];
 // Shared files every page needs: styles, scripts, images, fonts, icons.
